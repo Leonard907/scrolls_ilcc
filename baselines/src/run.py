@@ -282,6 +282,7 @@ def main():
     handle_args_to_ignore(sys.argv)  # Just for sweeps
 
     os.environ["WANDB_WATCH"] = "false"
+    os.environ["WANDB_DISABLED"] = "true"
 
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
