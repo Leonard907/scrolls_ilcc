@@ -14,9 +14,12 @@ def get_command(id_):
     # tokens_bsz = 16384 # Original Setting
     # num_gpus = 8
     # accum_steps = 1
-    tokens_bsz = 4096 # 2080 ti setting
-    num_gpus = 2
-    accum_steps = 16
+    # tokens_bsz = 4096 # 2 gpu setting
+    # num_gpus = 2
+    # accum_steps = 16
+    tokens_bsz = 4096 # 1 gpu setting
+    num_gpus = 1
+    accum_steps = 32
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
