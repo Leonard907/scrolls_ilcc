@@ -13,7 +13,7 @@ output_path=/home/%u/scrolls_ilcc/baselines/experiments/output
 
 export XDG_CACHE_HOME=/home/%u/scrolls_ilcc/baselines/experiments/data/qmsum_256-bart
 
-python ../scripts/execute.py ../scripts/finetune.py qmsum_256-bart_data
+python ../scripts/execute.py ../scripts/commands/finetune.py qmsum_256-bart_data
 
-python ../scripts/execute.py ../scripts/finetune.py qmsum_256-bart \
+python ../scripts/execute.py ../scripts/commands/finetune.py qmsum_256-bart \
   --output_dir=${output_path}
