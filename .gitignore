@@ -134,4 +134,5 @@ dmypy.json
 wandb
 
 baselines/outputs/*
-baselines/experiments/*
+baselines/experiments/output/*
+baselines/experiments/data/*
