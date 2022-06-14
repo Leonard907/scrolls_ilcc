@@ -9,11 +9,12 @@
 #SBATCH --time=48:00:00
 #SBATCH --array=0
 
-output_path=/home/%u/scrolls_ilcc/baselines/experiments/output
+output_path=experiments/output
 
-export XDG_CACHE_HOME=/home/%u/scrolls_ilcc/baselines/experiments/data/qmsum_256-bart
+export XDG_CACHE_HOME=experiments/data/qmsum_512-bart
 
-python ../scripts/execute.py ../scripts/commands/finetune.py qmsum_256-bart_data
+python scripts/execute.py scripts/commands/finetune.py qmsum_512-bart_data
 
-python ../scripts/execute.py ../scripts/commands/finetune.py qmsum_256-bart \
+python scripts/execute.py scripts/commands/finetune.py qmsum_512-bart \
   --output_dir=${output_path}
+

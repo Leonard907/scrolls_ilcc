@@ -126,7 +126,7 @@ def get_command(id_):
         },
     }
 
-    distributed_str = f"-m torch.distributed.run --nproc_per_node={num_gpus}" if num_gpus > 1 else ""
+    distributed_str = f"-m torch.distributed.run --nproc_per_node={num_gpus} --master_port=41321" if num_gpus > 1 else ""
 
     for dataset in ["qasper", "narrative_qa", "gov_report", "summ_screen_fd", "qmsum", "contract_nli", "quality"]:
 
