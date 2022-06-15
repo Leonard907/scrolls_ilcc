@@ -9,12 +9,23 @@
 #SBATCH --time=48:00:00
 #SBATCH --array=0
 
-output_path=experiments/output/qmsum_1024-bart
+output_path=experiments/output/qmsum_led-1024
 
-export XDG_CACHE_HOME=experiments/data/qmsum_1024-bart
+export XDG_CACHE_HOME=experiments/data/qmsum_led-1024
 
-python scripts/execute.py scripts/commands/finetune.py qmsum_1024-bart_data
+python scripts/execute.py scripts/commands/finetune.py qmsum_led-1024_data
 
-python scripts/execute.py scripts/commands/finetune.py qmsum_1024-bart \
+python scripts/execute.py scripts/commands/finetune.py qmsum_led-1024 \
   --output_dir=${output_path}
 
+python scripts/execute.py scripts/commands/generate.py qmsum_5led-1024_test --checkpoint_path ${output_path} --output_dir ${output_path}
+
+python prepare_submission.py \
+--gov_report_file ~/scrolls_ilcc/baselines/experiments/mock_gov_report.json \
+--summ_screen_file /home/s1970716/scrolls_ilcc/baselines/outputs/facebook-bart-base_256_32_0.0001_4096_scrolls_qmsum_director-habit-5_scrolls_summ_screen_fd_bathroom-candidate-19/generated_predictions.json \
+--qmsum_file ${output_path}/generated_predictions.json \
+--narrative_qa_file ~/scrolls_ilcc/baselines/experiments/mock_nqa.json \
+--qasper_file /home/s1970716/scrolls_ilcc/baselines/outputs/facebook-bart-base_256_32_0.0001_4096_scrolls_qmsum_director-habit-5_scrolls_qasper_light-traffic-23/generated_predictions.json \
+--quality_file /home/s1970716/scrolls_ilcc/baselines/outputs/facebook-bart-base_256_32_0.0001_4096_scrolls_qmsum_director-habit-5_scrolls_quality_player-degree-24/generated_predictions.json \
+--contract_nli_file /home/s1970716/scrolls_ilcc/baselines/outputs/facebook-bart-base_256_32_0.0001_4096_scrolls_qmsum_director-habit-5_scrolls_contract_nli_age-tough-25/generated_predictions.json \
+--output_dir .
