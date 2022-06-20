@@ -18,6 +18,18 @@ def get_command(id_):
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
 
+    gg_longt5_local_base_args = [
+        f"--model_name_or_path google/long-t5-local-base",
+        f"--max_source_length 4096",
+        f"--max_target_length {GG_LONGT5_MAX_LEN}",
+        f"--fp16 {GG_LONGT5_FP16}",
+        f"--train_max_tokens {tokens_bsz}",
+        f"--gradient_accumulation_steps {accum_steps}",
+        f"--attention_window {GG_LONGT5_ATTENTION_WINDOW}",
+        f"--per_device_eval_batch_size {GG_LONGT5_per_device_eval_batch_size}",
+        f"--folder_suffix {folder_suffix}",
+    ]
+
     fb_bart_256_args = [
         f"--model_name_or_path facebook/bart-base",
         f"--max_source_length 256",
@@ -69,6 +81,7 @@ def get_command(id_):
             "led-1024": 2e-5,
             "led-4096": 5e-5,
             "led-16384": 2e-5,
+            "longt5-local": 1e-3,
         },
         "narrative_qa": {
             "256-bart": 1e-4,
@@ -77,6 +90,7 @@ def get_command(id_):
             "led-1024": 2e-5,
             "led-4096": 1e-5,
             "led-16384": 1e-5,
+            "longt5-local": 1e-3,
         },
         "gov_report": {
             "256-bart": 5e-4,
@@ -85,6 +99,7 @@ def get_command(id_):
             "led-1024": 1e-4,
             "led-4096": 1e-4,
             "led-16384": 5e-5,
+            "longt5-local": 1e-3,
         },
         "summ_screen_fd": {
             "256-bart": 2e-4,
@@ -93,6 +108,7 @@ def get_command(id_):
             "led-1024": 5e-5,
             "led-4096": 2e-5,
             "led-16384": 1e-5,
+            "longt5-local": 1e-3,
         },
         "qmsum": {
             "256-bart": 1e-4,
@@ -101,6 +117,7 @@ def get_command(id_):
             "led-1024": 5e-5,
             "led-4096": 1e-5,
             "led-16384": 1e-5,
+            "longt5-local": 1e-3,
         },
         "contract_nli": {
             "256-bart": 1e-4,
@@ -109,6 +126,7 @@ def get_command(id_):
             "led-1024": 5e-5,
             "led-4096": 2e-5,
             "led-16384": 1e-5,
+            "longt5-local": 1e-3,
         },
         "quality": {
             "256-bart": 5e-5,
@@ -117,6 +135,7 @@ def get_command(id_):
             "led-1024": 2e-5,
             "led-4096": 1e-5,
             "led-16384": 1e-5,
+            "longt5-local": 1e-3,
         },
     }
 
@@ -160,6 +179,7 @@ def get_command(id_):
                                                                     f"--folder_suffix global_attention_first_token${folder_suffix}" ,
                                                                     "--max_source_length 16384",
         ]
+        commands_dict[f"{dataset}_longt5-local"] = base_args + gg_longt5_local_base_args + [f"--learning_rate {dataset_learning_rates['longt5-local']}", f"--folder_suffix global_attention_first_token${folder_suffix}"]
 
         prepro_args = base_args[:]
         prepro_args[0] = prepro_args[0].replace(distributed_str, "")
@@ -170,6 +190,8 @@ def get_command(id_):
         commands_dict[f"{dataset}_led-1024_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 1024"]
         commands_dict[f"{dataset}_led-4096_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
         commands_dict[f"{dataset}_led-16384_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 16384"]
+        commands_dict[f"{dataset}_longt5-local"] = prepro_args + gg_longt5_local_base_args + ["--preprocess_only", "--learning_rate 1e-3", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
+
 
     command_parts = commands_dict[id_]
     # fmt: on
