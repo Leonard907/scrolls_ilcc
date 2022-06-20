@@ -19,7 +19,7 @@ from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Tuple
 from transformers import PretrainedConfig, PreTrainedTokenizer, TensorType
 
 from .utils import ParameterFormat, compute_effective_axis_dimension, compute_serialized_parameters_size
-from ..utils import TensorType, is_torch_available
+from ..file_utils import TensorType, is_torch_available
 
 
 DEFAULT_ONNX_OPSET = 11
