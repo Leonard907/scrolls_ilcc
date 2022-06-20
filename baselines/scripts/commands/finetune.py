@@ -116,7 +116,7 @@ def get_command(id_):
             "led-1024": 5e-5,
             "led-4096": 1e-5,
             "led-16384": 1e-5,
-            "longt5-local": 1e-3,
+            "longt5-local": 1e-5,
         },
         "contract_nli": {
             "256-bart": 1e-4,
