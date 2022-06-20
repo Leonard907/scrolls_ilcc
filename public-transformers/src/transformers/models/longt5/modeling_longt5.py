@@ -33,7 +33,7 @@ from ...modeling_outputs import (
     Seq2SeqModelOutput,
 )
 from ...modeling_utils import PreTrainedModel, find_pruneable_heads_and_indices, prune_linear_layer
-from ...utils import (
+from ...file_utils import (
     DUMMY_INPUTS,
     DUMMY_MASK,
     add_start_docstrings,
