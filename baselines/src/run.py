@@ -38,6 +38,7 @@ from transformers import (
     AutoTokenizer,
     set_seed,
 )
+from transformersDev import AutoModelForSeq2SeqLM
 from transformers.trainer_utils import get_last_checkpoint
 from transformers import HfArgumentParser
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
@@ -279,6 +280,9 @@ class DataTrainingArguments:
 
 
 def main():
+    a = AutoModelForSeq2SeqLM.from_pretrained("google/long-t5-local-base")
+    logger.info(a)
+    import pdb; pdb.set_trace()
     handle_args_to_ignore(sys.argv)  # Just for sweeps
 
     os.environ["WANDB_WATCH"] = "false"

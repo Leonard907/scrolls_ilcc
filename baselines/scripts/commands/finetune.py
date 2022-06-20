@@ -12,7 +12,7 @@ def get_command(id_):
     commands_dict = {}
 
     tokens_bsz = 16384
-    num_gpus = 8
+    num_gpus = 0
     accum_steps = 1
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
@@ -22,7 +22,7 @@ def get_command(id_):
         f"--model_name_or_path facebook/bart-base",
         f"--max_source_length 256",
         f"--max_target_length {FB_BART_MAX_LEN}",
-        f"--fp16 {FB_BART_FP16}",
+        f"--fp16 False",
         f"--train_max_tokens {tokens_bsz}",
         f"--gradient_accumulation_steps {accum_steps}",
         f"--per_device_eval_batch_size {FB_BART_per_device_eval_batch_size}",
