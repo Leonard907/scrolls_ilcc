@@ -520,10 +520,10 @@ def main():
             raise ValueError("--do_train requires a train dataset")
         logger.info("")
         logger.info("Training examples before tokenization:")
-        logger.info(f"input #0: {seq2seq_dataset['train'][0]['input']}")
-        logger.info(f"output #0: {seq2seq_dataset['train'][0]['output']}")
-        logger.info(f"input #1: {seq2seq_dataset['train'][1]['input']}")
-        logger.info(f"output #1: {seq2seq_dataset['train'][1]['output']}")
+        # logger.info(f"input #0: {seq2seq_dataset['train'][0]['input']}")
+        # logger.info(f"output #0: {seq2seq_dataset['train'][0]['output']}")
+        # logger.info(f"input #1: {seq2seq_dataset['train'][1]['input']}")
+        # logger.info(f"output #1: {seq2seq_dataset['train'][1]['output']}")
         logger.info("")
         untokenized_train_dataset = seq2seq_dataset["train"]
         if data_args.max_train_samples is not None:
@@ -549,10 +549,10 @@ def main():
             raise ValueError("--do_eval requires a validation dataset")
         logger.info("")
         logger.info("Validation examples before tokenization:")
-        logger.info(f"input #0: {seq2seq_dataset['validation'][0]['input']}")
-        logger.info(f"output #0: {seq2seq_dataset['validation'][0]['output']}")
-        logger.info(f"input #1: {seq2seq_dataset['validation'][1]['input']}")
-        logger.info(f"output #1: {seq2seq_dataset['validation'][1]['output']}")
+        # logger.info(f"input #0: {seq2seq_dataset['validation'][0]['input']}")
+        # logger.info(f"output #0: {seq2seq_dataset['validation'][0]['output']}")
+        # logger.info(f"input #1: {seq2seq_dataset['validation'][1]['input']}")
+        # logger.info(f"output #1: {seq2seq_dataset['validation'][1]['output']}")
         logger.info("")
         untokenized_eval_dataset = seq2seq_dataset["validation"]
         if data_args.max_eval_samples is not None:
@@ -629,7 +629,7 @@ def main():
         output_dir=training_args.output_dir,
         data_args=data_args,
     )
-
+    pdb.set_trace()
     # Training
     if training_args.do_train:
         checkpoint = None
