@@ -89,6 +89,7 @@ CONFIG_MAPPING_NAMES = OrderedDict(
         ("rag", "RagConfig"),
         ("tapas", "TapasConfig"),
         ("splinter", "SplinterConfig"),
+        ("longt5", "LongT5Config"),
     ]
 )
 
@@ -150,12 +151,14 @@ CONFIG_ARCHIVE_MAP_MAPPING_NAMES = OrderedDict(
         ("ibert", "IBERT_PRETRAINED_CONFIG_ARCHIVE_MAP"),
         ("hubert", "HUBERT_PRETRAINED_CONFIG_ARCHIVE_MAP"),
         ("splinter", "SPLINTER_PRETRAINED_CONFIG_ARCHIVE_MAP"),
+        ("longt5", "LONGT5_PRETRAINED_CONFIG_ARCHIVE_MAP"),
     ]
 )
 
 MODEL_NAMES_MAPPING = OrderedDict(
     [
         # Add full (and cased) model names here
+        ("longt5", "LongT5"),
         ("beit", "BeiT"),
         ("rembert", "RemBERT"),
         ("visual_bert", "VisualBert"),

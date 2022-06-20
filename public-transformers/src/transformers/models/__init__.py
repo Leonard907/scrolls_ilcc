@@ -56,6 +56,7 @@ from . import (
     layoutlm,
     led,
     longformer,
+    longt5,
     luke,
     lxmert,
     m2m_100,

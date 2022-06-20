@@ -13,6 +13,7 @@ from ..models.mbart import MBartOnnxConfig
 from ..models.roberta import RobertaOnnxConfig
 from ..models.t5 import T5OnnxConfig
 from ..models.xlm_roberta import XLMRobertaOnnxConfig
+from ..models.longt5 import LongT5OnnxConfig
 
 
 if is_torch_available():
@@ -77,6 +78,13 @@ class FeaturesManager:
             "causal-lm-with-past",
             "sequence-classification-with-past",
             onnx_config_cls=GPTNeoOnnxConfig,
+        ),
+        "longt5": supported_features_mapping(
+            "default",
+            "default-with-past",
+            "seq2seq-lm",
+            "seq2seq-lm-with-past",
+            onnx_config_cls=LongT5OnnxConfig,
         ),
     }
 

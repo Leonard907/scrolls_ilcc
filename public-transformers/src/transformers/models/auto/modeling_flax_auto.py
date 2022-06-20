@@ -34,6 +34,7 @@ FLAX_MODEL_MAPPING_NAMES = OrderedDict(
         ("bart", "FlaxBartModel"),
         ("gpt2", "FlaxGPT2Model"),
         ("gpt_neo", "FlaxGPTNeoModel"),
+        ("longt5", "FlaxLongT5Model"),
         ("electra", "FlaxElectraModel"),
         ("clip", "FlaxCLIPModel"),
         ("vit", "FlaxViTModel"),
@@ -64,6 +65,7 @@ FLAX_MODEL_FOR_MASKED_LM_MAPPING_NAMES = OrderedDict(
     [
         # Model for Masked LM mapping
         ("roberta", "FlaxRobertaForMaskedLM"),
+        ("longt5", "FlaxLongT5ForConditionalGeneration"),
         ("bert", "FlaxBertForMaskedLM"),
         ("big_bird", "FlaxBigBirdForMaskedLM"),
         ("bart", "FlaxBartForConditionalGeneration"),
@@ -77,6 +79,7 @@ FLAX_MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES = OrderedDict(
         # Model for Seq2Seq Causal LM mapping
         ("bart", "FlaxBartForConditionalGeneration"),
         ("t5", "FlaxT5ForConditionalGeneration"),
+        ("longt5", "FlaxLongT5ForConditionalGeneration"),
         ("mt5", "FlaxMT5ForConditionalGeneration"),
         ("marian", "FlaxMarianMTModel"),
         ("encoder-decoder", "FlaxEncoderDecoderModel"),
