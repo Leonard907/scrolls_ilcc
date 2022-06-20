@@ -11,8 +11,8 @@ def get_command(id_):
 
     commands_dict = {}
 
-    tokens_bsz = 16384
-    num_gpus = 8
+    tokens_bsz = 4096
+    num_gpus = 1
     accum_steps = 1
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
@@ -190,7 +190,7 @@ def get_command(id_):
         commands_dict[f"{dataset}_led-1024_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 1024"]
         commands_dict[f"{dataset}_led-4096_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
         commands_dict[f"{dataset}_led-16384_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 16384"]
-        commands_dict[f"{dataset}_longt5-local"] = prepro_args + gg_longt5_local_base_args + ["--preprocess_only", "--learning_rate 1e-3", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
+        commands_dict[f"{dataset}_longt5-local_data"] = prepro_args + gg_longt5_local_base_args + ["--preprocess_only", "--learning_rate 1e-3", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
 
 
     command_parts = commands_dict[id_]
