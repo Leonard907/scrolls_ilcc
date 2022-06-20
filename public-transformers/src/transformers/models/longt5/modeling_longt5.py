@@ -1350,7 +1350,7 @@ class LongT5Stack(LongT5PreTrainedModel):
         self.dropout = nn.Dropout(config.dropout_rate)
 
         # Initialize weights and apply final processing
-        self.post_init()
+        self.init_weights()
 
         self.gradient_checkpointing = False
 
