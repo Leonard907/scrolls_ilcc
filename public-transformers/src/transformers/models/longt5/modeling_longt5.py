@@ -1745,7 +1745,7 @@ class LongT5Model(LongT5PreTrainedModel):
         self.decoder = LongT5Stack(decoder_config, self.shared)
 
         # Initialize weights and apply final processing
-        self.post_init()
+        self.init_weights()
 
     def get_input_embeddings(self):
         return self.shared
@@ -1903,7 +1903,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
         # Initialize weights and apply final processing
-        self.post_init()
+        self.init_weights()
 
     def get_input_embeddings(self):
         return self.shared
@@ -2129,7 +2129,7 @@ class LongT5EncoderModel(LongT5PreTrainedModel):
         self.encoder = LongT5Stack(encoder_config, self.shared)
 
         # Initialize weights and apply final processing
-        self.post_init()
+        self.init_weights()
 
     def get_input_embeddings(self):
         return self.shared
