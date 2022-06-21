@@ -12,8 +12,8 @@ def get_command(id_):
     commands_dict = {}
 
     tokens_bsz = 1024
-    num_gpus = 4
-    accum_steps = 32
+    num_gpus = 2
+    accum_steps = 64
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
