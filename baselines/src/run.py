@@ -294,7 +294,7 @@ def main():
         model_args, data_args, training_args = parser.parse_dictionary_and_args(config)
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     if training_args.process_index == 0:
         os.makedirs(training_args.output_dir, exist_ok=True)
@@ -629,7 +629,7 @@ def main():
         output_dir=training_args.output_dir,
         data_args=data_args,
     )
-    pdb.set_trace()
+    # pdb.set_trace()
     # Training
     if training_args.do_train:
         checkpoint = None

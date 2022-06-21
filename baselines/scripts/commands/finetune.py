@@ -12,7 +12,7 @@ def get_command(id_):
     commands_dict = {}
 
     tokens_bsz = 2048
-    num_gpus = 1
+    num_gpus = 2
     accum_steps = 1
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
