@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --output=/home/%u/slogs/sl-%x-%A-%a.out
 #SBATCH --error=/home/%u/slogs/sl-%x-%A-%a.out
-#SBATCH --job-name=qmsum_256-bart
+#SBATCH --job-name=qmsum_longt5-local
 #SBATCH --nodes=1
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:4
 #SBATCH --mem=16g
 #SBATCH --cpus-per-task=4
 #SBATCH --time=48:00:00
