@@ -12,8 +12,8 @@ def get_command(id_):
     commands_dict = {}
 
     tokens_bsz = 1024
-    num_gpus = 2
-    accum_steps = 1
+    num_gpus = 4
+    accum_steps = 32
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
@@ -116,7 +116,7 @@ def get_command(id_):
             "led-1024": 5e-5,
             "led-4096": 1e-5,
             "led-16384": 1e-5,
-            "longt5-local": 1e-5,
+            "longt5-local": 1e-3,
         },
         "contract_nli": {
             "256-bart": 1e-4,
@@ -156,7 +156,7 @@ def get_command(id_):
             "--group_by_length true",
             "--do_eval True",
             "--load_best_model_at_end True",
-            "--lr_scheduler linear",
+            # "--lr_scheduler linear",
             "--warmup_ratio 0.1",
         ] + (
             ["--m configs/no_metrics.json", "--predict_with_generate False", "--prediction_loss_only True"]
@@ -167,16 +167,17 @@ def get_command(id_):
             base_args.append("--trim_very_long_strings")
 
         dataset_learning_rates = all_learning_rates[dataset]
-        commands_dict[f"{dataset}_256-bart"] = base_args + fb_bart_256_args +[ f"--learning_rate {dataset_learning_rates['256-bart']}"]
-        commands_dict[f"{dataset}_512-bart"] = base_args + fb_bart_512_args + [f"--learning_rate {dataset_learning_rates['512-bart']}"]
-        commands_dict[f"{dataset}_1024-bart"] = base_args + fb_bart_1024_args + [f"--learning_rate {dataset_learning_rates['1024-bart']}"]
-        commands_dict[f"{dataset}_led-1024"] = base_args + allenai_led_args + [f"--learning_rate {dataset_learning_rates['led-1024']}", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", f"--max_source_length 1024",]
-        commands_dict[f"{dataset}_led-4096"] = base_args + allenai_led_args + [f"--learning_rate {dataset_learning_rates['led-4096']}", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", f"--max_source_length 4096",]
+        commands_dict[f"{dataset}_256-bart"] = base_args + fb_bart_256_args +[ f"--learning_rate {dataset_learning_rates['256-bart']}", f"--lr_scheduler {FB_BART_LR_SCHEDULER}"]
+        commands_dict[f"{dataset}_512-bart"] = base_args + fb_bart_512_args + [f"--learning_rate {dataset_learning_rates['512-bart']}", f"--lr_scheduler {FB_BART_LR_SCHEDULER}"]
+        commands_dict[f"{dataset}_1024-bart"] = base_args + fb_bart_1024_args + [f"--learning_rate {dataset_learning_rates['1024-bart']}", f"--lr_scheduler {FB_BART_LR_SCHEDULER}"]
+        commands_dict[f"{dataset}_led-1024"] = base_args + allenai_led_args + [f"--learning_rate {dataset_learning_rates['led-1024']}", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", f"--max_source_length 1024", f"--lr_scheduler {ALLEN_AI_LR_SCHEDULER}"]
+        commands_dict[f"{dataset}_led-4096"] = base_args + allenai_led_args + [f"--learning_rate {dataset_learning_rates['led-4096']}", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", f"--max_source_length 4096", f"--lr_scheduler {ALLEN_AI_LR_SCHEDULER}"]
         commands_dict[f"{dataset}_led-16384"] = base_args + allenai_led_args +\
                                                                     [f"--learning_rate {dataset_learning_rates['led-16384']}",
                                                                     "--global_attention_first_token True",
                                                                     f"--folder_suffix global_attention_first_token${folder_suffix}" ,
                                                                     "--max_source_length 16384",
+                                                                    f"--lr_scheduler {GG_LONGT5_LR_SCHEDULER}"
         ]
         commands_dict[f"{dataset}_longt5-local"] = base_args + gg_longt5_local_base_args + [f"--learning_rate {dataset_learning_rates['longt5-local']}"]
 
@@ -189,7 +190,7 @@ def get_command(id_):
         commands_dict[f"{dataset}_led-1024_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 1024"]
         commands_dict[f"{dataset}_led-4096_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 4096"]
         commands_dict[f"{dataset}_led-16384_data"] = prepro_args + allenai_led_args + ["--preprocess_only", "--learning_rate 1e-3", "--global_attention_first_token True", f"--folder_suffix global_attention_first_token${folder_suffix}", "--max_source_length 16384"]
-        commands_dict[f"{dataset}_longt5-local_data"] = prepro_args + gg_longt5_local_base_args + ["--preprocess_only", "--learning_rate 1e-3"]
+        commands_dict[f"{dataset}_longt5-local_data"] = prepro_args + gg_longt5_local_base_args + ["--preprocess_only", f"--learning_rate {dataset_learning_rates['longt5-local']}"]
 
 
     command_parts = commands_dict[id_]
