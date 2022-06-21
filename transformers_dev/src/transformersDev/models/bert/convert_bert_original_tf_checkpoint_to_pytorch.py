@@ -19,8 +19,8 @@ import argparse
 
 import torch
 
-from transformers import BertConfig, BertForPreTraining, load_tf_weights_in_bert
-from transformers.utils import logging
+from transformersDev import BertConfig, BertForPreTraining, load_tf_weights_in_bert
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

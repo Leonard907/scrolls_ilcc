@@ -19,22 +19,22 @@ import tempfile
 import unittest
 from typing import List
 
-from transformers import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
-from transformers.models.layoutxlm import LayoutXLMTokenizer, LayoutXLMTokenizerFast
-from transformers.testing_utils import (
+from transformersDev import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
+from transformersDev.models.layoutxlm import LayoutXLMTokenizer, LayoutXLMTokenizerFast
+from transformersDev.testing_utils import (
     require_pytesseract,
     require_sentencepiece,
     require_tokenizers,
     require_torch,
     slow,
 )
-from transformers.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
+from transformersDev.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
 
 
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv2FeatureExtractor, LayoutXLMProcessor
+    from transformersDev import LayoutLMv2FeatureExtractor, LayoutXLMProcessor
 
 
 @require_pytesseract

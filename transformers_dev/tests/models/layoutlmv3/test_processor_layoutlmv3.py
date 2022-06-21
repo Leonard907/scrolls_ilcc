@@ -19,17 +19,17 @@ import tempfile
 import unittest
 from typing import List
 
-from transformers import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
-from transformers.models.layoutlmv3 import LayoutLMv3Tokenizer, LayoutLMv3TokenizerFast
-from transformers.models.layoutlmv3.tokenization_layoutlmv3 import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_pytesseract, require_tokenizers, require_torch, slow
-from transformers.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
+from transformersDev import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
+from transformersDev.models.layoutlmv3 import LayoutLMv3Tokenizer, LayoutLMv3TokenizerFast
+from transformersDev.models.layoutlmv3.tokenization_layoutlmv3 import VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_pytesseract, require_tokenizers, require_torch, slow
+from transformersDev.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
 
 
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv3FeatureExtractor, LayoutLMv3Processor
+    from transformersDev import LayoutLMv3FeatureExtractor, LayoutLMv3Processor
 
 
 @require_pytesseract

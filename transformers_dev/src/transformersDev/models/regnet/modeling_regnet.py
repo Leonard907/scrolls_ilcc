@@ -99,7 +99,7 @@ class RegNetEmbeddings(nn.Module):
         return hidden_state
 
 
-# Copied from transformers.models.resnet.modeling_resnet.ResNetShortCut with ResNet->RegNet
+# Copied from transformersDev.models.resnet.modeling_resnet.ResNetShortCut with ResNet->RegNet
 class RegNetShortCut(nn.Module):
     """
     RegNet shortcut, used to project the residual features to the correct size. If needed, it is also used to
@@ -269,7 +269,7 @@ class RegNetEncoder(nn.Module):
         return BaseModelOutputWithNoAttention(last_hidden_state=hidden_state, hidden_states=hidden_states)
 
 
-# Copied from transformers.models.resnet.modeling_resnet.ResNetPreTrainedModel with ResNet->RegNet,resnet->regnet
+# Copied from transformersDev.models.resnet.modeling_resnet.ResNetPreTrainedModel with ResNet->RegNet,resnet->regnet
 class RegNetPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -322,7 +322,7 @@ REGNET_INPUTS_DOCSTRING = r"""
     "The bare RegNet model outputting raw features without any specific head on top.",
     REGNET_START_DOCSTRING,
 )
-# Copied from transformers.models.resnet.modeling_resnet.ResNetModel with RESNET->REGNET,ResNet->RegNet
+# Copied from transformersDev.models.resnet.modeling_resnet.ResNetModel with RESNET->REGNET,ResNet->RegNet
 class RegNetModel(RegNetPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -377,7 +377,7 @@ class RegNetModel(RegNetPreTrainedModel):
     """,
     REGNET_START_DOCSTRING,
 )
-# Copied from transformers.models.resnet.modeling_resnet.ResNetForImageClassification with RESNET->REGNET,ResNet->RegNet,resnet->regnet
+# Copied from transformersDev.models.resnet.modeling_resnet.ResNetForImageClassification with RESNET->REGNET,ResNet->RegNet,resnet->regnet
 class RegNetForImageClassification(RegNetPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)

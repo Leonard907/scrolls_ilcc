@@ -190,7 +190,7 @@ class PTtoTFCommand(BaseTransformersCLICommand):
             try:
                 tf_class = getattr(import_module("transformers"), "TF" + architectures[0])
             except AttributeError:
-                raise AttributeError(f"The TensorFlow equivalent of {architectures[0]} doesn't exist in transformers.")
+                raise AttributeError(f"The TensorFlow equivalent of {architectures[0]} doesn't exist in transformersDev.")
 
         # Load models and acquire a basic input for its modality.
         pt_model = pt_class.from_pretrained(self._local_dir)

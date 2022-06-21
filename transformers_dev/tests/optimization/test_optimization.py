@@ -18,15 +18,15 @@ import os
 import tempfile
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import require_torch
+from transformersDev import is_torch_available
+from transformersDev.testing_utils import require_torch
 
 
 if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from transformersDev import (
         Adafactor,
         AdamW,
         get_constant_schedule,

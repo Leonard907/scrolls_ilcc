@@ -14,7 +14,7 @@
 
 import unittest
 
-from transformers import (
+from transformersDev import (
     FEATURE_EXTRACTOR_MAPPING,
     MODEL_MAPPING,
     TF_MODEL_MAPPING,
@@ -22,7 +22,7 @@ from transformers import (
     LxmertConfig,
     pipeline,
 )
-from transformers.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch
+from transformersDev.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch
 
 from .test_pipelines_common import PipelineTestCaseMeta
 

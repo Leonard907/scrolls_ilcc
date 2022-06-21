@@ -132,7 +132,7 @@ ROBERTA_INPUTS_DOCSTRING = r"""
 """
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertEmbeddings with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertEmbeddings with Bert->Roberta
 class FlaxRobertaEmbeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -173,7 +173,7 @@ class FlaxRobertaEmbeddings(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertSelfAttention with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertSelfAttention with Bert->Roberta
 class FlaxRobertaSelfAttention(nn.Module):
     config: RobertaConfig
     causal: bool = False
@@ -215,7 +215,7 @@ class FlaxRobertaSelfAttention(nn.Module):
         return hidden_states.reshape(hidden_states.shape[:2] + (self.config.hidden_size,))
 
     @nn.compact
-    # Copied from transformers.models.bart.modeling_flax_bart.FlaxBartAttention._concatenate_to_cache
+    # Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartAttention._concatenate_to_cache
     def _concatenate_to_cache(self, key, value, query, attention_mask):
         """
         This function takes projected key, value states from a single input token and concatenates the states to cached
@@ -345,7 +345,7 @@ class FlaxRobertaSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertSelfOutput with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertSelfOutput with Bert->Roberta
 class FlaxRobertaSelfOutput(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -366,7 +366,7 @@ class FlaxRobertaSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertAttention with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertAttention with Bert->Roberta
 class FlaxRobertaAttention(nn.Module):
     config: RobertaConfig
     causal: bool = False
@@ -409,7 +409,7 @@ class FlaxRobertaAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertIntermediate with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertIntermediate with Bert->Roberta
 class FlaxRobertaIntermediate(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -428,7 +428,7 @@ class FlaxRobertaIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertOutput with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertOutput with Bert->Roberta
 class FlaxRobertaOutput(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -449,7 +449,7 @@ class FlaxRobertaOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertLayer with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertLayer with Bert->Roberta
 class FlaxRobertaLayer(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -507,7 +507,7 @@ class FlaxRobertaLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertLayerCollection with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertLayerCollection with Bert->Roberta
 class FlaxRobertaLayerCollection(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -581,7 +581,7 @@ class FlaxRobertaLayerCollection(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertEncoder with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertEncoder with Bert->Roberta
 class FlaxRobertaEncoder(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -616,7 +616,7 @@ class FlaxRobertaEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertPooler with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertPooler with Bert->Roberta
 class FlaxRobertaPooler(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -766,7 +766,7 @@ class FlaxRobertaPreTrainedModel(FlaxPreTrainedModel):
         else:
             return random_params
 
-    # Copied from transformers.models.bart.modeling_flax_bart.FlaxBartDecoderPreTrainedModel.init_cache
+    # Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartDecoderPreTrainedModel.init_cache
     def init_cache(self, batch_size, max_length):
         r"""
         Args:
@@ -884,7 +884,7 @@ class FlaxRobertaPreTrainedModel(FlaxPreTrainedModel):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertModule with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertModule with Bert->Roberta
 class FlaxRobertaModule(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -1097,7 +1097,7 @@ append_call_sample_docstring(
 )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertForMultipleChoiceModule with Bert->Roberta, with self.bert->self.roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertForMultipleChoiceModule with Bert->Roberta, with self.bert->self.roberta
 class FlaxRobertaForMultipleChoiceModule(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32
@@ -1177,7 +1177,7 @@ append_call_sample_docstring(
 )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertForTokenClassificationModule with Bert->Roberta, with self.bert->self.roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertForTokenClassificationModule with Bert->Roberta, with self.bert->self.roberta
 class FlaxRobertaForTokenClassificationModule(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32
@@ -1251,7 +1251,7 @@ append_call_sample_docstring(
 )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertForQuestionAnsweringModule with Bert->Roberta, with self.bert->self.roberta
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertForQuestionAnsweringModule with Bert->Roberta, with self.bert->self.roberta
 class FlaxRobertaForQuestionAnsweringModule(nn.Module):
     config: RobertaConfig
     dtype: jnp.dtype = jnp.float32

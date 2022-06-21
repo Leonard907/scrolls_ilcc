@@ -23,7 +23,7 @@ import fairseq
 import torch
 from fairseq.data import Dictionary
 
-from transformers import (
+from transformersDev import (
     Wav2Vec2Config,
     Wav2Vec2CTCTokenizer,
     Wav2Vec2FeatureExtractor,

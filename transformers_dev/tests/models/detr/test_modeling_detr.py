@@ -19,9 +19,9 @@ import inspect
 import math
 import unittest
 
-from transformers import DetrConfig, is_timm_available, is_vision_available
-from transformers.testing_utils import require_timm, require_vision, slow, torch_device
-from transformers.utils import cached_property
+from transformersDev import DetrConfig, is_timm_available, is_vision_available
+from transformersDev.testing_utils import require_timm, require_vision, slow, torch_device
+from transformersDev.utils import cached_property
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -31,13 +31,13 @@ from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_
 if is_timm_available():
     import torch
 
-    from transformers import DetrForObjectDetection, DetrForSegmentation, DetrModel
+    from transformersDev import DetrForObjectDetection, DetrForSegmentation, DetrModel
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DetrFeatureExtractor
+    from transformersDev import DetrFeatureExtractor
 
 
 class DetrModelTester:

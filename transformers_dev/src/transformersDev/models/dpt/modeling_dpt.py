@@ -65,7 +65,7 @@ DPT_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -155,7 +155,7 @@ class DPTViTPatchEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfAttention with ViT->DPT
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfAttention with ViT->DPT
 class DPTViTSelfAttention(nn.Module):
     def __init__(self, config: DPTConfig) -> None:
         super().__init__()
@@ -216,7 +216,7 @@ class DPTViTSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfOutput with ViT->DPT
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfOutput with ViT->DPT
 class DPTViTSelfOutput(nn.Module):
     """
     The residual connection is defined in DPTLayer instead of here (as is the case with other models), due to the
@@ -243,7 +243,7 @@ class DPTViTAttention(nn.Module):
         self.output = DPTViTSelfOutput(config)
         self.pruned_heads = set()
 
-    # Copied from transformers.models.vit.modeling_vit.ViTAttention.prune_heads
+    # Copied from transformersDev.models.vit.modeling_vit.ViTAttention.prune_heads
     def prune_heads(self, heads: Set[int]) -> None:
         if len(heads) == 0:
             return
@@ -262,7 +262,7 @@ class DPTViTAttention(nn.Module):
         self.attention.all_head_size = self.attention.attention_head_size * self.attention.num_attention_heads
         self.pruned_heads = self.pruned_heads.union(heads)
 
-    # Copied from transformers.models.vit.modeling_vit.ViTAttention.forward
+    # Copied from transformersDev.models.vit.modeling_vit.ViTAttention.forward
     def forward(
         self,
         hidden_states: torch.Tensor,
@@ -277,7 +277,7 @@ class DPTViTAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTIntermediate with ViT->DPT
+# Copied from transformersDev.models.vit.modeling_vit.ViTIntermediate with ViT->DPT
 class DPTViTIntermediate(nn.Module):
     def __init__(self, config: DPTConfig) -> None:
         super().__init__()
@@ -295,7 +295,7 @@ class DPTViTIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTOutput with ViT->DPT
+# Copied from transformersDev.models.vit.modeling_vit.ViTOutput with ViT->DPT
 class DPTViTOutput(nn.Module):
     def __init__(self, config: DPTConfig) -> None:
         super().__init__()
@@ -311,7 +311,7 @@ class DPTViTOutput(nn.Module):
         return hidden_states
 
 
-# copied from transformers.models.vit.modeling_vit.ViTLayer with ViTConfig->DPTConfig, ViTAttention->DPTViTAttention, ViTIntermediate->DPTViTIntermediate, ViTOutput->DPTViTOutput
+# copied from transformersDev.models.vit.modeling_vit.ViTLayer with ViTConfig->DPTConfig, ViTAttention->DPTViTAttention, ViTIntermediate->DPTViTIntermediate, ViTOutput->DPTViTOutput
 class DPTViTLayer(nn.Module):
     """This corresponds to the Block class in the timm implementation."""
 
@@ -354,7 +354,7 @@ class DPTViTLayer(nn.Module):
         return outputs
 
 
-# copied from transformers.models.vit.modeling_vit.ViTEncoder with ViTConfig -> DPTConfig, ViTLayer->DPTViTLayer
+# copied from transformersDev.models.vit.modeling_vit.ViTEncoder with ViTConfig -> DPTConfig, ViTLayer->DPTViTLayer
 class DPTViTEncoder(nn.Module):
     def __init__(self, config: DPTConfig) -> None:
         super().__init__()
@@ -761,7 +761,7 @@ class DPTModel(DPTPreTrainedModel):
         )
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTPooler with ViT->DPT
+# Copied from transformersDev.models.vit.modeling_vit.ViTPooler with ViT->DPT
 class DPTViTPooler(nn.Module):
     def __init__(self, config: DPTConfig):
         super().__init__()
@@ -894,7 +894,7 @@ class DPTForDepthEstimation(DPTPreTrainedModel):
 
         Examples:
         ```python
-        >>> from transformers import DPTFeatureExtractor, DPTForDepthEstimation
+        >>> from transformersDev import DPTFeatureExtractor, DPTForDepthEstimation
         >>> import torch
         >>> import numpy as np
         >>> from PIL import Image
@@ -1056,7 +1056,7 @@ class DPTForSemanticSegmentation(DPTPreTrainedModel):
 
         Examples:
         ```python
-        >>> from transformers import DPTFeatureExtractor, DPTForSemanticSegmentation
+        >>> from transformersDev import DPTFeatureExtractor, DPTForSemanticSegmentation
         >>> from PIL import Image
         >>> import requests
 

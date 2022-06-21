@@ -708,7 +708,7 @@ PIPELINE_INIT_ARGS = r"""
 """
 
 if is_torch_available():
-    from transformers.pipelines.pt_utils import (
+    from transformersDev.pipelines.pt_utils import (
         PipelineChunkIterator,
         PipelineDataset,
         PipelineIterator,

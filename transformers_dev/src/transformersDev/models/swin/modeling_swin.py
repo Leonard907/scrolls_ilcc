@@ -203,7 +203,7 @@ class SwinImageClassifierOutput(ModelOutput):
     reshaped_hidden_states: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -1035,7 +1035,7 @@ class SwinForMaskedImageModeling(SwinPreTrainedModel):
 
         Examples:
         ```python
-        >>> from transformers import AutoFeatureExtractor, SwinForMaskedImageModeling
+        >>> from transformersDev import AutoFeatureExtractor, SwinForMaskedImageModeling
         >>> import torch
         >>> from PIL import Image
         >>> import requests

@@ -93,7 +93,7 @@ class MarianConfig(PretrainedConfig):
     Examples:
 
     ```python
-    >>> from transformers import MarianModel, MarianConfig
+    >>> from transformersDev import MarianModel, MarianConfig
 
     >>> # Initializing a Marian Helsinki-NLP/opus-mt-en-de style configuration
     >>> configuration = MarianConfig()
@@ -172,7 +172,7 @@ class MarianConfig(PretrainedConfig):
 
 class MarianOnnxConfig(OnnxSeq2SeqConfigWithPast):
     @property
-    # Copied from transformers.models.bart.configuration_bart.BartOnnxConfig.inputs
+    # Copied from transformersDev.models.bart.configuration_bart.BartOnnxConfig.inputs
     def inputs(self) -> Mapping[str, Mapping[int, str]]:
         if self.task in ["default", "seq2seq-lm"]:
             common_inputs = OrderedDict(
@@ -217,7 +217,7 @@ class MarianOnnxConfig(OnnxSeq2SeqConfigWithPast):
         return common_inputs
 
     @property
-    # Copied from transformers.models.bart.configuration_bart.BartOnnxConfig.outputs
+    # Copied from transformersDev.models.bart.configuration_bart.BartOnnxConfig.outputs
     def outputs(self) -> Mapping[str, Mapping[int, str]]:
         if self.task in ["default", "seq2seq-lm"]:
             common_outputs = super().outputs
@@ -384,7 +384,7 @@ class MarianOnnxConfig(OnnxSeq2SeqConfigWithPast):
 
         return common_inputs
 
-    # Copied from transformers.models.bart.configuration_bart.BartOnnxConfig._flatten_past_key_values_
+    # Copied from transformersDev.models.bart.configuration_bart.BartOnnxConfig._flatten_past_key_values_
     def _flatten_past_key_values_(self, flattened_output, name, idx, t):
         if self.task in ["default", "seq2seq-lm"]:
             flattened_output = super()._flatten_past_key_values_(flattened_output, name, idx, t)

@@ -17,12 +17,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from transformers import AutoConfig, is_torch_available
-from transformers.testing_utils import require_torch, torch_device
+from transformersDev import AutoConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, torch_device
 
 
 if is_torch_available():
-    from transformers import PyTorchBenchmark, PyTorchBenchmarkArguments
+    from transformersDev import PyTorchBenchmark, PyTorchBenchmarkArguments
 
 
 @require_torch

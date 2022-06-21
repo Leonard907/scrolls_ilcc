@@ -52,7 +52,7 @@ DEBERTA_V2_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.deberta.modeling_deberta.ContextPooler
+# Copied from transformersDev.models.deberta.modeling_deberta.ContextPooler
 class ContextPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -75,7 +75,7 @@ class ContextPooler(nn.Module):
         return self.config.hidden_size
 
 
-# Copied from transformers.models.deberta.modeling_deberta.XSoftmax with deberta->deberta_v2
+# Copied from transformersDev.models.deberta.modeling_deberta.XSoftmax with deberta->deberta_v2
 class XSoftmax(torch.autograd.Function):
     """
     Masked Softmax which is optimized for saving memory
@@ -90,7 +90,7 @@ class XSoftmax(torch.autograd.Function):
 
     ```python
     >>> import torch
-    >>> from transformers.models.deberta_v2.modeling_deberta_v2 import XSoftmax
+    >>> from transformersDev.models.deberta_v2.modeling_deberta_v2 import XSoftmax
 
     >>> # Make a tensor
     >>> x = torch.randn([4, 20, 100])
@@ -137,7 +137,7 @@ class XSoftmax(torch.autograd.Function):
         return masked_fill(g, output, r_mask, g.op("Constant", value_t=torch.tensor(0, dtype=torch.uint8)))
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DropoutContext
+# Copied from transformersDev.models.deberta.modeling_deberta.DropoutContext
 class DropoutContext(object):
     def __init__(self):
         self.dropout = 0
@@ -146,7 +146,7 @@ class DropoutContext(object):
         self.reuse_mask = True
 
 
-# Copied from transformers.models.deberta.modeling_deberta.get_mask
+# Copied from transformersDev.models.deberta.modeling_deberta.get_mask
 def get_mask(input, local_context):
     if not isinstance(local_context, DropoutContext):
         dropout = local_context
@@ -166,7 +166,7 @@ def get_mask(input, local_context):
     return mask, dropout
 
 
-# Copied from transformers.models.deberta.modeling_deberta.XDropout
+# Copied from transformersDev.models.deberta.modeling_deberta.XDropout
 class XDropout(torch.autograd.Function):
     """Optimized dropout function to save computation and memory by using mask operation instead of multiplication."""
 
@@ -189,7 +189,7 @@ class XDropout(torch.autograd.Function):
             return grad_output, None
 
 
-# Copied from transformers.models.deberta.modeling_deberta.StableDropout
+# Copied from transformersDev.models.deberta.modeling_deberta.StableDropout
 class StableDropout(nn.Module):
     """
     Optimized dropout module for stabilizing the training
@@ -239,7 +239,7 @@ class StableDropout(nn.Module):
             return self.drop_prob
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaSelfOutput with DebertaLayerNorm->LayerNorm
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaSelfOutput with DebertaLayerNorm->LayerNorm
 class DebertaV2SelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -254,7 +254,7 @@ class DebertaV2SelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaAttention with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaAttention with Deberta->DebertaV2
 class DebertaV2Attention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -291,7 +291,7 @@ class DebertaV2Attention(nn.Module):
             return attention_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->DebertaV2
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->DebertaV2
 class DebertaV2Intermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -307,7 +307,7 @@ class DebertaV2Intermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaOutput with DebertaLayerNorm->LayerNorm
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaOutput with DebertaLayerNorm->LayerNorm
 class DebertaV2Output(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -323,7 +323,7 @@ class DebertaV2Output(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaLayer with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaLayer with Deberta->DebertaV2
 class DebertaV2Layer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -570,19 +570,19 @@ def build_relative_position(query_size, key_size, bucket_size=-1, max_position=-
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.c2p_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.c2p_dynamic_expand
 def c2p_dynamic_expand(c2p_pos, query_layer, relative_pos):
     return c2p_pos.expand([query_layer.size(0), query_layer.size(1), query_layer.size(2), relative_pos.size(-1)])
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.p2c_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.p2c_dynamic_expand
 def p2c_dynamic_expand(c2p_pos, query_layer, key_layer):
     return c2p_pos.expand([query_layer.size(0), query_layer.size(1), key_layer.size(-2), key_layer.size(-2)])
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.pos_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.pos_dynamic_expand
 def pos_dynamic_expand(pos_index, p2c_att, key_layer):
     return pos_index.expand(p2c_att.size()[:2] + (pos_index.size(-2), key_layer.size(-2)))
 
@@ -803,7 +803,7 @@ class DisentangledSelfAttention(nn.Module):
         return score
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaEmbeddings with DebertaLayerNorm->LayerNorm
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaEmbeddings with DebertaLayerNorm->LayerNorm
 class DebertaV2Embeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -878,7 +878,7 @@ class DebertaV2Embeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaPreTrainedModel with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaPreTrainedModel with Deberta->DebertaV2
 class DebertaV2PreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -974,7 +974,7 @@ DEBERTA_INPUTS_DOCSTRING = r"""
     "The bare DeBERTa Model transformer outputting raw hidden-states without any specific head on top.",
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_deberta.DebertaModel with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaModel with Deberta->DebertaV2
 class DebertaV2Model(DebertaV2PreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1087,7 +1087,7 @@ class DebertaV2Model(DebertaV2PreTrainedModel):
 
 
 @add_start_docstrings("""DeBERTa Model with a `language modeling` head on top.""", DEBERTA_START_DOCSTRING)
-# Copied from transformers.models.deberta.modeling_deberta.DebertaForMaskedLM with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaForMaskedLM with Deberta->DebertaV2
 class DebertaV2ForMaskedLM(DebertaV2PreTrainedModel):
     _keys_to_ignore_on_load_unexpected = [r"pooler"]
     _keys_to_ignore_on_load_missing = [r"position_ids", r"predictions.decoder.bias"]
@@ -1166,7 +1166,7 @@ class DebertaV2ForMaskedLM(DebertaV2PreTrainedModel):
         )
 
 
-# copied from transformers.models.bert.BertPredictionHeadTransform with bert -> deberta
+# copied from transformersDev.models.bert.BertPredictionHeadTransform with bert -> deberta
 class DebertaV2PredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1184,7 +1184,7 @@ class DebertaV2PredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# copied from transformers.models.bert.BertLMPredictionHead with bert -> deberta
+# copied from transformersDev.models.bert.BertLMPredictionHead with bert -> deberta
 class DebertaV2LMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1205,7 +1205,7 @@ class DebertaV2LMPredictionHead(nn.Module):
         return hidden_states
 
 
-# copied from transformers.models.bert.BertOnlyMLMHead with bert -> deberta
+# copied from transformersDev.models.bert.BertOnlyMLMHead with bert -> deberta
 class DebertaV2OnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1223,7 +1223,7 @@ class DebertaV2OnlyMLMHead(nn.Module):
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_deberta.DebertaForSequenceClassification with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaForSequenceClassification with Deberta->DebertaV2
 class DebertaV2ForSequenceClassification(DebertaV2PreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1343,7 +1343,7 @@ class DebertaV2ForSequenceClassification(DebertaV2PreTrainedModel):
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_deberta.DebertaForTokenClassification with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaForTokenClassification with Deberta->DebertaV2
 class DebertaV2ForTokenClassification(DebertaV2PreTrainedModel):
     _keys_to_ignore_on_load_unexpected = [r"pooler"]
 
@@ -1420,7 +1420,7 @@ class DebertaV2ForTokenClassification(DebertaV2PreTrainedModel):
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_deberta.DebertaForQuestionAnswering with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaForQuestionAnswering with Deberta->DebertaV2
 class DebertaV2ForQuestionAnswering(DebertaV2PreTrainedModel):
     _keys_to_ignore_on_load_unexpected = [r"pooler"]
 

@@ -537,7 +537,7 @@ BART_GENERATION_EXAMPLE = r"""
     Summarization example:
 
     ```python
-    >>> from transformers import BartTokenizer, TFBartForConditionalGeneration
+    >>> from transformersDev import BartTokenizer, TFBartForConditionalGeneration
 
     >>> model = TFBartForConditionalGeneration.from_pretrained("facebook/bart-large")
     >>> tokenizer = BartTokenizer.from_pretrained("facebook/bart-large")
@@ -553,7 +553,7 @@ BART_GENERATION_EXAMPLE = r"""
     Mask filling example:
 
     ```python
-    >>> from transformers import BartTokenizer, TFBartForConditionalGeneration
+    >>> from transformersDev import BartTokenizer, TFBartForConditionalGeneration
 
     >>> tokenizer = BartTokenizer.from_pretrained("facebook/bart-large")
     >>> TXT = "My friends are <mask> but they eat too many carbs."

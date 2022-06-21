@@ -134,7 +134,7 @@ def hf_bucket_url(
     can't ever be stale.
 
     In terms of client-side caching from this library, we base our caching on the objects' ETag. An object' ETag is:
-    its sha1 if stored in git, or its sha256 if stored in git-lfs. Files cached locally from transformers before v3.5.0
+    its sha1 if stored in git, or its sha256 if stored in git-lfs. Files cached locally from transformersDev before v3.5.0
     are not shared with those new files, because the cached file's name contains a hash of the url (which changed).
     """
     if subfolder is not None:
@@ -897,7 +897,7 @@ class PushToHubMixin:
         Examples:
 
         ```python
-        from transformers import {object_class}
+        from transformersDev import {object_class}
 
         {object} = {object_class}.from_pretrained("bert-base-cased")
 

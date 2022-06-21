@@ -43,7 +43,7 @@ class XLMProphetNetEncoder(ProphetNetEncoder):
     Example:
 
     ```python
-    >>> from transformers import XLMProphetNetTokenizer, XLMProphetNetEncoder
+    >>> from transformersDev import XLMProphetNetTokenizer, XLMProphetNetEncoder
     >>> import torch
 
     >>> tokenizer = XLMProphetNetTokenizer.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
@@ -66,7 +66,7 @@ class XLMProphetNetDecoder(ProphetNetDecoder):
     Example:
 
     ```python
-    >>> from transformers import XLMProphetNetTokenizer, XLMProphetNetDecoder
+    >>> from transformersDev import XLMProphetNetTokenizer, XLMProphetNetDecoder
     >>> import torch
 
     >>> tokenizer = XLMProphetNetTokenizer.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
@@ -91,7 +91,7 @@ class XLMProphetNetModel(ProphetNetModel):
     Example:
 
     ```python
-    >>> from transformers import XLMProphetNetTokenizer, XLMProphetNetModel
+    >>> from transformersDev import XLMProphetNetTokenizer, XLMProphetNetModel
 
     >>> tokenizer = XLMProphetNetTokenizer.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
     >>> model = XLMProphetNetModel.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
@@ -117,7 +117,7 @@ class XLMProphetNetForConditionalGeneration(ProphetNetForConditionalGeneration):
     Example:
 
     ```python
-    >>> from transformers import XLMProphetNetTokenizer, XLMProphetNetForConditionalGeneration
+    >>> from transformersDev import XLMProphetNetTokenizer, XLMProphetNetForConditionalGeneration
 
     >>> tokenizer = XLMProphetNetTokenizer.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
     >>> model = XLMProphetNetForConditionalGeneration.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
@@ -143,7 +143,7 @@ class XLMProphetNetForCausalLM(ProphetNetForCausalLM):
     Example:
 
     ```python
-    >>> from transformers import XLMProphetNetTokenizer, XLMProphetNetForCausalLM
+    >>> from transformersDev import XLMProphetNetTokenizer, XLMProphetNetForCausalLM
     >>> import torch
 
     >>> tokenizer = XLMProphetNetTokenizer.from_pretrained("microsoft/xprophetnet-large-wiki100-cased")
@@ -155,7 +155,7 @@ class XLMProphetNetForCausalLM(ProphetNetForCausalLM):
     >>> logits = outputs.logits
 
     >>> # Model can also be used with EncoderDecoder framework
-    >>> from transformers import EncoderDecoderModel, XLMProphetNetTokenizer, XLMRobertaTokenizer
+    >>> from transformersDev import EncoderDecoderModel, XLMProphetNetTokenizer, XLMRobertaTokenizer
     >>> import torch
 
     >>> tokenizer_enc = XLMRobertaTokenizer.from_pretrained("xlm-roberta-large")

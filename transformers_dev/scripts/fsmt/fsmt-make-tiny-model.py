@@ -27,7 +27,7 @@
 # It will be used then as "stas/tiny-wmt19-en-de"
 
 # Build
-from transformers import FSMTTokenizer, FSMTConfig, FSMTForConditionalGeneration
+from transformersDev import FSMTTokenizer, FSMTConfig, FSMTForConditionalGeneration
 mname = "facebook/wmt19-en-de"
 tokenizer = FSMTTokenizer.from_pretrained(mname)
 # get the correct vocab sizes, etc. from the master model

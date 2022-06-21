@@ -70,7 +70,7 @@ class LevitConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import LevitModel, LevitConfig
+    >>> from transformersDev import LevitModel, LevitConfig
 
     >>> # Initializing a LeViT levit-base-192 style configuration
     >>> configuration = LevitConfig()

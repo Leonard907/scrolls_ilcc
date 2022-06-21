@@ -128,7 +128,7 @@ class AddNewModelCommand(BaseTransformersCLICommand):
                 lines = f.readlines()
             with open(path, "w") as f:
                 for line in lines:
-                    if "# Copied from transformers." not in line:
+                    if "# Copied from transformersDev." not in line:
                         f.write(line)
 
         if output_pytorch:

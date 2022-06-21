@@ -50,7 +50,7 @@ POOLFORMER_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x

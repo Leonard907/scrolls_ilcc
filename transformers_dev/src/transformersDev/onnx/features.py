@@ -1,7 +1,7 @@
 from functools import partial, reduce
 from typing import Callable, Dict, Optional, Tuple, Type, Union
 
-import transformers
+import transformersDev
 
 from .. import PretrainedConfig, PreTrainedModel, TFPreTrainedModel, is_tf_available, is_torch_available
 from ..utils import logging
@@ -11,7 +11,7 @@ from .config import OnnxConfig
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
 if is_torch_available():
-    from transformers.models.auto import (
+    from transformersDev.models.auto import (
         AutoModel,
         AutoModelForCausalLM,
         AutoModelForImageClassification,
@@ -24,7 +24,7 @@ if is_torch_available():
         AutoModelForTokenClassification,
     )
 if is_tf_available():
-    from transformers.models.auto import (
+    from transformersDev.models.auto import (
         TFAutoModel,
         TFAutoModelForCausalLM,
         TFAutoModelForMaskedLM,

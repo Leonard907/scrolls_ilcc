@@ -96,7 +96,7 @@ class LayoutLMv3Config(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import LayoutLMv3Model, LayoutLMv3Config
+    >>> from transformersDev import LayoutLMv3Model, LayoutLMv3Config
 
     >>> # Initializing a LayoutLMv3 microsoft/layoutlmv3-base style configuration
     >>> configuration = LayoutLMv3Config()

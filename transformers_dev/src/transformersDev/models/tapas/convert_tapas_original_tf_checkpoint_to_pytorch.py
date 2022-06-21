@@ -17,7 +17,7 @@
 
 import argparse
 
-from transformers import (
+from transformersDev import (
     TapasConfig,
     TapasForMaskedLM,
     TapasForQuestionAnswering,
@@ -26,7 +26,7 @@ from transformers import (
     TapasTokenizer,
     load_tf_weights_in_tapas,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

@@ -23,7 +23,7 @@ from ...utils import logging
 
 
 if TYPE_CHECKING:
-    from transformers.pipelines.conversational import Conversation
+    from transformersDev.pipelines.conversational import Conversation
 
 
 logger = logging.get_logger(__name__)
@@ -50,7 +50,7 @@ class GPTNeoXTokenizerFast(PreTrainedTokenizerFast):
     be encoded differently whether it is at the beginning of the sentence (without space) or not:
 
     ```
-    >>> from transformers import GPTNeoXTokenizerFast
+    >>> from transformersDev import GPTNeoXTokenizerFast
     >>> tokenizer = GPTNeoXTokenizerFast.from_pretrained("gpt2")
     >>> tokenizer("Hello world")['input_ids']
     [15496, 995]

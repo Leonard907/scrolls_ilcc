@@ -14,7 +14,7 @@ from torch import nn
 
 import librosa
 from lang_trans import arabic
-from transformers import (
+from transformersDev import (
     HfArgumentParser,
     Trainer,
     TrainingArguments,

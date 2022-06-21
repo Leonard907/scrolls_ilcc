@@ -63,13 +63,13 @@ DATA2VEC_TEXT_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaEmbeddings with Roberta->Data2VecText
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaEmbeddings with Roberta->Data2VecText
 class Data2VecTextForTextEmbeddings(nn.Module):
     """
     Same as BertEmbeddings with a tiny tweak for positional embeddings indexing.
     """
 
-    # Copied from transformers.models.bert.modeling_bert.BertEmbeddings.__init__
+    # Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings.__init__
     def __init__(self, config):
         super().__init__()
         self.word_embeddings = nn.Embedding(config.vocab_size, config.hidden_size, padding_idx=config.pad_token_id)
@@ -154,7 +154,7 @@ class Data2VecTextForTextEmbeddings(nn.Module):
         return position_ids.unsqueeze(0).expand(input_shape)
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaSelfAttention with Roberta->Data2VecText
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaSelfAttention with Roberta->Data2VecText
 class Data2VecTextSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -282,7 +282,7 @@ class Data2VecTextSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput
 class Data2VecTextSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -297,7 +297,7 @@ class Data2VecTextSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Data2VecText
+# Copied from transformersDev.models.bert.modeling_bert.BertAttention with Bert->Data2VecText
 class Data2VecTextAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -347,7 +347,7 @@ class Data2VecTextAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate
 class Data2VecTextIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -363,7 +363,7 @@ class Data2VecTextIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput
 class Data2VecTextOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -378,7 +378,7 @@ class Data2VecTextOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLayer with Bert->Data2VecText
+# Copied from transformersDev.models.bert.modeling_bert.BertLayer with Bert->Data2VecText
 class Data2VecTextLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -465,7 +465,7 @@ class Data2VecTextLayer(nn.Module):
         return layer_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEncoder with Bert->Data2VecText
+# Copied from transformersDev.models.bert.modeling_bert.BertEncoder with Bert->Data2VecText
 class Data2VecTextEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -563,7 +563,7 @@ class Data2VecTextEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler
 class Data2VecTextPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -745,7 +745,7 @@ class Data2VecTextModel(Data2VecTextPreTrainedModel):
         output_type=BaseModelOutputWithPoolingAndCrossAttentions,
         config_class=_CONFIG_FOR_DOC,
     )
-    # Copied from transformers.models.bert.modeling_bert.BertModel.forward
+    # Copied from transformersDev.models.bert.modeling_bert.BertModel.forward
     def forward(
         self,
         input_ids: Optional[torch.Tensor] = None,
@@ -954,7 +954,7 @@ class Data2VecTextForCausalLM(Data2VecTextPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import Data2VecTextTokenizer, Data2VecTextForCausalLM, Data2VecTextConfig
+        >>> from transformersDev import Data2VecTextTokenizer, Data2VecTextForCausalLM, Data2VecTextConfig
         >>> import torch
 
         >>> tokenizer = Data2VecTextTokenizer.from_pretrained("facebook/data2vec-text-base")
@@ -1126,7 +1126,7 @@ class Data2VecTextForMaskedLM(Data2VecTextPreTrainedModel):
         )
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaLMHead with Roberta->Data2VecText
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaLMHead with Roberta->Data2VecText
 class Data2VecTextLMHead(nn.Module):
     """Data2VecText Head for masked language modeling."""
 
@@ -1432,7 +1432,7 @@ class Data2VecTextForTokenClassification(Data2VecTextPreTrainedModel):
         )
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaClassificationHead with Roberta->Data2VecText
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaClassificationHead with Roberta->Data2VecText
 class Data2VecTextClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
 

@@ -16,7 +16,7 @@
 from collections import OrderedDict
 from typing import Any, List, Mapping, Optional
 
-from transformers import PretrainedConfig, PreTrainedTokenizer, TensorType
+from transformersDev import PretrainedConfig, PreTrainedTokenizer, TensorType
 
 from ... import is_torch_available
 from ...onnx import OnnxConfig, PatchingSpec
@@ -82,7 +82,7 @@ class LayoutLMConfig(BertConfig):
     Examples:
 
     ```python
-    >>> from transformers import LayoutLMModel, LayoutLMConfig
+    >>> from transformersDev import LayoutLMModel, LayoutLMConfig
 
     >>> # Initializing a LayoutLM configuration
     >>> configuration = LayoutLMConfig()

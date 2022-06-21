@@ -18,8 +18,8 @@ import os
 import pickle
 import unittest
 
-from transformers import AutoTokenizer
-from transformers.models.bert_japanese.tokenization_bert_japanese import (
+from transformersDev import AutoTokenizer
+from transformersDev.models.bert_japanese.tokenization_bert_japanese import (
     VOCAB_FILES_NAMES,
     BertJapaneseTokenizer,
     BertTokenizer,
@@ -27,7 +27,7 @@ from transformers.models.bert_japanese.tokenization_bert_japanese import (
     MecabTokenizer,
     WordpieceTokenizer,
 )
-from transformers.testing_utils import custom_tokenizers
+from transformersDev.testing_utils import custom_tokenizers
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

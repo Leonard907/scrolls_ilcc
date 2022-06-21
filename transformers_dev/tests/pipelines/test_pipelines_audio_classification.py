@@ -16,9 +16,9 @@ import unittest
 
 import numpy as np
 
-from transformers import MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING
-from transformers.pipelines import AudioClassificationPipeline, pipeline
-from transformers.testing_utils import (
+from transformersDev import MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING
+from transformersDev.pipelines import AudioClassificationPipeline, pipeline
+from transformersDev.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_tf,

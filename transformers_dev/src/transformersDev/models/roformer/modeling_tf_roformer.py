@@ -308,7 +308,7 @@ class TFRoFormerSelfAttention(tf.keras.layers.Layer):
         return query_layer, key_layer
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->RoFormer
 class TFRoFormerSelfOutput(tf.keras.layers.Layer):
     def __init__(self, config: RoFormerConfig, **kwargs):
         super().__init__(**kwargs)
@@ -362,7 +362,7 @@ class TFRoFormerAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->RoFormer
 class TFRoFormerIntermediate(tf.keras.layers.Layer):
     def __init__(self, config: RoFormerConfig, **kwargs):
         super().__init__(**kwargs)
@@ -383,7 +383,7 @@ class TFRoFormerIntermediate(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertOutput with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertOutput with Bert->RoFormer
 class TFRoFormerOutput(tf.keras.layers.Layer):
     def __init__(self, config: RoFormerConfig, **kwargs):
         super().__init__(**kwargs)
@@ -560,7 +560,7 @@ class TFRoFormerLMPredictionHead(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertMLMHead with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMLMHead with Bert->RoFormer
 class TFRoFormerMLMHead(tf.keras.layers.Layer):
     def __init__(self, config: RoFormerConfig, input_embeddings: tf.keras.layers.Layer, **kwargs):
         super().__init__(**kwargs)

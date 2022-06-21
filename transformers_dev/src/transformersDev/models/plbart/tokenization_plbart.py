@@ -148,7 +148,7 @@ class PLBartTokenizer(PreTrainedTokenizer):
     Examples:
 
     ```python
-    >>> from transformers import PLBartTokenizer
+    >>> from transformersDev import PLBartTokenizer
 
     >>> tokenizer = PLBartTokenizer.from_pretrained("uclanlp/plbart-python-en_XX", src_lang="python", tgt_lang="en_XX")
     >>> example_python_phrase = "def maximum(a,b,c):NEW_LINE_INDENTreturn max([a,b,c])"

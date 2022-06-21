@@ -80,7 +80,7 @@ class OPTConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import OPTModel, OPTConfig
+    >>> from transformersDev import OPTModel, OPTConfig
 
     >>> # Initializing a OPT facebook/opt-large style configuration
     >>> configuration = OPTConfig()

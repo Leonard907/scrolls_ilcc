@@ -19,9 +19,9 @@ import json
 import os
 import unittest
 
-from transformers import AddedToken, RobertaTokenizer, RobertaTokenizerFast
-from transformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_tokenizers, slow
+from transformersDev import AddedToken, RobertaTokenizer, RobertaTokenizerFast
+from transformersDev.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

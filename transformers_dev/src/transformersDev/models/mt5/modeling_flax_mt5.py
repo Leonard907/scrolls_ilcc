@@ -27,7 +27,7 @@ _CONFIG_FOR_DOC = "T5Config"
 _TOKENIZER_FOR_DOC = "T5Tokenizer"
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_flax_bart.shift_tokens_right
 def shift_tokens_right(input_ids: np.array, pad_token_id: int, decoder_start_token_id: int) -> np.ndarray:
     """
     Shift input ids one token to the right.
@@ -48,7 +48,7 @@ class FlaxMT5Model(FlaxT5Model):
     Examples:
 
     ```python
-    >>> from transformers import FlaxMT5Model, T5Tokenizer
+    >>> from transformersDev import FlaxMT5Model, T5Tokenizer
 
     >>> model = FlaxMT5Model.from_pretrained("google/mt5-small")
     >>> tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")
@@ -75,7 +75,7 @@ class FlaxMT5ForConditionalGeneration(FlaxT5ForConditionalGeneration):
     Examples:
 
     ```python
-    >>> from transformers import FlaxMT5ForConditionalGeneration, T5Tokenizer
+    >>> from transformersDev import FlaxMT5ForConditionalGeneration, T5Tokenizer
 
     >>> model = FlaxMT5ForConditionalGeneration.from_pretrained("google/mt5-small")
     >>> tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")

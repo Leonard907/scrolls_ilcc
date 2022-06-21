@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Iterator, Union
 from unittest import mock
 
-from transformers import logging as transformers_logging
+from transformersDev import logging as transformers_logging
 
 from .deepspeed import is_deepspeed_available
 from .integrations import (
@@ -823,8 +823,8 @@ class CaptureLogger:
     Example:
 
     ```python
-    >>> from transformers import logging
-    >>> from transformers.testing_utils import CaptureLogger
+    >>> from transformersDev import logging
+    >>> from transformersDev.testing_utils import CaptureLogger
 
     >>> msg = "Testing 1, 2, 3"
     >>> logging.set_verbosity_info()
@@ -1150,7 +1150,7 @@ class TestCasePlus(unittest.TestCase):
         Example:
 
         ```
-        one_liner_str = 'from transformers import AutoModel; AutoModel.from_pretrained("t5-large")'
+        one_liner_str = 'from transformersDev import AutoModel; AutoModel.from_pretrained("t5-large")'
         max_rss = self.python_one_liner_max_rss(one_liner_str)
         ```
         """

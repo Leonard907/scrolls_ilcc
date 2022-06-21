@@ -91,7 +91,7 @@ class PLBartConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import PLBartModel, PLBartConfig
+    >>> from transformersDev import PLBartModel, PLBartConfig
 
     >>> # Initializing a PLBART uclanlp/plbart-base style configuration
     >>> configuration = PLBartConfig()

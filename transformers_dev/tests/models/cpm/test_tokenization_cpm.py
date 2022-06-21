@@ -13,8 +13,8 @@
 # limitations under the License.
 
 
-from transformers.models.cpm.tokenization_cpm import CpmTokenizer
-from transformers.testing_utils import custom_tokenizers
+from transformersDev.models.cpm.tokenization_cpm import CpmTokenizer
+from transformersDev.testing_utils import custom_tokenizers
 
 from ..xlnet.test_modeling_xlnet import XLNetModelTest
 

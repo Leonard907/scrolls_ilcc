@@ -14,8 +14,8 @@
 # limitations under the License.
 import unittest
 
-from transformers import DebertaConfig, is_torch_available
-from transformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
+from transformersDev import DebertaConfig, is_torch_available
+from transformersDev.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, ids_tensor
@@ -24,14 +24,14 @@ from ...test_modeling_common import ModelTesterMixin, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         DebertaForMaskedLM,
         DebertaForQuestionAnswering,
         DebertaForSequenceClassification,
         DebertaForTokenClassification,
         DebertaModel,
     )
-    from transformers.models.deberta.modeling_deberta import DEBERTA_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.deberta.modeling_deberta import DEBERTA_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class DebertaModelTester(object):

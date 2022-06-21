@@ -14,15 +14,15 @@
 
 import unittest
 
-from transformers import is_flax_available
-from transformers.testing_utils import require_flax, require_sentencepiece, require_tokenizers, require_torch, slow
+from transformersDev import is_flax_available
+from transformersDev.testing_utils import require_flax, require_sentencepiece, require_tokenizers, require_torch, slow
 
 
 if is_flax_available():
     import optax
     from flax.training.common_utils import onehot
-    from transformers import AutoTokenizer, FlaxMT5ForConditionalGeneration
-    from transformers.models.t5.modeling_flax_t5 import shift_tokens_right
+    from transformersDev import AutoTokenizer, FlaxMT5ForConditionalGeneration
+    from transformersDev.models.t5.modeling_flax_t5 import shift_tokens_right
 
 
 @require_torch

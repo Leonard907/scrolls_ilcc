@@ -208,7 +208,7 @@ class TFSwinImageClassifierOutput(ModelOutput):
     reshaped_hidden_states: Optional[Tuple[tf.Tensor]] = None
 
 
-# Copied from transformers.models.vit.modeling_tf_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_tf_vit.to_2tuple
 def to_2tuple(x) -> Tuple[Any, Any]:
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -1313,7 +1313,7 @@ class TFSwinForMaskedImageModeling(TFSwinPreTrainedModel):
 
         Examples:
         ```python
-        >>> from transformers import AutoFeatureExtractor, TFSwinForMaskedImageModeling
+        >>> from transformersDev import AutoFeatureExtractor, TFSwinForMaskedImageModeling
         >>> import tensorflow as tf
         >>> from PIL import Image
         >>> import requests

@@ -18,8 +18,8 @@ import argparse
 
 import torch
 
-from transformers import BlenderbotConfig, BlenderbotForConditionalGeneration
-from transformers.utils import logging
+from transformersDev import BlenderbotConfig, BlenderbotForConditionalGeneration
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

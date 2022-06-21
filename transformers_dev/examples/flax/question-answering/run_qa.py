@@ -38,13 +38,13 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import optax
-import transformers
+import transformersDev
 from flax import struct, traverse_util
 from flax.jax_utils import replicate, unreplicate
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard
 from huggingface_hub import Repository
-from transformers import (
+from transformersDev import (
     AutoConfig,
     AutoTokenizer,
     EvalPrediction,
@@ -53,7 +53,7 @@ from transformers import (
     PreTrainedTokenizerFast,
     is_tensorboard_available,
 )
-from transformers.utils import check_min_version, get_full_repo_name, send_example_telemetry
+from transformersDev.utils import check_min_version, get_full_repo_name, send_example_telemetry
 from utils_qa import postprocess_qa_predictions
 
 
@@ -441,10 +441,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
     # endregion
 
     # Handle the repository creation

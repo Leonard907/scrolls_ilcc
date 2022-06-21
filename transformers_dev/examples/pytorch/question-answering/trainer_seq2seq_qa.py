@@ -19,8 +19,8 @@ from typing import Dict, List, Optional
 
 from torch.utils.data import Dataset
 
-from transformers import Seq2SeqTrainer, is_torch_tpu_available
-from transformers.trainer_utils import PredictionOutput
+from transformersDev import Seq2SeqTrainer, is_torch_tpu_available
+from transformersDev.trainer_utils import PredictionOutput
 
 
 if is_torch_tpu_available():

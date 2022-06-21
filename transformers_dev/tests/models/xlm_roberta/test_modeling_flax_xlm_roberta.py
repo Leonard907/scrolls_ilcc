@@ -16,13 +16,13 @@
 
 import unittest
 
-from transformers import AutoTokenizer, is_flax_available
-from transformers.testing_utils import require_flax, require_sentencepiece, require_tokenizers, slow
+from transformersDev import AutoTokenizer, is_flax_available
+from transformersDev.testing_utils import require_flax, require_sentencepiece, require_tokenizers, slow
 
 
 if is_flax_available():
     import jax.numpy as jnp
-    from transformers import FlaxXLMRobertaModel
+    from transformersDev import FlaxXLMRobertaModel
 
 
 @require_sentencepiece

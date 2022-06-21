@@ -1071,7 +1071,7 @@ class GenerationMixin:
         Greedy Decoding:
 
         ```python
-        >>> from transformers import AutoTokenizer, AutoModelForCausalLM
+        >>> from transformersDev import AutoTokenizer, AutoModelForCausalLM
 
         >>> tokenizer = AutoTokenizer.from_pretrained("gpt2")
         >>> model = AutoModelForCausalLM.from_pretrained("gpt2")
@@ -1088,7 +1088,7 @@ class GenerationMixin:
         Multinomial Sampling:
 
         ```python
-        >>> from transformers import AutoTokenizer, AutoModelForCausalLM
+        >>> from transformersDev import AutoTokenizer, AutoModelForCausalLM
         >>> import torch
 
         >>> tokenizer = AutoTokenizer.from_pretrained("gpt2")
@@ -1107,7 +1107,7 @@ class GenerationMixin:
         Beam-search decoding:
 
         ```python
-        >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+        >>> from transformersDev import AutoTokenizer, AutoModelForSeq2SeqLM
 
         >>> tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-de")
         >>> model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-de")
@@ -1592,7 +1592,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForCausalLM,
         ...     LogitsProcessorList,
@@ -1829,7 +1829,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForCausalLM,
         ...     LogitsProcessorList,
@@ -2086,7 +2086,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForSeq2SeqLM,
         ...     LogitsProcessorList,
@@ -2398,7 +2398,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForSeq2SeqLM,
         ...     LogitsProcessorList,
@@ -2712,7 +2712,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForSeq2SeqLM,
         ...     LogitsProcessorList,
@@ -3080,7 +3080,7 @@ class GenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     AutoModelForSeq2SeqLM,
         ...     LogitsProcessorList,

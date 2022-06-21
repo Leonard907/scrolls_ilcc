@@ -6,7 +6,7 @@ from typing import Dict
 import torch
 from datasets import Audio, Dataset, load_dataset, load_metric
 
-from transformers import AutoFeatureExtractor, pipeline
+from transformersDev import AutoFeatureExtractor, pipeline
 
 
 def log_results(result: Dataset, args: Dict[str, str]):

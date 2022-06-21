@@ -164,7 +164,7 @@ class UniSpeechConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import UniSpeechModel, UniSpeechConfig
+    >>> from transformersDev import UniSpeechModel, UniSpeechConfig
 
     >>> # Initializing a UniSpeech facebook/unispeech-base-960h style configuration
     >>> configuration = UniSpeechConfig()

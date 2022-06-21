@@ -22,7 +22,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import numpy as np
 import tensorflow as tf
 
-from transformers.tf_utils import shape_list, stable_softmax
+from transformersDev.tf_utils import shape_list, stable_softmax
 
 from ...activations_tf import get_tf_activation
 from ...modeling_tf_outputs import (
@@ -406,7 +406,7 @@ class TFData2VecVisionAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_tf_vit.TFViTIntermediate with ViT->Data2VecVision
+# Copied from transformersDev.models.vit.modeling_tf_vit.TFViTIntermediate with ViT->Data2VecVision
 class TFData2VecVisionIntermediate(tf.keras.layers.Layer):
     def __init__(self, config: Data2VecVisionConfig, **kwargs):
         super().__init__(**kwargs)
@@ -1373,7 +1373,7 @@ class TFData2VecVisionForSemanticSegmentation(TFData2VecVisionPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoFeatureExtractor, TFData2VecVisionForSemanticSegmentation
+        >>> from transformersDev import AutoFeatureExtractor, TFData2VecVisionForSemanticSegmentation
         >>> from PIL import Image
         >>> import requests
 

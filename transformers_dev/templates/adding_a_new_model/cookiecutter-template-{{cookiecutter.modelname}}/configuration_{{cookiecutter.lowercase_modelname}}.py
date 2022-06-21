@@ -120,7 +120,7 @@ class {{cookiecutter.camelcase_modelname}}Config(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import {{cookiecutter.camelcase_modelname}}Model, {{cookiecutter.camelcase_modelname}}Config
+    >>> from transformersDev import {{cookiecutter.camelcase_modelname}}Model, {{cookiecutter.camelcase_modelname}}Config
 
     >>> # Initializing a {{cookiecutter.modelname}} {{cookiecutter.checkpoint_identifier}} style configuration
     >>> configuration = {{cookiecutter.camelcase_modelname}}Config()

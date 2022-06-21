@@ -87,21 +87,21 @@ class CopyCheckTester(unittest.TestCase):
     def test_is_copy_consistent(self):
         # Base copy consistency
         self.check_copy_consistency(
-            "# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead",
+            "# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead",
             "BertLMPredictionHead",
             REFERENCE_CODE + "\n",
         )
 
         # With no empty line at the end
         self.check_copy_consistency(
-            "# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead",
+            "# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead",
             "BertLMPredictionHead",
             REFERENCE_CODE,
         )
 
         # Copy consistency with rename
         self.check_copy_consistency(
-            "# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->TestModel",
+            "# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->TestModel",
             "TestModelLMPredictionHead",
             re.sub("Bert", "TestModel", REFERENCE_CODE),
         )
@@ -109,14 +109,14 @@ class CopyCheckTester(unittest.TestCase):
         # Copy consistency with a really long name
         long_class_name = "TestModelWithAReallyLongNameBecauseSomePeopleLikeThatForSomeReason"
         self.check_copy_consistency(
-            f"# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->{long_class_name}",
+            f"# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->{long_class_name}",
             f"{long_class_name}LMPredictionHead",
             re.sub("Bert", long_class_name, REFERENCE_CODE),
         )
 
         # Copy consistency with overwrite
         self.check_copy_consistency(
-            "# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->TestModel",
+            "# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->TestModel",
             "TestModelLMPredictionHead",
             REFERENCE_CODE,
             overwrite_result=re.sub("Bert", "TestModel", REFERENCE_CODE),

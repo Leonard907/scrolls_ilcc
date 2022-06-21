@@ -33,7 +33,7 @@ class TFMT5Model(TFT5Model):
     Examples:
 
     ```python
-    >>> from transformers import TFMT5Model, T5Tokenizer
+    >>> from transformersDev import TFMT5Model, T5Tokenizer
 
     >>> model = TFMT5Model.from_pretrained("google/mt5-small")
     >>> tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")
@@ -58,7 +58,7 @@ class TFMT5ForConditionalGeneration(TFT5ForConditionalGeneration):
     Examples:
 
     ```python
-    >>> from transformers import TFMT5ForConditionalGeneration, T5Tokenizer
+    >>> from transformersDev import TFMT5ForConditionalGeneration, T5Tokenizer
 
     >>> model = TFMT5ForConditionalGeneration.from_pretrained("google/mt5-small")
     >>> tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")
@@ -84,7 +84,7 @@ class TFMT5EncoderModel(TFT5EncoderModel):
     Examples:
 
     ```python
-    >>> from transformers import TFMT5EncoderModel, T5Tokenizer
+    >>> from transformersDev import TFMT5EncoderModel, T5Tokenizer
 
     >>> model = TFMT5EncoderModel.from_pretrained("google/mt5-small")
     >>> tokenizer = T5Tokenizer.from_pretrained("google/mt5-small")

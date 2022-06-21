@@ -298,7 +298,7 @@ class TFEncoderDecoderModel(TFPreTrainedModel, TFCausalLanguageModelingLoss):
 
         ```python
         >>> # a workaround to load from pytorch checkpoint
-        >>> from transformers import EncoderDecoderModel, TFEncoderDecoderModel
+        >>> from transformersDev import EncoderDecoderModel, TFEncoderDecoderModel
 
         >>> _model = EncoderDecoderModel.from_pretrained("patrickvonplaten/bert2bert-cnn_dailymail-fp16")
         >>> _model.encoder.save_pretrained("./encoder")
@@ -313,7 +313,7 @@ class TFEncoderDecoderModel(TFPreTrainedModel, TFCausalLanguageModelingLoss):
         Example:
 
         ```python
-        >>> from transformers import TFEncoderDecoderModel
+        >>> from transformersDev import TFEncoderDecoderModel
 
         >>> model = TFEncoderDecoderModel.from_pretrained("ydshieh/bert2bert-cnn_dailymail-fp16")
         ```"""
@@ -381,7 +381,7 @@ class TFEncoderDecoderModel(TFPreTrainedModel, TFCausalLanguageModelingLoss):
         Example:
 
         ```python
-        >>> from transformers import TFEncoderDecoderModel
+        >>> from transformersDev import TFEncoderDecoderModel
 
         >>> # initialize a bert2gpt2 from two pretrained BERT models. Note that the cross-attention layers will be randomly initialized
         >>> model = TFEncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-uncased", "gpt2")
@@ -519,7 +519,7 @@ class TFEncoderDecoderModel(TFPreTrainedModel, TFCausalLanguageModelingLoss):
         Examples:
 
         ```python
-        >>> from transformers import TFEncoderDecoderModel, BertTokenizer
+        >>> from transformersDev import TFEncoderDecoderModel, BertTokenizer
 
         >>> # initialize a bert2gpt2 from a pretrained BERT and GPT2 models. Note that the cross-attention layers will be randomly initialized
         >>> model = TFEncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-cased", "gpt2")

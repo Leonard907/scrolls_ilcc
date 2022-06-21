@@ -85,7 +85,7 @@ class ConvBertConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import ConvBertModel, ConvBertConfig
+    >>> from transformersDev import ConvBertModel, ConvBertConfig
 
     >>> # Initializing a ConvBERT convbert-base-uncased style configuration
     >>> configuration = ConvBertConfig()
@@ -148,7 +148,7 @@ class ConvBertConfig(PretrainedConfig):
         self.classifier_dropout = classifier_dropout
 
 
-# Copied from transformers.models.bert.configuration_bert.BertOnnxConfig
+# Copied from transformersDev.models.bert.configuration_bert.BertOnnxConfig
 class ConvBertOnnxConfig(OnnxConfig):
     @property
     def inputs(self) -> Mapping[str, Mapping[int, str]]:

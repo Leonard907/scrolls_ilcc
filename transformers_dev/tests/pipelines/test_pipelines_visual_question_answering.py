@@ -14,9 +14,9 @@
 
 import unittest
 
-from transformers import MODEL_FOR_VISUAL_QUESTION_ANSWERING_MAPPING, is_vision_available
-from transformers.pipelines import pipeline
-from transformers.testing_utils import (
+from transformersDev import MODEL_FOR_VISUAL_QUESTION_ANSWERING_MAPPING, is_vision_available
+from transformersDev.pipelines import pipeline
+from transformersDev.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_tf,

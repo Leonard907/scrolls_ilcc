@@ -25,8 +25,8 @@ import numpy as np
 from seqeval.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch import nn
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoModelForTokenClassification,
     AutoTokenizer,
@@ -37,7 +37,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from transformers.trainer_utils import is_main_process
+from transformersDev.trainer_utils import is_main_process
 from utils_ner import Split, TokenClassificationDataset, TokenClassificationTask
 
 
@@ -148,9 +148,9 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        transformersDev.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.enable_default_handler()
+        transformersDev.utils.logging.enable_explicit_format()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed

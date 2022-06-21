@@ -25,10 +25,10 @@ import numpy as np
 import torch
 
 import onnxruntime
-import transformers
+import transformersDev
 from bart_onnx.generation_onnx import BARTBeamSearchGenerator
 from bart_onnx.reduce_onnx_size import remove_dup_initializers
-from transformers import BartForConditionalGeneration, BartTokenizer
+from transformersDev import BartForConditionalGeneration, BartTokenizer
 
 
 logging.basicConfig(
@@ -177,7 +177,7 @@ def main():
     )
 
     logger.setLevel(logging.INFO)
-    transformers.utils.logging.set_verbosity_error()
+    transformersDev.utils.logging.set_verbosity_error()
 
     device = torch.device(args.device)
 

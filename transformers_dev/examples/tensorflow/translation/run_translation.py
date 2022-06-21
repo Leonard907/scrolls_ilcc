@@ -31,8 +31,8 @@ import tensorflow as tf
 from datasets import load_dataset, load_metric
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoTokenizer,
     HfArgumentParser,
@@ -46,9 +46,9 @@ from transformers import (
     create_optimizer,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from transformersDev.trainer_utils import get_last_checkpoint
+from transformersDev.utils import check_min_version, send_example_telemetry
+from transformersDev.utils.versions import require_version
 
 
 # region Dependencies and constants
@@ -332,7 +332,7 @@ def main():
     )
     logger.setLevel(logging.INFO)
     datasets.utils.logging.set_verbosity(logging.INFO)
-    transformers.utils.logging.set_verbosity(logging.INFO)
+    transformersDev.utils.logging.set_verbosity(logging.INFO)
 
     # Log on each process the small summary:
     logger.info(f"Training/evaluation parameters {training_args}")

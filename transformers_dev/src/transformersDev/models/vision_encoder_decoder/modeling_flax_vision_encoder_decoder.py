@@ -409,7 +409,7 @@ class FlaxVisionEncoderDecoderModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ViTFeatureExtractor, FlaxVisionEncoderDecoderModel
+        >>> from transformersDev import ViTFeatureExtractor, FlaxVisionEncoderDecoderModel
         >>> from PIL import Image
         >>> import requests
 
@@ -487,7 +487,7 @@ class FlaxVisionEncoderDecoderModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ViTFeatureExtractor, FlaxVisionEncoderDecoderModel
+        >>> from transformersDev import ViTFeatureExtractor, FlaxVisionEncoderDecoderModel
         >>> import jax.numpy as jnp
         >>> from PIL import Image
         >>> import requests
@@ -617,7 +617,7 @@ class FlaxVisionEncoderDecoderModel(FlaxPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import FlaxVisionEncoderDecoderModel, ViTFeatureExtractor, GPT2Tokenizer
+        >>> from transformersDev import FlaxVisionEncoderDecoderModel, ViTFeatureExtractor, GPT2Tokenizer
         >>> from PIL import Image
         >>> import requests
 
@@ -767,7 +767,7 @@ class FlaxVisionEncoderDecoderModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import FlaxVisionEncoderDecoderModel
+        >>> from transformersDev import FlaxVisionEncoderDecoderModel
 
         >>> # initialize a vit-gpt2 from a pretrained ViT and a pretrained GPT2 model. Note that the cross-attention layers will be randomly initialized
         >>> model = FlaxVisionEncoderDecoderModel.from_encoder_decoder_pretrained(

@@ -23,7 +23,7 @@ from typing import Tuple
 from tqdm import tqdm
 
 import yaml
-from transformers.models.marian.convert_marian_to_pytorch import (
+from transformersDev.models.marian.convert_marian_to_pytorch import (
     FRONT_MATTER_TEMPLATE,
     convert,
     convert_opus_name_to_hf_name,

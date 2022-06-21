@@ -543,7 +543,7 @@ class Wav2Vec2CTCTokenizer(PreTrainedTokenizer):
 
         ```python
         >>> # Let's see how to retrieve time steps for a model
-        >>> from transformers import AutoTokenizer, AutoFeatureExtractor, AutoModelForCTC
+        >>> from transformersDev import AutoTokenizer, AutoFeatureExtractor, AutoModelForCTC
         >>> from datasets import load_dataset
         >>> import datasets
         >>> import torch

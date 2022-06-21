@@ -17,8 +17,8 @@ import unittest
 from pathlib import Path
 from shutil import copyfile
 
-from transformers import M2M100Tokenizer, is_torch_available
-from transformers.testing_utils import (
+from transformersDev import M2M100Tokenizer, is_torch_available
+from transformersDev.testing_utils import (
     get_tests_dir,
     nested_simplify,
     require_sentencepiece,
@@ -26,11 +26,11 @@ from transformers.testing_utils import (
     require_torch,
     slow,
 )
-from transformers.utils import is_sentencepiece_available
+from transformersDev.utils import is_sentencepiece_available
 
 
 if is_sentencepiece_available():
-    from transformers.models.m2m_100.tokenization_m2m_100 import save_json, VOCAB_FILES_NAMES
+    from transformersDev.models.m2m_100.tokenization_m2m_100 import save_json, VOCAB_FILES_NAMES
 
 from ...test_tokenization_common import TokenizerTesterMixin
 
@@ -40,7 +40,7 @@ if is_sentencepiece_available():
 
 
 if is_torch_available():
-    from transformers.models.m2m_100.modeling_m2m_100 import shift_tokens_right
+    from transformersDev.models.m2m_100.modeling_m2m_100 import shift_tokens_right
 
 EN_CODE = 128022
 FR_CODE = 128028

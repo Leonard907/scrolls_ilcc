@@ -7,7 +7,7 @@ from torch.utils.data.dataloader import DataLoader
 
 from accelerate import Accelerator
 from arguments import EvaluationArguments
-from transformers import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser, set_seed
+from transformersDev import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser, set_seed
 
 
 class ConstantLengthDataset(IterableDataset):

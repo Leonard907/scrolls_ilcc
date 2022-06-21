@@ -19,10 +19,10 @@ import unittest
 from datasets import load_dataset
 from packaging import version
 
-from transformers import ViltConfig, is_torch_available, is_vision_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property
+from transformersDev import ViltConfig, is_torch_available, is_vision_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -31,7 +31,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         MODEL_MAPPING,
         ViltForImageAndTextRetrieval,
         ViltForImagesAndTextClassification,
@@ -39,13 +39,13 @@ if is_torch_available():
         ViltForQuestionAnswering,
         ViltModel,
     )
-    from transformers.models.vilt.modeling_vilt import VILT_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.vilt.modeling_vilt import VILT_PRETRAINED_MODEL_ARCHIVE_LIST
 
 if is_vision_available():
     import PIL
     from PIL import Image
 
-    from transformers import ViltProcessor
+    from transformersDev import ViltProcessor
 
 
 class ViltModelTester:

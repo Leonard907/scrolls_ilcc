@@ -137,7 +137,7 @@ class XLMConfig(PretrainedConfig):
     Examples:
 
     ```python
-    >>> from transformers import XLMConfig, XLMModel
+    >>> from transformersDev import XLMConfig, XLMModel
 
     >>> # Initializing a XLM configuration
     >>> configuration = XLMConfig()
@@ -233,7 +233,7 @@ class XLMConfig(PretrainedConfig):
         super().__init__(pad_token_id=pad_token_id, bos_token_id=bos_token_id, **kwargs)
 
 
-# Copied from transformers.models.bert.configuration_bert.BertOnnxConfig
+# Copied from transformersDev.models.bert.configuration_bert.BertOnnxConfig
 class XLMOnnxConfig(OnnxConfig):
     @property
     def inputs(self) -> Mapping[str, Mapping[int, str]]:

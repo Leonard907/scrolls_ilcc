@@ -21,12 +21,12 @@ from typing import List, Tuple
 
 import numpy as np
 
-import transformers
+import transformersDev
 from huggingface_hub import delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import BertConfig, is_flax_available, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+from transformersDev import BertConfig, is_flax_available, is_torch_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import (
     PASS,
     USER,
     CaptureLogger,
@@ -35,7 +35,7 @@ from transformers.testing_utils import (
     require_flax,
     torch_device,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 if is_flax_available():
@@ -45,7 +45,7 @@ if is_flax_available():
     import jax.numpy as jnp
     from flax.core.frozen_dict import FrozenDict, freeze, unfreeze
     from flax.traverse_util import flatten_dict, unflatten_dict
-    from transformers import (
+    from transformersDev import (
         FLAX_MODEL_FOR_QUESTION_ANSWERING_MAPPING,
         FLAX_MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
         FLAX_MODEL_MAPPING,
@@ -53,7 +53,7 @@ if is_flax_available():
         FlaxAutoModelForSequenceClassification,
         FlaxBertModel,
     )
-    from transformers.modeling_flax_pytorch_utils import (
+    from transformersDev.modeling_flax_pytorch_utils import (
         convert_pytorch_state_dict_to_flax,
         load_flax_weights_in_pytorch_model,
     )

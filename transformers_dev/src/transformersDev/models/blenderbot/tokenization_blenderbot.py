@@ -21,7 +21,7 @@ from ..roberta.tokenization_roberta import RobertaTokenizer
 
 
 if TYPE_CHECKING:
-    from transformers.pipelines.conversational import Conversation
+    from transformersDev.pipelines.conversational import Conversation
 
 logger = logging.get_logger(__name__)
 

@@ -15,15 +15,15 @@
 
 import unittest
 
-from transformers import is_tf_available
-from transformers.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
+from transformersDev import is_tf_available
+from transformersDev.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
 
 
 if is_tf_available():
     import numpy as np
     import tensorflow as tf
 
-    from transformers import TFCamembertModel
+    from transformersDev import TFCamembertModel
 
 
 @require_tf

@@ -28,11 +28,11 @@ from datasets import DatasetDict, concatenate_datasets, load_dataset
 from torch.utils.data.dataloader import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
+import transformersDev
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from huggingface_hub import Repository
-from transformers import (
+from transformersDev import (
     AdamW,
     SchedulerType,
     Wav2Vec2Config,
@@ -42,8 +42,8 @@ from transformers import (
     is_wandb_available,
     set_seed,
 )
-from transformers.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices, _sample_negative_indices
-from transformers.utils import get_full_repo_name, send_example_telemetry
+from transformersDev.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices, _sample_negative_indices
+from transformersDev.utils import get_full_repo_name, send_example_telemetry
 
 
 logger = get_logger(__name__)
@@ -372,7 +372,7 @@ def main():
     logger.info(accelerator.state, main_process_only=False)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
 
         # set up weights and biases if available
         if is_wandb_available():
@@ -381,7 +381,7 @@ def main():
             wandb.init(project=args.output_dir.split("/")[-1])
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

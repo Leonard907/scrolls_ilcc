@@ -21,8 +21,8 @@ from typing import Tuple
 from unittest.mock import patch
 
 from parameterized import parameterized
-from transformers import AutoModel
-from transformers.testing_utils import (
+from transformersDev import AutoModel
+from transformersDev.testing_utils import (
     CaptureStderr,
     ExtendSysPath,
     TestCasePlus,
@@ -38,8 +38,8 @@ from transformers.testing_utils import (
     require_torch_non_multi_gpu,
     slow,
 )
-from transformers.trainer_callback import TrainerState
-from transformers.trainer_utils import set_seed
+from transformersDev.trainer_callback import TrainerState
+from transformersDev.trainer_utils import set_seed
 
 
 bindir = os.path.abspath(os.path.dirname(__file__))
@@ -204,7 +204,7 @@ class TestTrainerExt(TestCasePlus):
     @slow
     @require_bitsandbytes
     def test_run_seq2seq_bnb(self):
-        from transformers.training_args import OptimizerNames
+        from transformersDev.training_args import OptimizerNames
 
         def train_and_return_metrics(optim: str) -> Tuple[int, float]:
             from pathlib import Path

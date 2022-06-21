@@ -4,9 +4,9 @@ from typing import Optional, Union
 
 import numpy as np
 
-from transformers.data.data_collator import DataCollatorMixin
-from transformers.file_utils import PaddingStrategy
-from transformers.tokenization_utils_base import PreTrainedTokenizerBase
+from transformersDev.data.data_collator import DataCollatorMixin
+from transformersDev.file_utils import PaddingStrategy
+from transformersDev.tokenization_utils_base import PreTrainedTokenizerBase
 
 
 def padding_tensor(sequences, padding_value, padding_side, sequence_length):

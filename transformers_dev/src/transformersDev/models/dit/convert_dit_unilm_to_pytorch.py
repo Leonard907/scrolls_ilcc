@@ -24,8 +24,8 @@ from PIL import Image
 
 import requests
 from huggingface_hub import hf_hub_download
-from transformers import BeitConfig, BeitFeatureExtractor, BeitForImageClassification, BeitForMaskedImageModeling
-from transformers.utils import logging
+from transformersDev import BeitConfig, BeitFeatureExtractor, BeitForImageClassification, BeitForMaskedImageModeling
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

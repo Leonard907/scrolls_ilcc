@@ -18,8 +18,8 @@
 import os
 import unittest
 
-from transformers import MobileBertTokenizer, MobileBertTokenizerFast
-from transformers.models.bert.tokenization_bert import (
+from transformersDev import MobileBertTokenizer, MobileBertTokenizerFast
+from transformersDev.models.bert.tokenization_bert import (
     VOCAB_FILES_NAMES,
     BasicTokenizer,
     WordpieceTokenizer,
@@ -27,12 +27,12 @@ from transformers.models.bert.tokenization_bert import (
     _is_punctuation,
     _is_whitespace,
 )
-from transformers.testing_utils import require_tokenizers, slow
+from transformersDev.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, filter_non_english
 
 
-# Copied from transformers.tests.models.bert.test_modeling_bert.py with Bert->MobileBert and pathfix
+# Copied from transformersDev.tests.models.bert.test_modeling_bert.py with Bert->MobileBert and pathfix
 @require_tokenizers
 class MobileBERTTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
 

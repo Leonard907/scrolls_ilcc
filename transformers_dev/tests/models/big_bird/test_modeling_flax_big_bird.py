@@ -16,15 +16,15 @@ import unittest
 
 import numpy as np
 
-from transformers import BigBirdConfig, is_flax_available
-from transformers.testing_utils import require_flax, slow
+from transformersDev import BigBirdConfig, is_flax_available
+from transformersDev.testing_utils import require_flax, slow
 
 from ...test_modeling_flax_common import FlaxModelTesterMixin, ids_tensor, random_attention_mask
 
 
 if is_flax_available():
     import jax
-    from transformers.models.big_bird.modeling_flax_big_bird import (
+    from transformersDev.models.big_bird.modeling_flax_big_bird import (
         FlaxBigBirdForCausalLM,
         FlaxBigBirdForMaskedLM,
         FlaxBigBirdForMultipleChoice,

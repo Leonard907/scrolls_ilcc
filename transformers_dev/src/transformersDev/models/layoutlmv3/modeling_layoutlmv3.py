@@ -23,15 +23,15 @@ import torch.nn.functional as F
 import torch.utils.checkpoint
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
-from transformers import apply_chunking_to_forward
-from transformers.modeling_outputs import (
+from transformersDev import apply_chunking_to_forward
+from transformersDev.modeling_outputs import (
     BaseModelOutput,
     QuestionAnsweringModelOutput,
     SequenceClassifierOutput,
     TokenClassifierOutput,
 )
-from transformers.modeling_utils import PreTrainedModel
-from transformers.utils import logging
+from transformersDev.modeling_utils import PreTrainedModel
+from transformersDev.utils import logging
 
 from ...activations import ACT2FN
 from ...utils import add_start_docstrings, add_start_docstrings_to_model_forward, replace_return_docstrings
@@ -386,7 +386,7 @@ class LayoutLMv3SelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaSelfOutput
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaSelfOutput
 class LayoutLMv3SelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -401,7 +401,7 @@ class LayoutLMv3SelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.layoutlmv2.modeling_layoutlmv2.LayoutLMv2Attention with LayoutLMv2->LayoutLMv3
+# Copied from transformersDev.models.layoutlmv2.modeling_layoutlmv2.LayoutLMv2Attention with LayoutLMv2->LayoutLMv3
 class LayoutLMv3Attention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -430,7 +430,7 @@ class LayoutLMv3Attention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.layoutlmv2.modeling_layoutlmv2.LayoutLMv2Layer with LayoutLMv2->LayoutLMv3
+# Copied from transformersDev.models.layoutlmv2.modeling_layoutlmv2.LayoutLMv2Layer with LayoutLMv2->LayoutLMv3
 class LayoutLMv3Layer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -637,7 +637,7 @@ class LayoutLMv3Encoder(nn.Module):
         )
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaIntermediate
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaIntermediate
 class LayoutLMv3Intermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -653,7 +653,7 @@ class LayoutLMv3Intermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaOutput
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaOutput
 class LayoutLMv3Output(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -785,7 +785,7 @@ class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoProcessor, AutoModel
+        >>> from transformersDev import AutoProcessor, AutoModel
         >>> from datasets import load_dataset
 
         >>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv3-base", apply_ocr=False)
@@ -999,7 +999,7 @@ class LayoutLMv3ForTokenClassification(LayoutLMv3PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoProcessor, AutoModelForTokenClassification
+        >>> from transformersDev import AutoProcessor, AutoModelForTokenClassification
         >>> from datasets import load_dataset
 
         >>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv3-base", apply_ocr=False)
@@ -1115,7 +1115,7 @@ class LayoutLMv3ForQuestionAnswering(LayoutLMv3PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoProcessor, AutoModelForQuestionAnswering
+        >>> from transformersDev import AutoProcessor, AutoModelForQuestionAnswering
         >>> from datasets import load_dataset
         >>> import torch
 
@@ -1235,7 +1235,7 @@ class LayoutLMv3ForSequenceClassification(LayoutLMv3PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoProcessor, AutoModelForSequenceClassification
+        >>> from transformersDev import AutoProcessor, AutoModelForSequenceClassification
         >>> from datasets import load_dataset
         >>> import torch
 

@@ -46,7 +46,7 @@ if is_scipy_available():
     from scipy.optimize import linear_sum_assignment
 
 if is_vision_available():
-    from transformers.models.detr.feature_extraction_detr import center_to_corners_format
+    from transformersDev.models.detr.feature_extraction_detr import center_to_corners_format
 
 
 logger = logging.get_logger(__name__)
@@ -111,7 +111,7 @@ class YolosObjectDetectionOutput(ModelOutput):
     attentions: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -258,7 +258,7 @@ class PatchEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfAttention with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfAttention with ViT->Yolos
 class YolosSelfAttention(nn.Module):
     def __init__(self, config: YolosConfig) -> None:
         super().__init__()
@@ -319,7 +319,7 @@ class YolosSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfOutput with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfOutput with ViT->Yolos
 class YolosSelfOutput(nn.Module):
     """
     The residual connection is defined in YolosLayer instead of here (as is the case with other models), due to the
@@ -339,7 +339,7 @@ class YolosSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTAttention with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTAttention with ViT->Yolos
 class YolosAttention(nn.Module):
     def __init__(self, config: YolosConfig) -> None:
         super().__init__()
@@ -379,7 +379,7 @@ class YolosAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTIntermediate with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTIntermediate with ViT->Yolos
 class YolosIntermediate(nn.Module):
     def __init__(self, config: YolosConfig) -> None:
         super().__init__()
@@ -397,7 +397,7 @@ class YolosIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTOutput with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTOutput with ViT->Yolos
 class YolosOutput(nn.Module):
     def __init__(self, config: YolosConfig) -> None:
         super().__init__()
@@ -413,7 +413,7 @@ class YolosOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTLayer with ViT->Yolos
+# Copied from transformersDev.models.vit.modeling_vit.ViTLayer with ViT->Yolos
 class YolosLayer(nn.Module):
     """This corresponds to the Block class in the timm implementation."""
 
@@ -764,7 +764,7 @@ class YolosForObjectDetection(YolosPreTrainedModel):
 
         Examples:
         ```python
-        >>> from transformers import YolosFeatureExtractor, YolosForObjectDetection
+        >>> from transformersDev import YolosFeatureExtractor, YolosForObjectDetection
         >>> from PIL import Image
         >>> import requests
 
@@ -857,7 +857,7 @@ class YolosForObjectDetection(YolosPreTrainedModel):
         )
 
 
-# Copied from transformers.models.detr.modeling_detr.dice_loss
+# Copied from transformersDev.models.detr.modeling_detr.dice_loss
 def dice_loss(inputs, targets, num_boxes):
     """
     Compute the DICE loss, similar to generalized IOU for masks
@@ -877,7 +877,7 @@ def dice_loss(inputs, targets, num_boxes):
     return loss.sum() / num_boxes
 
 
-# Copied from transformers.models.detr.modeling_detr.sigmoid_focal_loss
+# Copied from transformersDev.models.detr.modeling_detr.sigmoid_focal_loss
 def sigmoid_focal_loss(inputs, targets, num_boxes, alpha: float = 0.25, gamma: float = 2):
     """
     Loss used in RetinaNet for dense detection: https://arxiv.org/abs/1708.02002.
@@ -908,7 +908,7 @@ def sigmoid_focal_loss(inputs, targets, num_boxes, alpha: float = 0.25, gamma: f
     return loss.mean(1).sum() / num_boxes
 
 
-# Copied from transformers.models.detr.modeling_detr.DetrLoss with Detr->Yolos
+# Copied from transformersDev.models.detr.modeling_detr.DetrLoss with Detr->Yolos
 class YolosLoss(nn.Module):
     """
     This class computes the losses for YolosForObjectDetection/YolosForSegmentation. The process happens in two steps:
@@ -1107,7 +1107,7 @@ class YolosLoss(nn.Module):
         return losses
 
 
-# Copied from transformers.models.detr.modeling_detr.DetrMLPPredictionHead with Detr->Yolos
+# Copied from transformersDev.models.detr.modeling_detr.DetrMLPPredictionHead with Detr->Yolos
 class YolosMLPPredictionHead(nn.Module):
     """
     Very simple multi-layer perceptron (MLP, also called FFN), used to predict the normalized center coordinates,
@@ -1129,7 +1129,7 @@ class YolosMLPPredictionHead(nn.Module):
         return x
 
 
-# Copied from transformers.models.detr.modeling_detr.DetrHungarianMatcher with Detr->Yolos
+# Copied from transformersDev.models.detr.modeling_detr.DetrHungarianMatcher with Detr->Yolos
 class YolosHungarianMatcher(nn.Module):
     """
     This class computes an assignment between the targets and the predictions of the network.
@@ -1208,7 +1208,7 @@ class YolosHungarianMatcher(nn.Module):
         return [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64)) for i, j in indices]
 
 
-# Copied from transformers.models.detr.modeling_detr._upcast
+# Copied from transformersDev.models.detr.modeling_detr._upcast
 def _upcast(t: Tensor) -> Tensor:
     # Protects from numerical overflows in multiplications by upcasting to the equivalent higher type
     if t.is_floating_point():
@@ -1217,7 +1217,7 @@ def _upcast(t: Tensor) -> Tensor:
         return t if t.dtype in (torch.int32, torch.int64) else t.int()
 
 
-# Copied from transformers.models.detr.modeling_detr.box_area
+# Copied from transformersDev.models.detr.modeling_detr.box_area
 def box_area(boxes: Tensor) -> Tensor:
     """
     Computes the area of a set of bounding boxes, which are specified by its (x1, y1, x2, y2) coordinates.
@@ -1234,7 +1234,7 @@ def box_area(boxes: Tensor) -> Tensor:
     return (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
 
 
-# Copied from transformers.models.detr.modeling_detr.box_iou
+# Copied from transformersDev.models.detr.modeling_detr.box_iou
 def box_iou(boxes1, boxes2):
     area1 = box_area(boxes1)
     area2 = box_area(boxes2)
@@ -1251,7 +1251,7 @@ def box_iou(boxes1, boxes2):
     return iou, union
 
 
-# Copied from transformers.models.detr.modeling_detr.generalized_box_iou
+# Copied from transformersDev.models.detr.modeling_detr.generalized_box_iou
 def generalized_box_iou(boxes1, boxes2):
     """
     Generalized IoU from https://giou.stanford.edu/. The boxes should be in [x0, y0, x1, y1] (corner) format.
@@ -1274,7 +1274,7 @@ def generalized_box_iou(boxes1, boxes2):
     return iou - (area - union) / area
 
 
-# Copied from transformers.models.detr.modeling_detr._max_by_axis
+# Copied from transformersDev.models.detr.modeling_detr._max_by_axis
 def _max_by_axis(the_list):
     # type: (List[List[int]]) -> List[int]
     maxes = the_list[0]
@@ -1284,7 +1284,7 @@ def _max_by_axis(the_list):
     return maxes
 
 
-# Copied from transformers.models.detr.modeling_detr.NestedTensor
+# Copied from transformersDev.models.detr.modeling_detr.NestedTensor
 class NestedTensor(object):
     def __init__(self, tensors, mask: Optional[Tensor]):
         self.tensors = tensors
@@ -1306,7 +1306,7 @@ class NestedTensor(object):
         return str(self.tensors)
 
 
-# Copied from transformers.models.detr.modeling_detr.nested_tensor_from_tensor_list
+# Copied from transformersDev.models.detr.modeling_detr.nested_tensor_from_tensor_list
 def nested_tensor_from_tensor_list(tensor_list: List[Tensor]):
     if tensor_list[0].ndim == 3:
         max_size = _max_by_axis([list(img.shape) for img in tensor_list])

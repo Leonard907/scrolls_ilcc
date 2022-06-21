@@ -29,15 +29,15 @@ from gluonnlp.base import get_home_dir
 from gluonnlp.model.bert import BERTEncoder
 from gluonnlp.model.utils import _load_vocab
 from gluonnlp.vocab import Vocab
-from transformers import BertConfig, BertForMaskedLM, BertModel, RobertaTokenizer
-from transformers.models.bert.modeling_bert import (
+from transformersDev import BertConfig, BertForMaskedLM, BertModel, RobertaTokenizer
+from transformersDev.models.bert.modeling_bert import (
     BertIntermediate,
     BertLayer,
     BertOutput,
     BertSelfAttention,
     BertSelfOutput,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 if version.parse(nlp.__version__) != version.parse("0.8.3"):

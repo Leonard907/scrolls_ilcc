@@ -25,8 +25,8 @@ from PIL import Image
 import requests
 import timm
 from huggingface_hub import hf_hub_download
-from transformers import DeiTConfig, DeiTFeatureExtractor, DeiTForImageClassificationWithTeacher
-from transformers.utils import logging
+from transformersDev import DeiTConfig, DeiTFeatureExtractor, DeiTForImageClassificationWithTeacher
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

@@ -18,7 +18,7 @@ import argparse
 
 import torch
 
-from transformers import YosoConfig, YosoForMaskedLM
+from transformersDev import YosoConfig, YosoForMaskedLM
 
 
 def rename_key(orig_key):

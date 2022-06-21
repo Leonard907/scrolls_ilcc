@@ -75,7 +75,7 @@ TF_ELECTRA_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertSelfAttention with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfAttention with Bert->Electra
 class TFElectraSelfAttention(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -193,7 +193,7 @@ class TFElectraSelfAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->Electra
 class TFElectraSelfOutput(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -212,7 +212,7 @@ class TFElectraSelfOutput(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from from transformers.models.bert.modeling_tf_bert.TFBertAttention with Bert->Electra
+# Copied from from transformersDev.models.bert.modeling_tf_bert.TFBertAttention with Bert->Electra
 class TFElectraAttention(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -253,7 +253,7 @@ class TFElectraAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->Electra
 class TFElectraIntermediate(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -274,7 +274,7 @@ class TFElectraIntermediate(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertOutput with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertOutput with Bert->Electra
 class TFElectraOutput(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -293,7 +293,7 @@ class TFElectraOutput(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertLayer with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLayer with Bert->Electra
 class TFElectraLayer(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -380,7 +380,7 @@ class TFElectraLayer(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertEncoder with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertEncoder with Bert->Electra
 class TFElectraEncoder(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -450,7 +450,7 @@ class TFElectraEncoder(tf.keras.layers.Layer):
         )
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertPooler with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPooler with Bert->Electra
 class TFElectraPooler(tf.keras.layers.Layer):
     def __init__(self, config: ElectraConfig, **kwargs):
         super().__init__(**kwargs)
@@ -471,7 +471,7 @@ class TFElectraPooler(tf.keras.layers.Layer):
         return pooled_output
 
 
-# Copied from transformers.models.albert.modeling_tf_albert.TFAlbertEmbeddings with Albert->Electra
+# Copied from transformersDev.models.albert.modeling_tf_albert.TFAlbertEmbeddings with Albert->Electra
 class TFElectraEmbeddings(tf.keras.layers.Layer):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -510,7 +510,7 @@ class TFElectraEmbeddings(tf.keras.layers.Layer):
 
         super().build(input_shape)
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertEmbeddings.call
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertEmbeddings.call
     def call(
         self,
         input_ids: tf.Tensor = None,
@@ -595,7 +595,7 @@ class TFElectraPreTrainedModel(TFPreTrainedModel):
     _keys_to_ignore_on_load_missing = [r"dropout"]
 
     @property
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertPreTrainedModel.dummy_inputs
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPreTrainedModel.dummy_inputs
     def dummy_inputs(self):
         """
         Dummy inputs to build the network.
@@ -1049,7 +1049,7 @@ class TFElectraForPreTraining(TFElectraPreTrainedModel):
 
         ```python
         >>> import tensorflow as tf
-        >>> from transformers import ElectraTokenizer, TFElectraForPreTraining
+        >>> from transformersDev import ElectraTokenizer, TFElectraForPreTraining
 
         >>> tokenizer = ElectraTokenizer.from_pretrained("google/electra-small-discriminator")
         >>> model = TFElectraForPreTraining.from_pretrained("google/electra-small-discriminator")
@@ -1216,7 +1216,7 @@ class TFElectraForMaskedLM(TFElectraPreTrainedModel, TFMaskedLanguageModelingLos
             attentions=generator_hidden_states.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
     def serving_output(self, output: TFMaskedLMOutput) -> TFMaskedLMOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1325,7 +1325,7 @@ class TFElectraForSequenceClassification(TFElectraPreTrainedModel, TFSequenceCla
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
     def serving_output(self, output: TFSequenceClassifierOutput) -> TFSequenceClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1444,13 +1444,13 @@ class TFElectraForMultipleChoice(TFElectraPreTrainedModel, TFMultipleChoiceLoss)
             }
         ]
     )
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving
     def serving(self, inputs: Dict[str, tf.Tensor]):
         output = self.call(input_ids=inputs)
 
         return self.serving_output(output)
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
     def serving_output(self, output: TFMultipleChoiceModelOutput) -> TFMultipleChoiceModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1536,7 +1536,7 @@ class TFElectraForTokenClassification(TFElectraPreTrainedModel, TFTokenClassific
             attentions=discriminator_hidden_states.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
     def serving_output(self, output: TFTokenClassifierOutput) -> TFTokenClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1638,7 +1638,7 @@ class TFElectraForQuestionAnswering(TFElectraPreTrainedModel, TFQuestionAnswerin
             attentions=discriminator_hidden_states.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
     def serving_output(self, output: TFQuestionAnsweringModelOutput) -> TFQuestionAnsweringModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None

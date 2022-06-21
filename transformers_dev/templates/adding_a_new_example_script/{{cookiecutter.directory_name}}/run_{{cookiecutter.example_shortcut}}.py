@@ -31,8 +31,8 @@ import datasets
 import torch
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -45,8 +45,8 @@ from transformers import (
     default_data_collator,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import send_example_telemetry
+from transformersDev.trainer_utils import get_last_checkpoint
+from transformersDev.utils import send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -237,9 +237,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    transformersDev.utils.logging.set_verbosity(log_level)
+    transformersDev.utils.logging.enable_default_handler()
+    transformersDev.utils.logging.enable_explicit_format()
 
     # Log on each process the small summary:
     logger.warning(
@@ -508,9 +508,9 @@ from datasets import load_dataset, load_metric
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
+import transformersDev
 from accelerate import Accelerator
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AdamW,
@@ -524,7 +524,7 @@ from transformers import (
     get_scheduler,
     set_seed,
 )
-from transformers.utils import send_example_telemetry
+from transformersDev.utils import send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -687,10 +687,10 @@ def main():
     logger.setLevel(logging.INFO if accelerator.is_local_main_process else logging.ERROR)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

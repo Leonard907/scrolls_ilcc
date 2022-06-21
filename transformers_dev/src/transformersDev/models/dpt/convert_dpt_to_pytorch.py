@@ -24,8 +24,8 @@ from PIL import Image
 
 import requests
 from huggingface_hub import cached_download, hf_hub_url
-from transformers import DPTConfig, DPTFeatureExtractor, DPTForDepthEstimation, DPTForSemanticSegmentation
-from transformers.utils import logging
+from transformersDev import DPTConfig, DPTFeatureExtractor, DPTForDepthEstimation, DPTForSemanticSegmentation
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

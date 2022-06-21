@@ -464,7 +464,7 @@ class FlaxVisionTextDualEncoderModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import FlaxVisionTextDualEncoderModel
+        >>> from transformersDev import FlaxVisionTextDualEncoderModel
 
         >>> # initialize a model from pretrained ViT and BERT models. Note that the projection layers will be randomly initialized.
         >>> model = FlaxVisionTextDualEncoderModel.from_vision_text_pretrained(
@@ -553,7 +553,7 @@ VISION_TEXT_DUAL_ENCODER_MODEL_DOCSTRING = r"""
     >>> from PIL import Image
     >>> import requests
     >>> import jax
-    >>> from transformers import (
+    >>> from transformersDev import (
     ...     FlaxVisionTextDualEncoderModel,
     ...     VisionTextDualEncoderProcessor,
     ...     ViTFeatureExtractor,

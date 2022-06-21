@@ -21,8 +21,8 @@ import unittest
 
 import timeout_decorator  # noqa
 
-from transformers import OPTConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import OPTConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -32,7 +32,7 @@ from ...test_modeling_common import ModelTesterMixin, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import GPT2Tokenizer, OPTForCausalLM, OPTModel
+    from transformersDev import GPT2Tokenizer, OPTForCausalLM, OPTModel
 
 
 def prepare_opt_inputs_dict(

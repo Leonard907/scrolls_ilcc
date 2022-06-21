@@ -19,10 +19,10 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import BatchEncoding, CanineTokenizer
-from transformers.testing_utils import require_tokenizers, require_torch
-from transformers.tokenization_utils import AddedToken
-from transformers.utils import cached_property
+from transformersDev import BatchEncoding, CanineTokenizer
+from transformersDev.testing_utils import require_tokenizers, require_torch
+from transformersDev.tokenization_utils import AddedToken
+from transformersDev.utils import cached_property
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

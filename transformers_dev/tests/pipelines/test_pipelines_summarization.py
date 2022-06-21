@@ -14,7 +14,7 @@
 
 import unittest
 
-from transformers import (
+from transformersDev import (
     MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING,
     TF_MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING,
     LEDConfig,
@@ -23,8 +23,8 @@ from transformers import (
     T5Config,
     pipeline,
 )
-from transformers.testing_utils import is_pipeline_test, require_tf, require_torch, slow, torch_device
-from transformers.tokenization_utils import TruncationStrategy
+from transformersDev.testing_utils import is_pipeline_test, require_tf, require_torch, slow, torch_device
+from transformersDev.tokenization_utils import TruncationStrategy
 
 from .test_pipelines_common import ANY, PipelineTestCaseMeta
 

@@ -20,8 +20,8 @@ import unittest
 from pathlib import Path
 from typing import List, Union
 
-import transformers
-from transformers.testing_utils import require_tf, require_torch, slow
+import transformersDev
+from transformersDev.testing_utils import require_tf, require_torch, slow
 
 
 logger = logging.getLogger()

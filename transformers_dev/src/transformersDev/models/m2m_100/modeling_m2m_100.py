@@ -56,7 +56,7 @@ M2M_100_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bart.modeling_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_bart.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start_token_id: int):
     """
     Shift input ids one token to the right.
@@ -73,7 +73,7 @@ def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -89,7 +89,7 @@ def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_
     return mask[None, None, :, :].expand(bsz, 1, tgt_len, tgt_len + past_key_values_length)
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -195,7 +195,7 @@ class M2M100SinusoidalPositionalEmbedding(nn.Module):
         return position_ids.unsqueeze(0).expand(input_shape).contiguous() + past_key_values_length
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->M2M100
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->M2M100
 class M2M100Attention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -343,7 +343,7 @@ class M2M100Attention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.mbart.modeling_mbart.MBartEncoderLayer with MBart->M2M100
+# Copied from transformersDev.models.mbart.modeling_mbart.MBartEncoderLayer with MBart->M2M100
 class M2M100EncoderLayer(nn.Module):
     def __init__(self, config: M2M100Config):
         super().__init__()
@@ -412,7 +412,7 @@ class M2M100EncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.mbart.modeling_mbart.MBartDecoderLayer with MBart->M2M100
+# Copied from transformersDev.models.mbart.modeling_mbart.MBartDecoderLayer with MBart->M2M100
 class M2M100DecoderLayer(nn.Module):
     def __init__(self, config: M2M100Config):
         super().__init__()
@@ -571,7 +571,7 @@ M2M_100_GENERATION_EXAMPLE = r"""
     Translation example:
 
     ```python
-    >>> from transformers import M2M100Tokenizer, M2M100ForConditionalGeneration
+    >>> from transformersDev import M2M100Tokenizer, M2M100ForConditionalGeneration
 
     >>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
     >>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")

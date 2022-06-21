@@ -537,7 +537,7 @@ FLAX_VISION_MODEL_DOCSTRING = """
     Examples:
 
     ```python
-    >>> from transformers import ViTFeatureExtractor, FlaxViTModel
+    >>> from transformersDev import ViTFeatureExtractor, FlaxViTModel
     >>> from PIL import Image
     >>> import requests
 
@@ -618,7 +618,7 @@ FLAX_VISION_CLASSIF_DOCSTRING = """
     Example:
 
     ```python
-    >>> from transformers import ViTFeatureExtractor, FlaxViTForImageClassification
+    >>> from transformersDev import ViTFeatureExtractor, FlaxViTForImageClassification
     >>> from PIL import Image
     >>> import jax
     >>> import requests

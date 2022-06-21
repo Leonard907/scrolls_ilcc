@@ -493,7 +493,7 @@ def pipeline(
     Examples:
 
     ```python
-    >>> from transformers import pipeline, AutoModelForTokenClassification, AutoTokenizer
+    >>> from transformersDev import pipeline, AutoModelForTokenClassification, AutoTokenizer
 
     >>> # Sentiment analysis pipeline
     >>> pipeline("sentiment-analysis")

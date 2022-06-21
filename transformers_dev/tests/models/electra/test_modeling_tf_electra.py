@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import ElectraConfig, is_tf_available
-from transformers.testing_utils import require_tf, slow
+from transformersDev import ElectraConfig, is_tf_available
+from transformersDev.testing_utils import require_tf, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -26,7 +26,7 @@ from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_te
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers.models.electra.modeling_tf_electra import (
+    from transformersDev.models.electra.modeling_tf_electra import (
         TFElectraForMaskedLM,
         TFElectraForMultipleChoice,
         TFElectraForPreTraining,

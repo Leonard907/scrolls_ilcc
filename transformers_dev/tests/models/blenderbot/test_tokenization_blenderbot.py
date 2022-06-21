@@ -16,8 +16,8 @@
 """Tests for Blenderbot Tokenizers, including common tests for BlenderbotSmallTokenizer."""
 import unittest
 
-from transformers import BlenderbotTokenizer, BlenderbotTokenizerFast
-from transformers.utils import cached_property
+from transformersDev import BlenderbotTokenizer, BlenderbotTokenizerFast
+from transformersDev.utils import cached_property
 
 
 class Blenderbot3BTokenizerTests(unittest.TestCase):

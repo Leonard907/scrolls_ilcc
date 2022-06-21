@@ -18,9 +18,9 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import SPIECE_UNDERLINE, XGLMTokenizer, XGLMTokenizerFast
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
-from transformers.utils import cached_property
+from transformersDev import SPIECE_UNDERLINE, XGLMTokenizer, XGLMTokenizerFast
+from transformersDev.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
+from transformersDev.utils import cached_property
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

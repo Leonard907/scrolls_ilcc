@@ -371,7 +371,7 @@ class CTRLModel(CTRLPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import CTRLTokenizer, CTRLModel
+        >>> from transformersDev import CTRLTokenizer, CTRLModel
         >>> import torch
 
         >>> tokenizer = CTRLTokenizer.from_pretrained("ctrl")
@@ -557,7 +557,7 @@ class CTRLLMHeadModel(CTRLPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import CTRLTokenizer, CTRLLMHeadModel
+        >>> from transformersDev import CTRLTokenizer, CTRLLMHeadModel
 
         >>> tokenizer = CTRLTokenizer.from_pretrained("ctrl")
         >>> model = CTRLLMHeadModel.from_pretrained("ctrl")
@@ -683,7 +683,7 @@ class CTRLForSequenceClassification(CTRLPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import CTRLTokenizer, CTRLForSequenceClassification
+        >>> from transformersDev import CTRLTokenizer, CTRLForSequenceClassification
 
         >>> tokenizer = CTRLTokenizer.from_pretrained("ctrl")
         >>> model = CTRLForSequenceClassification.from_pretrained("ctrl")
@@ -718,7 +718,7 @@ class CTRLForSequenceClassification(CTRLPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import CTRLTokenizer, CTRLForSequenceClassification
+        >>> from transformersDev import CTRLTokenizer, CTRLForSequenceClassification
 
         >>> tokenizer = CTRLTokenizer.from_pretrained("ctrl")
         >>> model = CTRLForSequenceClassification.from_pretrained("ctrl", problem_type="multi_label_classification")

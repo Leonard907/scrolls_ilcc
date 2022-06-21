@@ -22,9 +22,9 @@ import unittest
 
 import numpy as np
 
-from transformers import ViTMAEConfig
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from transformersDev import ViTMAEConfig
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property, is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -34,14 +34,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import ViTMAEForPreTraining, ViTMAEModel
-    from transformers.models.vit.modeling_vit import VIT_PRETRAINED_MODEL_ARCHIVE_LIST, to_2tuple
+    from transformersDev import ViTMAEForPreTraining, ViTMAEModel
+    from transformersDev.models.vit.modeling_vit import VIT_PRETRAINED_MODEL_ARCHIVE_LIST, to_2tuple
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ViTFeatureExtractor
+    from transformersDev import ViTFeatureExtractor
 
 
 class ViTMAEModelTester:

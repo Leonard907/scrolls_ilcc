@@ -18,18 +18,18 @@ import shutil
 import tempfile
 from unittest import TestCase
 
-from transformers import BartTokenizer, BartTokenizerFast, DPRQuestionEncoderTokenizer, DPRQuestionEncoderTokenizerFast
-from transformers.models.bart.configuration_bart import BartConfig
-from transformers.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
-from transformers.models.dpr.configuration_dpr import DPRConfig
-from transformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
-from transformers.testing_utils import require_faiss, require_tokenizers, require_torch, slow
-from transformers.utils import is_datasets_available, is_faiss_available, is_torch_available
+from transformersDev import BartTokenizer, BartTokenizerFast, DPRQuestionEncoderTokenizer, DPRQuestionEncoderTokenizerFast
+from transformersDev.models.bart.configuration_bart import BartConfig
+from transformersDev.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
+from transformersDev.models.dpr.configuration_dpr import DPRConfig
+from transformersDev.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_faiss, require_tokenizers, require_torch, slow
+from transformersDev.utils import is_datasets_available, is_faiss_available, is_torch_available
 
 
 if is_torch_available() and is_datasets_available() and is_faiss_available():
-    from transformers.models.rag.configuration_rag import RagConfig
-    from transformers.models.rag.tokenization_rag import RagTokenizer
+    from transformersDev.models.rag.configuration_rag import RagConfig
+    from transformersDev.models.rag.tokenization_rag import RagTokenizer
 
 
 @require_faiss

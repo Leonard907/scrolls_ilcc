@@ -24,9 +24,9 @@ import datasets
 
 from parameterized import parameterized
 from tests.trainer.test_trainer import TrainerIntegrationCommon  # noqa
-from transformers import AutoModel, TrainingArguments, is_torch_available, logging
-from transformers.deepspeed import HfDeepSpeedConfig, is_deepspeed_available, unset_hf_deepspeed_config
-from transformers.testing_utils import (
+from transformersDev import AutoModel, TrainingArguments, is_torch_available, logging
+from transformersDev.deepspeed import HfDeepSpeedConfig, is_deepspeed_available, unset_hf_deepspeed_config
+from transformersDev.testing_utils import (
     CaptureLogger,
     CaptureStd,
     CaptureStderr,
@@ -41,8 +41,8 @@ from transformers.testing_utils import (
     require_torch_multi_gpu,
     slow,
 )
-from transformers.trainer_utils import get_last_checkpoint, set_seed
-from transformers.utils import WEIGHTS_NAME, is_torch_bf16_gpu_available
+from transformersDev.trainer_utils import get_last_checkpoint, set_seed
+from transformersDev.utils import WEIGHTS_NAME, is_torch_bf16_gpu_available
 
 
 if is_torch_available():
@@ -109,7 +109,7 @@ def require_deepspeed_aio(test_case):
 if is_deepspeed_available():
     from deepspeed.utils import logger as deepspeed_logger  # noqa
     from deepspeed.utils.zero_to_fp32 import load_state_dict_from_zero_checkpoint
-    from transformers.deepspeed import deepspeed_config, is_deepspeed_zero3_enabled  # noqa
+    from transformersDev.deepspeed import deepspeed_config, is_deepspeed_zero3_enabled  # noqa
 
 
 def get_launcher(distributed=False):
@@ -754,7 +754,7 @@ class TrainerIntegrationDeepSpeed(TrainerIntegrationDeepSpeedWithCustomConfig, T
         # deepspeed doesn't fallback to AdamW, which would prevent the optimizer states from loading
         # correctly
 
-        from transformers import T5ForConditionalGeneration, T5Tokenizer, Trainer  # noqa
+        from transformersDev import T5ForConditionalGeneration, T5Tokenizer, Trainer  # noqa
 
         output_dir = self.get_auto_remove_tmp_dir()  # "./xxx", after=False, before=False)
 

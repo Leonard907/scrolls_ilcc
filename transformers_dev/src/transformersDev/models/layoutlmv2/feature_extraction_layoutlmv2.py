@@ -152,7 +152,7 @@ class LayoutLMv2FeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionM
         Examples:
 
         ```python
-        >>> from transformers import LayoutLMv2FeatureExtractor
+        >>> from transformersDev import LayoutLMv2FeatureExtractor
         >>> from PIL import Image
 
         >>> image = Image.open("name_of_your_document - can be a png file, pdf, etc.").convert("RGB")

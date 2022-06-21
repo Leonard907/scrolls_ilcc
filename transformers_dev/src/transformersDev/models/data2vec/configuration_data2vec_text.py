@@ -82,7 +82,7 @@ class Data2VecTextConfig(PretrainedConfig):
     Examples:
 
     ```python
-    >>> from transformers import Data2VecTextModel, Data2VecTextConfig
+    >>> from transformersDev import Data2VecTextModel, Data2VecTextConfig
 
     >>> # Initializing a Data2VecText facebook/data2vec-text-base style configuration
     >>> configuration = Data2VecTextConfig()

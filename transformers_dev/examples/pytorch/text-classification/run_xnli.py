@@ -28,8 +28,8 @@ import datasets
 import numpy as np
 from datasets import load_dataset, load_metric
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -41,9 +41,9 @@ from transformers import (
     default_data_collator,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from transformersDev.trainer_utils import get_last_checkpoint
+from transformersDev.utils import check_min_version, send_example_telemetry
+from transformersDev.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -188,9 +188,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    transformersDev.utils.logging.set_verbosity(log_level)
+    transformersDev.utils.logging.enable_default_handler()
+    transformersDev.utils.logging.enable_explicit_format()
 
     # Log on each process the small summary:
     logger.warning(

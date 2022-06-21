@@ -119,7 +119,7 @@ class TFLEDLearnedPositionalEmbedding(TFSharedEmbeddings):
         return super().call(positions)
 
 
-# Copied from transformers.models.longformer.modeling_tf_longformer.TFLongformerSelfAttention with TFLongformer->TFLEDEncoder
+# Copied from transformersDev.models.longformer.modeling_tf_longformer.TFLongformerSelfAttention with TFLongformer->TFLEDEncoder
 class TFLEDEncoderSelfAttention(tf.keras.layers.Layer):
     def __init__(self, config, layer_id, **kwargs):
         super().__init__(**kwargs)
@@ -1361,7 +1361,7 @@ class TFLEDPreTrainedModel(TFPreTrainedModel):
 
 
 @dataclass
-# Copied from transformers.models.longformer.modeling_tf_longformer.TFLongformerBaseModelOutput with TFLongformer->TFLEDEncoder
+# Copied from transformersDev.models.longformer.modeling_tf_longformer.TFLongformerBaseModelOutput with TFLongformer->TFLEDEncoder
 class TFLEDEncoderBaseModelOutput(ModelOutput):
     """
     Base class for Longformer's outputs, with potential hidden states, local and global attentions.
@@ -2379,7 +2379,7 @@ class TFLEDForConditionalGeneration(TFLEDPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import LEDTokenizer, TFLEDForConditionalGeneration
+        >>> from transformersDev import LEDTokenizer, TFLEDForConditionalGeneration
         >>> import tensorflow as tf
 
         >>> mname = "allenai/led-base-16384"

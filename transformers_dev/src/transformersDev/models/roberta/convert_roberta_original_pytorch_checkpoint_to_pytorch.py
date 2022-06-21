@@ -24,15 +24,15 @@ from fairseq.models.roberta import RobertaModel as FairseqRobertaModel
 from fairseq.modules import TransformerSentenceEncoderLayer
 from packaging import version
 
-from transformers import RobertaConfig, RobertaForMaskedLM, RobertaForSequenceClassification
-from transformers.models.bert.modeling_bert import (
+from transformersDev import RobertaConfig, RobertaForMaskedLM, RobertaForSequenceClassification
+from transformersDev.models.bert.modeling_bert import (
     BertIntermediate,
     BertLayer,
     BertOutput,
     BertSelfAttention,
     BertSelfOutput,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 if version.parse(fairseq.__version__) < version.parse("0.9.0"):

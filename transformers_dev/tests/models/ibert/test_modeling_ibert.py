@@ -17,8 +17,8 @@
 import copy
 import unittest
 
-from transformers import IBertConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import IBertConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attention_mask
@@ -28,7 +28,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from transformersDev import (
         IBERT_PRETRAINED_MODEL_ARCHIVE_LIST,
         IBertForMaskedLM,
         IBertForMultipleChoice,
@@ -37,7 +37,7 @@ if is_torch_available():
         IBertForTokenClassification,
         IBertModel,
     )
-    from transformers.models.ibert.modeling_ibert import (
+    from transformersDev.models.ibert.modeling_ibert import (
         IBertEmbeddings,
         IntGELU,
         IntLayerNorm,

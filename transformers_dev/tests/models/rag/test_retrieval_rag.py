@@ -23,16 +23,16 @@ from unittest.mock import patch
 import numpy as np
 from datasets import Dataset
 
-from transformers import is_faiss_available
-from transformers.models.bart.configuration_bart import BartConfig
-from transformers.models.bart.tokenization_bart import BartTokenizer
-from transformers.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
-from transformers.models.dpr.configuration_dpr import DPRConfig
-from transformers.models.dpr.tokenization_dpr import DPRContextEncoderTokenizer, DPRQuestionEncoderTokenizer
-from transformers.models.rag.configuration_rag import RagConfig
-from transformers.models.rag.retrieval_rag import CustomHFIndex, RagRetriever
-from transformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
-from transformers.testing_utils import require_faiss, require_sentencepiece, require_tokenizers, require_torch
+from transformersDev import is_faiss_available
+from transformersDev.models.bart.configuration_bart import BartConfig
+from transformersDev.models.bart.tokenization_bart import BartTokenizer
+from transformersDev.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
+from transformersDev.models.dpr.configuration_dpr import DPRConfig
+from transformersDev.models.dpr.tokenization_dpr import DPRContextEncoderTokenizer, DPRQuestionEncoderTokenizer
+from transformersDev.models.rag.configuration_rag import RagConfig
+from transformersDev.models.rag.retrieval_rag import CustomHFIndex, RagRetriever
+from transformersDev.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_faiss, require_sentencepiece, require_tokenizers, require_torch
 
 
 if is_faiss_available():

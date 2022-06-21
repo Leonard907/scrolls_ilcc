@@ -17,8 +17,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import transformers
-from transformers.commands.add_new_model_like import (
+import transformersDev
+from transformersDev.commands.add_new_model_like import (
     ModelPatterns,
     _re_class_func,
     add_content_to_file,
@@ -36,7 +36,7 @@ from transformers.commands.add_new_model_like import (
     retrieve_model_classes,
     simplify_replacements,
 )
-from transformers.testing_utils import require_flax, require_tf, require_torch
+from transformersDev.testing_utils import require_flax, require_tf, require_torch
 
 
 BERT_MODEL_FILES = {
@@ -119,7 +119,7 @@ CONSTANT_DEFINED_ON_SEVERAL_LINES = [
 def function(args):
     some code
 
-# Copied from transformers.some_module
+# Copied from transformersDev.some_module
 class SomeClass:
     some code
 """
@@ -129,7 +129,7 @@ class SomeClass:
             "CONSTANT_DEFINED_ON_SEVERAL_LINES = [\n    first_item,\n    second_item\n]",
             "",
             "def function(args):\n    some code\n",
-            "# Copied from transformers.some_module\nclass SomeClass:\n    some code\n",
+            "# Copied from transformersDev.some_module\nclass SomeClass:\n    some code\n",
         ]
         self.assertEqual(parse_module_content(test_code), expected_parts)
 
@@ -312,13 +312,13 @@ GPT_NEW_NEW_CONSTANT = "value"
         new_roberta_model_patterns = ModelPatterns(
             "RoBERTa-New", "huggingface/roberta-new-base", model_camel_cased="RobertaNew"
         )
-        roberta_test = '''# Copied from transformers.models.bert.BertModel with Bert->Roberta
+        roberta_test = '''# Copied from transformersDev.models.bert.BertModel with Bert->Roberta
 class RobertaModel(RobertaPreTrainedModel):
     """ The base RoBERTa model. """
     checkpoint = roberta-base
     base_model_prefix = "roberta"
         '''
-        roberta_expected = '''# Copied from transformers.models.bert.BertModel with Bert->RobertaNew
+        roberta_expected = '''# Copied from transformersDev.models.bert.BertModel with Bert->RobertaNew
 class RobertaNewModel(RobertaNewPreTrainedModel):
     """ The base RoBERTa-New model. """
     checkpoint = huggingface/roberta-new-base
@@ -373,7 +373,7 @@ BERT_CONSTANT = "value"
 NEW_BERT_CONSTANT = "value"
 '''
         bert_expected_with_copied_from = (
-            "# Copied from transformers.bert_module.TFBertPreTrainedModel with Bert->NewBert,bert->new_bert\n"
+            "# Copied from transformersDev.bert_module.TFBertPreTrainedModel with Bert->NewBert,bert->new_bert\n"
             + bert_expected
         )
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -393,7 +393,7 @@ NEW_BERT_CONSTANT = "value"
     def test_duplicate_module_with_copied_from(self):
         bert_model_patterns = ModelPatterns("Bert", "bert-base-cased")
         new_bert_model_patterns = ModelPatterns("New Bert", "huggingface/bert-new-base")
-        bert_test = '''# Copied from transformers.models.xxx.XxxModel with Xxx->Bert
+        bert_test = '''# Copied from transformersDev.models.xxx.XxxModel with Xxx->Bert
 class TFBertPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -408,7 +408,7 @@ class TFBertPreTrainedModel(PreTrainedModel):
 
 BERT_CONSTANT = "value"
 '''
-        bert_expected = '''# Copied from transformers.models.xxx.XxxModel with Xxx->NewBert
+        bert_expected = '''# Copied from transformersDev.models.xxx.XxxModel with Xxx->NewBert
 class TFNewBertPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained

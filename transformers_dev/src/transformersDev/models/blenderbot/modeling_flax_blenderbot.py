@@ -206,7 +206,7 @@ BLENDERBOT_DECODE_INPUTS_DOCSTRING = r"""
 """
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_flax_bart.shift_tokens_right
 def shift_tokens_right(input_ids: np.array, pad_token_id: int, decoder_start_token_id: int) -> np.ndarray:
     """
     Shift input ids one token to the right.
@@ -219,7 +219,7 @@ def shift_tokens_right(input_ids: np.array, pad_token_id: int, decoder_start_tok
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartAttention with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartAttention with Bart->Blenderbot
 class FlaxBlenderbotAttention(nn.Module):
     config: BlenderbotConfig
     embed_dim: int
@@ -387,7 +387,7 @@ class FlaxBlenderbotAttention(nn.Module):
         return attn_output, attn_weights
 
 
-# Copied from transformers.models.mbart.modeling_flax_mbart.FlaxMBartEncoderLayer with MBart->Blenderbot
+# Copied from transformersDev.models.mbart.modeling_flax_mbart.FlaxMBartEncoderLayer with MBart->Blenderbot
 class FlaxBlenderbotEncoderLayer(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32
@@ -444,7 +444,7 @@ class FlaxBlenderbotEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartEncoderLayerCollection with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartEncoderLayerCollection with Bart->Blenderbot
 class FlaxBlenderbotEncoderLayerCollection(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -499,7 +499,7 @@ class FlaxBlenderbotEncoderLayerCollection(nn.Module):
         )
 
 
-# Copied from transformers.models.mbart.modeling_flax_mbart.FlaxMBartDecoderLayer with MBart->Blenderbot
+# Copied from transformersDev.models.mbart.modeling_flax_mbart.FlaxMBartDecoderLayer with MBart->Blenderbot
 class FlaxBlenderbotDecoderLayer(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32
@@ -588,7 +588,7 @@ class FlaxBlenderbotDecoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartDecoderLayerCollection with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartDecoderLayerCollection with Bart->Blenderbot
 class FlaxBlenderbotDecoderLayerCollection(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -807,7 +807,7 @@ class FlaxBlenderbotDecoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartModule with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartModule with Bart->Blenderbot
 class FlaxBlenderbotModule(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -991,7 +991,7 @@ class FlaxBlenderbotPreTrainedModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
+        >>> from transformersDev import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
 
         >>> model = FlaxBlenderbotForConditionalGeneration.from_pretrained("facebook/blenderbot-400M-distill")
         >>> tokenizer = BlenderbotTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
@@ -1060,7 +1060,7 @@ class FlaxBlenderbotPreTrainedModel(FlaxPreTrainedModel):
 
         ```python
         >>> import jax.numpy as jnp
-        >>> from transformers import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
+        >>> from transformersDev import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
 
         >>> model = FlaxBlenderbotForConditionalGeneration.from_pretrained("facebook/blenderbot-400M-distill")
         >>> tokenizer = BlenderbotTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
@@ -1226,7 +1226,7 @@ append_call_sample_docstring(
 )
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartForConditionalGenerationModule with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartForConditionalGenerationModule with Bart->Blenderbot
 class FlaxBlenderbotForConditionalGenerationModule(nn.Module):
     config: BlenderbotConfig
     dtype: jnp.dtype = jnp.float32
@@ -1330,7 +1330,7 @@ class FlaxBlenderbotForConditionalGeneration(FlaxBlenderbotPreTrainedModel):
 
         ```python
         >>> import jax.numpy as jnp
-        >>> from transformers import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
+        >>> from transformersDev import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration
 
         >>> model = FlaxBlenderbotForConditionalGeneration.from_pretrained("facebook/blenderbot-400M-distill")
         >>> tokenizer = BlenderbotTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
@@ -1485,7 +1485,7 @@ FLAX_BLENDERBOT_CONDITIONAL_GENERATION_DOCSTRING = r"""
 
     Conversation example::
 
-        >>> from transformers import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration, BlenderbotConfig
+        >>> from transformersDev import BlenderbotTokenizer, FlaxBlenderbotForConditionalGeneration, BlenderbotConfig
 
         >>> model = FlaxBlenderbotForConditionalGeneration.from_pretrained('facebook/blenderbot-400M-distill') >>>
         tokenizer = BlenderbotTokenizer.from_pretrained('facebook/blenderbot-400M-distill')

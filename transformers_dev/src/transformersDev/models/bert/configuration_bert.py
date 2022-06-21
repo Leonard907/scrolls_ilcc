@@ -123,7 +123,7 @@ class BertConfig(PretrainedConfig):
     Examples:
 
     ```python
-    >>> from transformers import BertModel, BertConfig
+    >>> from transformersDev import BertModel, BertConfig
 
     >>> # Initializing a BERT bert-base-uncased style configuration
     >>> configuration = BertConfig()

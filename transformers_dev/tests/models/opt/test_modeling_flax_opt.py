@@ -16,8 +16,8 @@ import unittest
 import numpy as np
 import timeout_decorator  # noqa
 
-from transformers import OPTConfig, is_flax_available
-from transformers.testing_utils import require_flax, require_sentencepiece, slow
+from transformersDev import OPTConfig, is_flax_available
+from transformersDev.testing_utils import require_flax, require_sentencepiece, slow
 
 from ...generation.test_generation_flax_utils import FlaxGenerationTesterMixin
 from ...test_modeling_flax_common import FlaxModelTesterMixin, ids_tensor
@@ -33,7 +33,7 @@ if is_flax_available():
 
     import jax
     import jax.numpy as jnp
-    from transformers import FlaxOPTForCausalLM, FlaxOPTModel, GPT2Tokenizer
+    from transformersDev import FlaxOPTForCausalLM, FlaxOPTModel, GPT2Tokenizer
 
 
 def prepare_opt_inputs_dict(config, input_ids, attention_mask=None, head_mask=None):

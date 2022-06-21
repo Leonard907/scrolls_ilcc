@@ -178,7 +178,7 @@ class ModelCard:
         modelcard = ModelCard.from_pretrained("bert-base-uncased", output_attentions=True, foo=False)
         ```"""
         # This imports every model so let's do it dynamically here.
-        from transformers.models.auto.configuration_auto import ALL_PRETRAINED_CONFIG_ARCHIVE_MAP
+        from transformersDev.models.auto.configuration_auto import ALL_PRETRAINED_CONFIG_ARCHIVE_MAP
 
         cache_dir = kwargs.pop("cache_dir", None)
         proxies = kwargs.pop("proxies", None)

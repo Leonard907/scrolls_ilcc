@@ -43,7 +43,7 @@ import optax
 from flax import jax_utils, traverse_util
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_MASKED_LM_MAPPING,
     AutoConfig,

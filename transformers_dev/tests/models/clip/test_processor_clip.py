@@ -21,16 +21,16 @@ import unittest
 import numpy as np
 import pytest
 
-from transformers import CLIPTokenizer, CLIPTokenizerFast
-from transformers.models.clip.tokenization_clip import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_vision
-from transformers.utils import FEATURE_EXTRACTOR_NAME, is_vision_available
+from transformersDev import CLIPTokenizer, CLIPTokenizerFast
+from transformersDev.models.clip.tokenization_clip import VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_vision
+from transformersDev.utils import FEATURE_EXTRACTOR_NAME, is_vision_available
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import CLIPFeatureExtractor, CLIPProcessor
+    from transformersDev import CLIPFeatureExtractor, CLIPProcessor
 
 
 @require_vision

@@ -30,8 +30,8 @@ import numpy as np
 import torch
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoModelForMultipleChoice,
     AutoTokenizer,
@@ -41,9 +41,9 @@ from transformers import (
     default_data_collator,
     set_seed,
 )
-from transformers.tokenization_utils_base import PreTrainedTokenizerBase
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import PaddingStrategy, check_min_version, send_example_telemetry
+from transformersDev.tokenization_utils_base import PreTrainedTokenizerBase
+from transformersDev.trainer_utils import get_last_checkpoint
+from transformersDev.utils import PaddingStrategy, check_min_version, send_example_telemetry
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -238,9 +238,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    transformersDev.utils.logging.set_verbosity(log_level)
+    transformersDev.utils.logging.enable_default_handler()
+    transformersDev.utils.logging.enable_explicit_format()
 
     # Log on each process the small summary:
     logger.warning(

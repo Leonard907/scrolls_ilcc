@@ -26,8 +26,8 @@ from typing import Optional
 import numpy as np
 from datasets import load_dataset, load_metric
 
-import transformers
-from transformers import (  # Trainer,; TrainingArguments,
+import transformersDev
+from transformersDev import (  # Trainer,; TrainingArguments,
     AutoConfig,
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -40,10 +40,10 @@ from transformers import (  # Trainer,; TrainingArguments,
 )
 
 # Will import SageMaker Model parallelism specific Trainer
-from transformers.sagemaker import SageMakerTrainer as Trainer
-from transformers.sagemaker import SageMakerTrainingArguments as TrainingArguments
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version
+from transformersDev.sagemaker import SageMakerTrainer as Trainer
+from transformersDev.sagemaker import SageMakerTrainingArguments as TrainingArguments
+from transformersDev.trainer_utils import get_last_checkpoint
+from transformersDev.utils import check_min_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -231,9 +231,9 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if training_args.should_log:
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        transformersDev.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.enable_default_handler()
+        transformersDev.utils.logging.enable_explicit_format()
     logger.info(f"Training/evaluation parameters {training_args}")
 
     # Set seed before initializing model.

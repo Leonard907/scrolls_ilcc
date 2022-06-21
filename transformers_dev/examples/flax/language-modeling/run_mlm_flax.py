@@ -46,7 +46,7 @@ from flax import jax_utils, traverse_util
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard
 from huggingface_hub import Repository
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_MASKED_LM_MAPPING,
     AutoConfig,
@@ -58,7 +58,7 @@ from transformers import (
     is_tensorboard_available,
     set_seed,
 )
-from transformers.utils import get_full_repo_name, send_example_telemetry
+from transformersDev.utils import get_full_repo_name, send_example_telemetry
 
 
 MODEL_CONFIG_CLASSES = list(FLAX_MODEL_FOR_MASKED_LM_MAPPING.keys())

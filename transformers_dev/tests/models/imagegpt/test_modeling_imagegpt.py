@@ -20,9 +20,9 @@ import os
 import tempfile
 import unittest
 
-from transformers import ImageGPTConfig
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from transformersDev import ImageGPTConfig
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property, is_torch_available, is_vision_available
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -38,7 +38,7 @@ from ...test_modeling_common import (
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         IMAGEGPT_PRETRAINED_MODEL_ARCHIVE_LIST,
         ImageGPTForCausalImageModeling,
         ImageGPTForImageClassification,
@@ -48,7 +48,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ImageGPTFeatureExtractor
+    from transformersDev import ImageGPTFeatureExtractor
 
 
 class ImageGPTModelTester:

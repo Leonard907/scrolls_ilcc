@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-from transformers import (
+from transformersDev import (
     DPRContextEncoderTokenizer,
     DPRContextEncoderTokenizerFast,
     DPRQuestionEncoderTokenizer,
@@ -23,8 +23,8 @@ from transformers import (
     DPRReaderTokenizer,
     DPRReaderTokenizerFast,
 )
-from transformers.testing_utils import require_tokenizers, slow
-from transformers.tokenization_utils_base import BatchEncoding
+from transformersDev.testing_utils import require_tokenizers, slow
+from transformersDev.tokenization_utils_base import BatchEncoding
 
 from ..bert.test_tokenization_bert import BertTokenizationTest
 

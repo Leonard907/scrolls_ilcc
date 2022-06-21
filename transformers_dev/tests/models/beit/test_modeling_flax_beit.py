@@ -17,9 +17,9 @@ import unittest
 
 import numpy as np
 
-from transformers import BeitConfig
-from transformers.testing_utils import require_flax, require_vision, slow
-from transformers.utils import cached_property, is_flax_available, is_vision_available
+from transformersDev import BeitConfig
+from transformersDev.testing_utils import require_flax, require_vision, slow
+from transformersDev.utils import cached_property, is_flax_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_flax_common import FlaxModelTesterMixin, floats_tensor, ids_tensor
@@ -27,12 +27,12 @@ from ...test_modeling_flax_common import FlaxModelTesterMixin, floats_tensor, id
 
 if is_flax_available():
     import jax
-    from transformers import FlaxBeitForImageClassification, FlaxBeitForMaskedImageModeling, FlaxBeitModel
+    from transformersDev import FlaxBeitForImageClassification, FlaxBeitForMaskedImageModeling, FlaxBeitModel
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import BeitFeatureExtractor
+    from transformersDev import BeitFeatureExtractor
 
 
 class FlaxBeitModelTester(unittest.TestCase):

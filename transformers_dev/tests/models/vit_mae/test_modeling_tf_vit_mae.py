@@ -26,9 +26,9 @@ from importlib import import_module
 
 import numpy as np
 
-from transformers import ViTMAEConfig
-from transformers.file_utils import cached_property, is_tf_available, is_vision_available
-from transformers.testing_utils import require_tf, require_vision, slow
+from transformersDev import ViTMAEConfig
+from transformersDev.file_utils import cached_property, is_tf_available, is_vision_available
+from transformersDev.testing_utils import require_tf, require_vision, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_tensor
@@ -37,14 +37,14 @@ from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_te
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import TFViTMAEForPreTraining, TFViTMAEModel
-    from transformers.models.vit_mae.modeling_tf_vit_mae import to_2tuple
+    from transformersDev import TFViTMAEForPreTraining, TFViTMAEModel
+    from transformersDev.models.vit_mae.modeling_tf_vit_mae import to_2tuple
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ViTFeatureExtractor
+    from transformersDev import ViTFeatureExtractor
 
 
 class TFViTMAEModelTester:

@@ -20,8 +20,8 @@ from pathlib import Path
 
 import torch
 
-from transformers import OPTConfig, OPTModel
-from transformers.utils import logging
+from transformersDev import OPTConfig, OPTModel
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

@@ -683,7 +683,7 @@ class ImageGPTModel(ImageGPTPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ImageGPTFeatureExtractor, ImageGPTModel
+        >>> from transformersDev import ImageGPTFeatureExtractor, ImageGPTModel
         >>> from PIL import Image
         >>> import requests
 
@@ -977,7 +977,7 @@ class ImageGPTForCausalImageModeling(ImageGPTPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ImageGPTFeatureExtractor, ImageGPTForCausalImageModeling
+        >>> from transformersDev import ImageGPTFeatureExtractor, ImageGPTForCausalImageModeling
         >>> import torch
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
@@ -1127,7 +1127,7 @@ class ImageGPTForImageClassification(ImageGPTPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ImageGPTFeatureExtractor, ImageGPTForImageClassification
+        >>> from transformersDev import ImageGPTFeatureExtractor, ImageGPTForImageClassification
         >>> from PIL import Image
         >>> import requests
 

@@ -22,9 +22,9 @@ from collections import OrderedDict
 from difflib import get_close_matches
 from pathlib import Path
 
-from transformers import is_flax_available, is_tf_available, is_torch_available
-from transformers.models.auto import get_values
-from transformers.utils import ENV_VARS_TRUE_VALUES
+from transformersDev import is_flax_available, is_tf_available, is_torch_available
+from transformersDev.models.auto import get_values
+from transformersDev.utils import ENV_VARS_TRUE_VALUES
 
 
 # All paths are set with the intent you should run this script from the root of the repo with the command
@@ -273,7 +273,7 @@ def get_model_modules():
 def get_models(module, include_pretrained=False):
     """Get the objects in module that are models."""
     models = []
-    model_classes = (transformers.PreTrainedModel, transformers.TFPreTrainedModel, transformers.FlaxPreTrainedModel)
+    model_classes = (transformers.PreTrainedModel, transformersDev.TFPreTrainedModel, transformersDev.FlaxPreTrainedModel)
     for attr_name in dir(module):
         if not include_pretrained and ("Pretrained" in attr_name or "PreTrained" in attr_name):
             continue
@@ -537,7 +537,7 @@ def find_all_documented_objects():
     for doc_file in Path(PATH_TO_DOC).glob("**/*.rst"):
         with open(doc_file, "r", encoding="utf-8", newline="\n") as f:
             content = f.read()
-        raw_doc_objs = re.findall(r"(?:autoclass|autofunction):: transformers.(\S+)\s+", content)
+        raw_doc_objs = re.findall(r"(?:autoclass|autofunction):: transformersDev.(\S+)\s+", content)
         documented_obj += [obj.split(".")[-1] for obj in raw_doc_objs]
     for doc_file in Path(PATH_TO_DOC).glob("**/*.mdx"):
         with open(doc_file, "r", encoding="utf-8", newline="\n") as f:
@@ -662,7 +662,7 @@ def ignore_undocumented(name):
 def check_all_objects_are_documented():
     """Check all models are properly documented."""
     documented_objs = find_all_documented_objects()
-    modules = transformers._modules
+    modules = transformersDev._modules
     objects = [c for c in dir(transformers) if c not in modules and not c.startswith("_")]
     undocumented_objs = [c for c in objects if c not in documented_objs and not ignore_undocumented(c)]
     if len(undocumented_objs) > 0:

@@ -33,9 +33,9 @@ import numpy as np
 import pandas as pd
 from datasets import load_dataset
 
-import transformers
+import transformersDev
 from filelock import FileLock
-from transformers import (
+from transformersDev import (
     AutoConfig,
     BartForConditionalGeneration,
     DataCollatorForSeq2Seq,
@@ -45,9 +45,9 @@ from transformers import (
     TapexTokenizer,
     set_seed,
 )
-from transformers.file_utils import is_offline_mode
-from transformers.trainer_utils import get_last_checkpoint, is_main_process
-from transformers.utils import check_min_version
+from transformersDev.file_utils import is_offline_mode
+from transformersDev.trainer_utils import get_last_checkpoint, is_main_process
+from transformersDev.utils import check_min_version
 from wikisql_utils import _TYPE_CONVERTER, retrieve_wikisql_query_answer_tapas
 
 
@@ -286,7 +286,7 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     logger.info(f"Training/evaluation parameters {training_args}")
 
     # Set seed before initializing model.

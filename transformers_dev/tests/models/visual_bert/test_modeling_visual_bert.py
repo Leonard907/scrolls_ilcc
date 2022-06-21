@@ -17,8 +17,8 @@
 import copy
 import unittest
 
-from transformers import VisualBertConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import VisualBertConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -27,7 +27,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         VisualBertForMultipleChoice,
         VisualBertForPreTraining,
         VisualBertForQuestionAnswering,
@@ -35,7 +35,7 @@ if is_torch_available():
         VisualBertForVisualReasoning,
         VisualBertModel,
     )
-    from transformers.models.visual_bert.modeling_visual_bert import VISUAL_BERT_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.visual_bert.modeling_visual_bert import VISUAL_BERT_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class VisualBertModelTester:

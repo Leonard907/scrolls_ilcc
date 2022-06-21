@@ -150,7 +150,7 @@ def load_tf_weights_in_qdqbert(model, config, tf_checkpoint_path):
     return model
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEmbeddings with Bert -> QDQBert
+# Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings with Bert -> QDQBert
 class QDQBertEmbeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -373,7 +373,7 @@ class QDQBertSelfOutput(nn.Module):
         return hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertAttention with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertAttention with Bert -> QDQBert
 class QDQBertAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -461,7 +461,7 @@ class QDQBertOutput(nn.Module):
         return hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertLayer with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertLayer with Bert -> QDQBert
 class QDQBertLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -545,7 +545,7 @@ class QDQBertLayer(nn.Module):
         return layer_output
 
 
-# Based on transformers.models.bert.modeling_bert.BertEncoder with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertEncoder with Bert -> QDQBert
 class QDQBertEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -643,7 +643,7 @@ class QDQBertEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler with Bert -> QDQBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler with Bert -> QDQBert
 class QDQBertPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -659,7 +659,7 @@ class QDQBertPooler(nn.Module):
         return pooled_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPredictionHeadTransform with Bert -> QDQBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPredictionHeadTransform with Bert -> QDQBert
 class QDQBertPredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -677,7 +677,7 @@ class QDQBertPredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert -> QDQBert
 class QDQBertLMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -698,7 +698,7 @@ class QDQBertLMPredictionHead(nn.Module):
         return hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertOnlyMLMHead with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertOnlyMLMHead with Bert -> QDQBert
 class QDQBertOnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -709,7 +709,7 @@ class QDQBertOnlyMLMHead(nn.Module):
         return prediction_scores
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOnlyNSPHead with Bert -> QDQBert
+# Copied from transformersDev.models.bert.modeling_bert.BertOnlyNSPHead with Bert -> QDQBert
 class QDQBertOnlyNSPHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -720,7 +720,7 @@ class QDQBertOnlyNSPHead(nn.Module):
         return seq_relationship_score
 
 
-# Based on transformers.models.bert.modeling_bert.BertPreTrainingHeads with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertPreTrainingHeads with Bert -> QDQBert
 class QDQBertPreTrainingHeads(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -733,7 +733,7 @@ class QDQBertPreTrainingHeads(nn.Module):
         return prediction_scores, seq_relationship_score
 
 
-# Based on transformers.models.bert.modeling_bert.BertPreTrainedModel with Bert -> QDQBert
+# Based on transformersDev.models.bert.modeling_bert.BertPreTrainedModel with Bert -> QDQBert
 class QDQBertPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -1089,7 +1089,7 @@ class QDQBertLMHeadModel(QDQBertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BertTokenizer, QDQBertLMHeadModel, QDQBertConfig
+        >>> from transformersDev import BertTokenizer, QDQBertLMHeadModel, QDQBertConfig
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
@@ -1316,7 +1316,7 @@ class QDQBertForNextSentencePrediction(QDQBertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BertTokenizer, QDQBertForNextSentencePrediction
+        >>> from transformersDev import BertTokenizer, QDQBertForNextSentencePrediction
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")

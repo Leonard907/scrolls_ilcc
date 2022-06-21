@@ -1031,7 +1031,7 @@ class XLMForQuestionAnswering(XLMPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import XLMTokenizer, XLMForQuestionAnswering
+        >>> from transformersDev import XLMTokenizer, XLMForQuestionAnswering
         >>> import torch
 
         >>> tokenizer = XLMTokenizer.from_pretrained("xlm-mlm-en-2048")

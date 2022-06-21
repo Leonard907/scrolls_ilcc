@@ -10,11 +10,11 @@ from torch.utils.data import IterableDataset
 from torch.utils.data.dataloader import DataLoader
 from tqdm import tqdm
 
-import transformers
+import transformersDev
 from accelerate import Accelerator
 from accelerate.utils import set_seed
 from arguments import HumanEvalArguments
-from transformers import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser, StoppingCriteria, StoppingCriteriaList
+from transformersDev import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser, StoppingCriteria, StoppingCriteriaList
 
 
 EOF_STRINGS = ["\nclass", "\ndef", "\n#", "\n@", "\nprint", "\nif"]
@@ -84,10 +84,10 @@ def complete_code(accelerator, model, tokenizer, dataloader, n_tasks, batch_size
     ----------
     accelerator: Accelerator
 
-    model: transformers.PreTrainedModel
+    model: transformersDev.PreTrainedModel
         Code generation model. AutoTokenizer.from_pretrained(model_ckpt), ex model_ckpt = "lvwerra/codeparrot"
 
-    tokenizer: transformers.AutoTokenizer
+    tokenizer: transformersDev.AutoTokenizer
         The tokenizer used to train model
 
     dataloader: DataLoader
@@ -142,7 +142,7 @@ def main():
     parser = HfArgumentParser(HumanEvalArguments)
     args = parser.parse_args()
 
-    transformers.logging.set_verbosity_error()
+    transformersDev.logging.set_verbosity_error()
     # enables code execution in code_eval metric
     os.environ["HF_ALLOW_CODE_EVAL"] = args.HF_ALLOW_CODE_EVAL
     # make sure tokenizer plays nice with multiprocessing

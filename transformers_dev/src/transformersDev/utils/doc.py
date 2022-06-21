@@ -150,7 +150,7 @@ PT_TOKEN_CLASSIFICATION_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -185,7 +185,7 @@ PT_QUESTION_ANSWERING_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -222,7 +222,7 @@ PT_SEQUENCE_CLASSIFICATION_SAMPLE = r"""
 
     ```python
     >>> import torch
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -252,7 +252,7 @@ PT_SEQUENCE_CLASSIFICATION_SAMPLE = r"""
 
     ```python
     >>> import torch
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}", problem_type="multi_label_classification")
@@ -286,7 +286,7 @@ PT_MASKED_LM_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -320,7 +320,7 @@ PT_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -337,7 +337,7 @@ PT_MULTIPLE_CHOICE_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -362,7 +362,7 @@ PT_CAUSAL_LM_SAMPLE = r"""
 
     ```python
     >>> import torch
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -378,7 +378,7 @@ PT_SPEECH_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
     >>> from datasets import load_dataset
 
@@ -404,7 +404,7 @@ PT_SPEECH_CTC_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
     >>> import torch
 
@@ -442,7 +442,7 @@ PT_SPEECH_SEQ_CLASS_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
     >>> import torch
 
@@ -480,7 +480,7 @@ PT_SPEECH_FRAME_CLASS_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
     >>> import torch
 
@@ -509,7 +509,7 @@ PT_SPEECH_XVECTOR_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
     >>> import torch
 
@@ -544,7 +544,7 @@ PT_VISION_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
     >>> from datasets import load_dataset
 
@@ -569,7 +569,7 @@ PT_VISION_SEQ_CLASS_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import torch
     >>> from datasets import load_dataset
 
@@ -614,7 +614,7 @@ TF_TOKEN_CLASSIFICATION_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -647,7 +647,7 @@ TF_QUESTION_ANSWERING_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -682,7 +682,7 @@ TF_SEQUENCE_CLASSIFICATION_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -713,7 +713,7 @@ TF_MASKED_LM_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -746,7 +746,7 @@ TF_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -763,7 +763,7 @@ TF_MULTIPLE_CHOICE_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -786,7 +786,7 @@ TF_CAUSAL_LM_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
@@ -802,7 +802,7 @@ TF_SPEECH_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
 
     >>> dataset = load_dataset("hf-internal-testing/librispeech_asr_demo", "clean", split="validation")
@@ -826,7 +826,7 @@ TF_SPEECH_CTC_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
     >>> import tensorflow as tf
 
@@ -863,7 +863,7 @@ TF_VISION_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> from datasets import load_dataset
 
     >>> dataset = load_dataset("huggingface/cats-image")
@@ -885,7 +885,7 @@ TF_VISION_SEQ_CLASS_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
     >>> import tensorflow as tf
     >>> from datasets import load_dataset
 
@@ -924,7 +924,7 @@ FLAX_TOKEN_CLASSIFICATION_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -940,7 +940,7 @@ FLAX_QUESTION_ANSWERING_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -958,7 +958,7 @@ FLAX_SEQUENCE_CLASSIFICATION_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -974,7 +974,7 @@ FLAX_MASKED_LM_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -990,7 +990,7 @@ FLAX_BASE_MODEL_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -1006,7 +1006,7 @@ FLAX_MULTIPLE_CHOICE_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")
@@ -1026,7 +1026,7 @@ FLAX_CAUSAL_LM_SAMPLE = r"""
     Example:
 
     ```python
-    >>> from transformers import {processor_class}, {model_class}
+    >>> from transformersDev import {processor_class}, {model_class}
 
     >>> tokenizer = {processor_class}.from_pretrained("{checkpoint}")
     >>> model = {model_class}.from_pretrained("{checkpoint}")

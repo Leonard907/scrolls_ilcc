@@ -17,10 +17,10 @@ import unittest
 
 import numpy as np
 
-import transformers
-from transformers import is_flax_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+import transformersDev
+from transformersDev import is_flax_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import (
     is_pt_flax_cross_test,
     require_flax,
     require_sentencepiece,
@@ -45,9 +45,9 @@ if is_flax_available():
     import jax.numpy as jnp
     from flax.core.frozen_dict import unfreeze
     from flax.traverse_util import flatten_dict
-    from transformers import FLAX_MODEL_FOR_QUESTION_ANSWERING_MAPPING, FLAX_MODEL_MAPPING, AutoTokenizer, LongT5Config
-    from transformers.modeling_flax_pytorch_utils import load_flax_weights_in_pytorch_model
-    from transformers.models.longt5.modeling_flax_longt5 import (
+    from transformersDev import FLAX_MODEL_FOR_QUESTION_ANSWERING_MAPPING, FLAX_MODEL_MAPPING, AutoTokenizer, LongT5Config
+    from transformersDev.modeling_flax_pytorch_utils import load_flax_weights_in_pytorch_model
+    from transformersDev.models.longt5.modeling_flax_longt5 import (
         FlaxLongT5ForConditionalGeneration,
         FlaxLongT5Model,
         shift_tokens_right,

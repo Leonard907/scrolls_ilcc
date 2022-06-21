@@ -17,8 +17,8 @@ import copy
 import random
 import unittest
 
-from transformers import TransfoXLConfig, is_torch_available
-from transformers.testing_utils import require_torch, require_torch_multi_gpu, slow, torch_device
+from transformersDev import TransfoXLConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, require_torch_multi_gpu, slow, torch_device
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -29,8 +29,8 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import TransfoXLForSequenceClassification, TransfoXLLMHeadModel, TransfoXLModel
-    from transformers.models.transfo_xl.modeling_transfo_xl import TRANSFO_XL_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev import TransfoXLForSequenceClassification, TransfoXLLMHeadModel, TransfoXLModel
+    from transformersDev.models.transfo_xl.modeling_transfo_xl import TRANSFO_XL_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class TransfoXLModelTester:

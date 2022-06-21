@@ -37,7 +37,7 @@ logger = logging.get_logger(__name__)
 ImageInput = Union[Image.Image, np.ndarray, "torch.Tensor", List[Image.Image], List[np.ndarray], List["torch.Tensor"]]
 
 
-# Copied from transformers.models.detr.feature_extraction_detr.center_to_corners_format
+# Copied from transformersDev.models.detr.feature_extraction_detr.center_to_corners_format
 def center_to_corners_format(x):
     """
     Converts a PyTorch tensor of bounding boxes of center format (center_x, center_y, width, height) to corners format
@@ -48,7 +48,7 @@ def center_to_corners_format(x):
     return torch.stack(b, dim=-1)
 
 
-# Copied from transformers.models.detr.feature_extraction_detr.corners_to_center_format
+# Copied from transformersDev.models.detr.feature_extraction_detr.corners_to_center_format
 def corners_to_center_format(x):
     """
     Converts a NumPy array of bounding boxes of shape (number of bounding boxes, 4) of corners format (x_0, y_0, x_1,
@@ -60,7 +60,7 @@ def corners_to_center_format(x):
     return np.stack(b, axis=-1)
 
 
-# Copied from transformers.models.detr.feature_extraction_detr.masks_to_boxes
+# Copied from transformersDev.models.detr.feature_extraction_detr.masks_to_boxes
 def masks_to_boxes(masks):
     """
     Compute the bounding boxes around the provided panoptic segmentation masks.
@@ -94,7 +94,7 @@ def masks_to_boxes(masks):
     return np.stack([x_min, y_min, x_max, y_max], 1)
 
 
-# Copied from transformers.models.detr.feature_extraction_detr.rgb_to_id
+# Copied from transformersDev.models.detr.feature_extraction_detr.rgb_to_id
 def rgb_to_id(color):
     if isinstance(color, np.ndarray) and len(color.shape) == 3:
         if color.dtype == np.uint8:
@@ -103,7 +103,7 @@ def rgb_to_id(color):
     return int(color[0] + 256 * color[1] + 256 * 256 * color[2])
 
 
-# Copied from transformers.models.detr.feature_extraction_detr.id_to_rgb
+# Copied from transformersDev.models.detr.feature_extraction_detr.id_to_rgb
 def id_to_rgb(id_map):
     if isinstance(id_map, np.ndarray):
         id_map_copy = id_map.copy()
@@ -152,7 +152,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
     model_input_names = ["pixel_values"]
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.__init__
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.__init__
     def __init__(
         self,
         format="coco_detection",
@@ -173,13 +173,13 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
         self.image_mean = image_mean if image_mean is not None else [0.485, 0.456, 0.406]  # ImageNet mean
         self.image_std = image_std if image_std is not None else [0.229, 0.224, 0.225]  # ImageNet std
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor._is_valid_format
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor._is_valid_format
     def _is_valid_format(self, format):
         if format not in ["coco_detection", "coco_panoptic"]:
             raise ValueError(f"Format {format} not supported")
         return format
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare
     def prepare(self, image, target, return_segmentation_masks=False, masks_path=None):
         if self.format == "coco_detection":
             image, target = self.prepare_coco_detection(image, target, return_segmentation_masks)
@@ -190,7 +190,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
         else:
             raise ValueError(f"Format {self.format} not supported")
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.convert_coco_poly_to_mask
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.convert_coco_poly_to_mask
     def convert_coco_poly_to_mask(self, segmentations, height, width):
 
         try:
@@ -214,7 +214,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return masks
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare_coco_detection
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare_coco_detection
     def prepare_coco_detection(self, image, target, return_segmentation_masks=False):
         """
         Convert the target in COCO format into the format expected by DETR.
@@ -279,7 +279,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return image, target
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare_coco_panoptic
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.prepare_coco_panoptic
     def prepare_coco_panoptic(self, image, target, masks_path, return_masks=True):
         w, h = image.size
         ann_info = target.copy()
@@ -313,7 +313,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return image, target
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor._resize
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor._resize
     def _resize(self, image, size, target=None, max_size=None):
         """
         Resize the image to the given size. Size can be min_size (scalar) or (w, h) tuple. If size is an int, smaller
@@ -384,7 +384,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return rescaled_image, target
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor._normalize
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor._normalize
     def _normalize(self, image, mean, std, target=None):
         """
         Normalize the image with a certain mean and std.
@@ -614,7 +614,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return encoded_inputs
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor._max_by_axis
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor._max_by_axis
     def _max_by_axis(self, the_list):
         # type: (List[List[int]]) -> List[int]
         maxes = the_list[0]
@@ -656,7 +656,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return encoded_inputs
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process
     def post_process(self, outputs, target_sizes):
         """
         Converts the output of [`DetrForObjectDetection`] into the format expected by the COCO api. Only supports
@@ -695,7 +695,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return results
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_segmentation
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_segmentation
     def post_process_segmentation(self, outputs, target_sizes, threshold=0.9, mask_threshold=0.5):
         """
         Converts the output of [`DetrForSegmentation`] into image segmentation predictions. Only supports PyTorch.
@@ -737,7 +737,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
             preds.append(predictions)
         return preds
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_instance
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_instance
     def post_process_instance(self, results, outputs, orig_target_sizes, max_target_sizes, threshold=0.5):
         """
         Converts the output of [`DetrForSegmentation`] into actual instance segmentation predictions. Only supports
@@ -781,7 +781,7 @@ class YolosFeatureExtractor(FeatureExtractionMixin, ImageFeatureExtractionMixin)
 
         return results
 
-    # Copied from transformers.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_panoptic
+    # Copied from transformersDev.models.detr.feature_extraction_detr.DetrFeatureExtractor.post_process_panoptic
     def post_process_panoptic(self, outputs, processed_sizes, target_sizes=None, is_thing_map=None, threshold=0.85):
         """
         Converts the output of [`DetrForSegmentation`] into actual panoptic predictions. Only supports PyTorch.

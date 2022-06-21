@@ -18,9 +18,9 @@
 import unittest
 from typing import Dict, List, Tuple
 
-from transformers import FNetConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import require_tokenizers, require_torch, slow, torch_device
+from transformersDev import FNetConfig, is_torch_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import require_tokenizers, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -29,7 +29,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         MODEL_FOR_PRETRAINING_MAPPING,
         FNetForMaskedLM,
         FNetForMultipleChoice,
@@ -41,7 +41,7 @@ if is_torch_available():
         FNetModel,
         FNetTokenizerFast,
     )
-    from transformers.models.fnet.modeling_fnet import (
+    from transformersDev.models.fnet.modeling_fnet import (
         FNET_PRETRAINED_MODEL_ARCHIVE_LIST,
         FNetBasicFourierTransform,
         is_scipy_available,

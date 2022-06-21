@@ -82,7 +82,7 @@ class RobertaTokenizerFast(PreTrainedTokenizerFast):
     be encoded differently whether it is at the beginning of the sentence (without space) or not:
 
     ```
-    >>> from transformers import RobertaTokenizerFast
+    >>> from transformersDev import RobertaTokenizerFast
     >>> tokenizer = RobertaTokenizerFast.from_pretrained("roberta-base")
     >>> tokenizer("Hello world")['input_ids']
     [0, 31414, 232, 328, 2]

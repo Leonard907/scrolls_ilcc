@@ -11,13 +11,13 @@ import numpy as np
 from datasets import Dataset
 
 import faiss
-from transformers import BartConfig, BartTokenizer, DPRConfig, DPRQuestionEncoderTokenizer, RagConfig
-from transformers.file_utils import is_datasets_available, is_faiss_available, is_psutil_available, is_torch_available
-from transformers.integrations import is_ray_available
-from transformers.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
-from transformers.models.rag.retrieval_rag import CustomHFIndex, RagRetriever
-from transformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
-from transformers.testing_utils import require_ray
+from transformersDev import BartConfig, BartTokenizer, DPRConfig, DPRQuestionEncoderTokenizer, RagConfig
+from transformersDev.file_utils import is_datasets_available, is_faiss_available, is_psutil_available, is_torch_available
+from transformersDev.integrations import is_ray_available
+from transformersDev.models.bert.tokenization_bert import VOCAB_FILES_NAMES as DPR_VOCAB_FILES_NAMES
+from transformersDev.models.rag.retrieval_rag import CustomHFIndex, RagRetriever
+from transformersDev.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES as BART_VOCAB_FILES_NAMES
+from transformersDev.testing_utils import require_ray
 
 
 sys.path.append(os.path.join(os.getcwd()))  # noqa: E402 # noqa: E402 # isort:skip

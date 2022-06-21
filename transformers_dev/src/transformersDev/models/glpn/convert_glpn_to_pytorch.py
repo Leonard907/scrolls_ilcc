@@ -23,8 +23,8 @@ import torch
 from PIL import Image
 
 import requests
-from transformers import GLPNConfig, GLPNFeatureExtractor, GLPNForDepthEstimation
-from transformers.utils import logging
+from transformersDev import GLPNConfig, GLPNFeatureExtractor, GLPNForDepthEstimation
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

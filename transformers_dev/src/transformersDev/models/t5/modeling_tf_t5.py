@@ -1161,7 +1161,7 @@ class TFT5Model(TFT5PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import T5Tokenizer, TFT5Model
+        >>> from transformersDev import T5Tokenizer, TFT5Model
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
         >>> model = TFT5Model.from_pretrained("t5-small")
@@ -1342,7 +1342,7 @@ class TFT5ForConditionalGeneration(TFT5PreTrainedModel, TFCausalLanguageModeling
         Examples:
 
         ```python
-        >>> from transformers import T5Tokenizer, TFT5ForConditionalGeneration
+        >>> from transformersDev import T5Tokenizer, TFT5ForConditionalGeneration
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
         >>> model = TFT5ForConditionalGeneration.from_pretrained("t5-small")
@@ -1641,7 +1641,7 @@ class TFT5EncoderModel(TFT5PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import T5Tokenizer, TFT5EncoderModel
+        >>> from transformersDev import T5Tokenizer, TFT5EncoderModel
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
         >>> model = TFT5EncoderModel.from_pretrained("t5-small")
@@ -1689,7 +1689,7 @@ class TFT5EncoderModel(TFT5PreTrainedModel):
 
         return self.serving_output(output)
 
-    # Copied from transformers.models.distilbert.modeling_tf_distilbert.TFDistilBertModel.serving_output
+    # Copied from transformersDev.models.distilbert.modeling_tf_distilbert.TFDistilBertModel.serving_output
     def serving_output(self, output):
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None

@@ -768,8 +768,8 @@ class PerceiverModel(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverConfig, PerceiverTokenizer, PerceiverFeatureExtractor, PerceiverModel
-        >>> from transformers.models.perceiver.modeling_perceiver import (
+        >>> from transformersDev import PerceiverConfig, PerceiverTokenizer, PerceiverFeatureExtractor, PerceiverModel
+        >>> from transformersDev.models.perceiver.modeling_perceiver import (
         ...     PerceiverTextPreprocessor,
         ...     PerceiverImagePreprocessor,
         ...     PerceiverClassificationDecoder,
@@ -1002,7 +1002,7 @@ class PerceiverForMaskedLM(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverTokenizer, PerceiverForMaskedLM
+        >>> from transformersDev import PerceiverTokenizer, PerceiverForMaskedLM
         >>> import torch
 
         >>> tokenizer = PerceiverTokenizer.from_pretrained("deepmind/language-perceiver")
@@ -1119,7 +1119,7 @@ class PerceiverForSequenceClassification(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverTokenizer, PerceiverForSequenceClassification
+        >>> from transformersDev import PerceiverTokenizer, PerceiverForSequenceClassification
 
         >>> tokenizer = PerceiverTokenizer.from_pretrained("deepmind/language-perceiver")
         >>> model = PerceiverForSequenceClassification.from_pretrained("deepmind/language-perceiver")
@@ -1252,7 +1252,7 @@ class PerceiverForImageClassificationLearned(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverFeatureExtractor, PerceiverForImageClassificationLearned
+        >>> from transformersDev import PerceiverFeatureExtractor, PerceiverForImageClassificationLearned
         >>> from PIL import Image
         >>> import requests
 
@@ -1389,7 +1389,7 @@ class PerceiverForImageClassificationFourier(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverFeatureExtractor, PerceiverForImageClassificationFourier
+        >>> from transformersDev import PerceiverFeatureExtractor, PerceiverForImageClassificationFourier
         >>> from PIL import Image
         >>> import requests
 
@@ -1526,7 +1526,7 @@ class PerceiverForImageClassificationConvProcessing(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverFeatureExtractor, PerceiverForImageClassificationConvProcessing
+        >>> from transformersDev import PerceiverFeatureExtractor, PerceiverForImageClassificationConvProcessing
         >>> from PIL import Image
         >>> import requests
 
@@ -1677,7 +1677,7 @@ class PerceiverForOpticalFlow(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverForOpticalFlow
+        >>> from transformersDev import PerceiverForOpticalFlow
         >>> import torch
 
         >>> model = PerceiverForOpticalFlow.from_pretrained("deepmind/optical-flow-perceiver")
@@ -1889,7 +1889,7 @@ class PerceiverForMultimodalAutoencoding(PerceiverPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import PerceiverForMultimodalAutoencoding
+        >>> from transformersDev import PerceiverForMultimodalAutoencoding
         >>> import torch
         >>> import numpy as np
 

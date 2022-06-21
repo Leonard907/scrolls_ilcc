@@ -76,7 +76,7 @@ class BartTokenizerFast(PreTrainedTokenizerFast):
     be encoded differently whether it is at the beginning of the sentence (without space) or not:
 
     ```
-    >>> from transformers import BartTokenizerFast
+    >>> from transformersDev import BartTokenizerFast
     >>> tokenizer = BartTokenizerFast.from_pretrained("facebook/bart-base")
     >>> tokenizer("Hello world")['input_ids']
     [0, 31414, 232, 2]

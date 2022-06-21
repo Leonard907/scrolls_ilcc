@@ -43,13 +43,13 @@ def pytest_configure(config):
 
 
 def pytest_addoption(parser):
-    from transformers.testing_utils import pytest_addoption_shared
+    from transformersDev.testing_utils import pytest_addoption_shared
 
     pytest_addoption_shared(parser)
 
 
 def pytest_terminal_summary(terminalreporter):
-    from transformers.testing_utils import pytest_terminal_summary_main
+    from transformersDev.testing_utils import pytest_terminal_summary_main
 
     make_reports = terminalreporter.config.getoption("--make-reports")
     if make_reports:

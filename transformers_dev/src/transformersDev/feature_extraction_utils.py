@@ -101,15 +101,15 @@ class BatchFeature(UserDict):
         if "data" in state:
             self.data = state["data"]
 
-    # Copied from transformers.tokenization_utils_base.BatchEncoding.keys
+    # Copied from transformersDev.tokenization_utils_base.BatchEncoding.keys
     def keys(self):
         return self.data.keys()
 
-    # Copied from transformers.tokenization_utils_base.BatchEncoding.values
+    # Copied from transformersDev.tokenization_utils_base.BatchEncoding.values
     def values(self):
         return self.data.values()
 
-    # Copied from transformers.tokenization_utils_base.BatchEncoding.items
+    # Copied from transformersDev.tokenization_utils_base.BatchEncoding.items
     def items(self):
         return self.data.items()
 
@@ -179,7 +179,7 @@ class BatchFeature(UserDict):
         return self
 
     @torch_required
-    # Copied from transformers.tokenization_utils_base.BatchEncoding.to with BatchEncoding->BatchFeature
+    # Copied from transformersDev.tokenization_utils_base.BatchEncoding.to with BatchEncoding->BatchFeature
     def to(self, device: Union[str, "torch.device"]) -> "BatchFeature":
         """
         Send all values to device by calling `v.to(device)` (PyTorch only).
@@ -593,7 +593,7 @@ class FeatureExtractionMixin(PushToHubMixin):
         if not isinstance(auto_class, str):
             auto_class = auto_class.__name__
 
-        import transformers.models.auto as auto_module
+        import transformersDev.models.auto as auto_module
 
         if not hasattr(auto_module, auto_class):
             raise ValueError(f"{auto_class} is not a valid auto class.")

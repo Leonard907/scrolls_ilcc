@@ -161,7 +161,7 @@ class AutoProcessor:
         Examples:
 
         ```python
-        >>> from transformers import AutoProcessor
+        >>> from transformersDev import AutoProcessor
 
         >>> # Download processor from huggingface.co and cache.
         >>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")

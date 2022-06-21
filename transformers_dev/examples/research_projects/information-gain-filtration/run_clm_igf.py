@@ -43,7 +43,7 @@ from igf.igf import (
     set_seed,
     train_secondary_learner,
 )
-from transformers import GPT2LMHeadModel
+from transformersDev import GPT2LMHeadModel
 
 
 def generate_n_pairs(

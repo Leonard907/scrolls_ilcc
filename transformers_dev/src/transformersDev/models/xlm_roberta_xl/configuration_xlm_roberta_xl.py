@@ -86,7 +86,7 @@ class XLMRobertaXLConfig(PretrainedConfig):
     Examples:
 
     ```python
-    >>> from transformers import XLMRobertaXLModel, XLMRobertaXLConfig
+    >>> from transformersDev import XLMRobertaXLModel, XLMRobertaXLConfig
 
     >>> # Initializing a XLM_ROBERTA_XL bert-base-uncased style configuration
     >>> configuration = XLMRobertaXLConfig()
@@ -139,7 +139,7 @@ class XLMRobertaXLConfig(PretrainedConfig):
         self.classifier_dropout = classifier_dropout
 
 
-# Copied from transformers.models.roberta.configuration_roberta.RobertaOnnxConfig with Roberta->XLMRobertaXL
+# Copied from transformersDev.models.roberta.configuration_roberta.RobertaOnnxConfig with Roberta->XLMRobertaXL
 class XLMRobertaXLOnnxConfig(OnnxConfig):
     @property
     def inputs(self) -> Mapping[str, Mapping[int, str]]:

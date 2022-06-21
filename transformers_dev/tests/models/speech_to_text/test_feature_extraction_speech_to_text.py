@@ -20,14 +20,14 @@ import unittest
 
 import numpy as np
 
-from transformers import is_speech_available
-from transformers.testing_utils import require_torch, require_torchaudio
+from transformersDev import is_speech_available
+from transformersDev.testing_utils import require_torch, require_torchaudio
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 
 
 if is_speech_available():
-    from transformers import Speech2TextFeatureExtractor
+    from transformersDev import Speech2TextFeatureExtractor
 
 global_rng = random.Random()
 

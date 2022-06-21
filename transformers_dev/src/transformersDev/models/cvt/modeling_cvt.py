@@ -78,7 +78,7 @@ class BaseModelOutputWithCLSToken(ModelOutput):
     hidden_states: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# Copied from transformers.models.convnext.modeling_convnext.drop_path
+# Copied from transformersDev.models.convnext.modeling_convnext.drop_path
 def drop_path(x, drop_prob: float = 0.0, training: bool = False):
     """
     Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks). This is the same as the
@@ -97,7 +97,7 @@ def drop_path(x, drop_prob: float = 0.0, training: bool = False):
     return output
 
 
-# Copied from transformers.models.convnext.modeling_convnext.ConvNextDropPath
+# Copied from transformersDev.models.convnext.modeling_convnext.ConvNextDropPath
 class CvtDropPath(nn.Module):
     """Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks)."""
 

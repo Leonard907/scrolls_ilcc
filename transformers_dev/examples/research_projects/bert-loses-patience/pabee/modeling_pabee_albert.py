@@ -20,8 +20,8 @@ import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss, MSELoss
 
-from transformers.file_utils import add_start_docstrings, add_start_docstrings_to_model_forward
-from transformers.models.albert.modeling_albert import (
+from transformersDev.file_utils import add_start_docstrings, add_start_docstrings_to_model_forward
+from transformersDev.models.albert.modeling_albert import (
     ALBERT_INPUTS_DOCSTRING,
     ALBERT_START_DOCSTRING,
     AlbertModel,
@@ -271,7 +271,7 @@ class AlbertForSequenceClassificationWithPabee(AlbertPreTrainedModel):
 
             Examples::
 
-                from transformers import AlbertTokenizer
+                from transformersDev import AlbertTokenizer
                 from pabee import AlbertForSequenceClassificationWithPabee
                 from torch import nn
                 import torch

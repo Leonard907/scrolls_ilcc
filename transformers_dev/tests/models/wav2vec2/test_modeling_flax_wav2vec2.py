@@ -19,8 +19,8 @@ import unittest
 import numpy as np
 from datasets import load_dataset
 
-from transformers import Wav2Vec2Config, is_flax_available
-from transformers.testing_utils import (
+from transformersDev import Wav2Vec2Config, is_flax_available
+from transformersDev.testing_utils import (
     is_librosa_available,
     is_pyctcdecode_available,
     require_flax,
@@ -38,8 +38,8 @@ if is_flax_available():
     import jax.numpy as jnp
     import optax
     from flax.traverse_util import flatten_dict
-    from transformers import Wav2Vec2FeatureExtractor, Wav2Vec2Processor
-    from transformers.models.wav2vec2.modeling_flax_wav2vec2 import (
+    from transformersDev import Wav2Vec2FeatureExtractor, Wav2Vec2Processor
+    from transformersDev.models.wav2vec2.modeling_flax_wav2vec2 import (
         FlaxWav2Vec2ForCTC,
         FlaxWav2Vec2ForPreTraining,
         FlaxWav2Vec2GumbelVectorQuantizer,
@@ -50,7 +50,7 @@ if is_flax_available():
 
 
 if is_pyctcdecode_available():
-    from transformers import Wav2Vec2ProcessorWithLM
+    from transformersDev import Wav2Vec2ProcessorWithLM
 
 
 if is_librosa_available():

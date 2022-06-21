@@ -19,7 +19,7 @@ import os
 from shutil import copyfile
 from typing import Dict, List, Optional, Tuple, Union
 
-from transformers.models.layoutlmv2.tokenization_layoutlmv2 import LAYOUTLMV2_ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING
+from transformersDev.models.layoutlmv2.tokenization_layoutlmv2 import LAYOUTLMV2_ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING
 
 from ...tokenization_utils import AddedToken
 from ...tokenization_utils_base import (

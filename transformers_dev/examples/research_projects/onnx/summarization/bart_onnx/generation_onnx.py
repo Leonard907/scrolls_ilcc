@@ -5,8 +5,8 @@ from typing import List, Optional, Tuple
 import torch
 import torch.nn.functional as F
 
-from transformers import BartConfig
-from transformers.generation_utils import GenerationMixin
+from transformersDev import BartConfig
+from transformersDev.generation_utils import GenerationMixin
 
 
 def _convert_past_list_to_tuple(past_key_values):
@@ -90,7 +90,7 @@ def _create_traced_decoder(decoder, input_ids, encoder_state, attention_mask, pa
 
 class BartConfigTS(BartConfig, torch.nn.Module):
     """
-    BartConfigTS is a TorchScript-compatible transformers.models.bart.configuration_bart.BartConfig.
+    BartConfigTS is a TorchScript-compatible transformersDev.models.bart.configuration_bart.BartConfig.
     TorchScript only supports sub-classes of torch.nn.Module.
     """
 

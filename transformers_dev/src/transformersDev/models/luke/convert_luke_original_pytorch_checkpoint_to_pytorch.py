@@ -20,8 +20,8 @@ import os
 
 import torch
 
-from transformers import LukeConfig, LukeModel, LukeTokenizer, RobertaTokenizer
-from transformers.tokenization_utils_base import AddedToken
+from transformersDev import LukeConfig, LukeModel, LukeTokenizer, RobertaTokenizer
+from transformersDev.tokenization_utils_base import AddedToken
 
 
 @torch.no_grad()

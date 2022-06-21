@@ -164,7 +164,7 @@ def load_tf_weights_in_realm(model, config, tf_checkpoint_path):
     return model
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEmbeddings with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings with Bert->Realm
 class RealmEmbeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -230,7 +230,7 @@ class RealmEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->Realm
 class RealmSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -358,7 +358,7 @@ class RealmSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput with Bert->Realm
 class RealmSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -373,7 +373,7 @@ class RealmSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertAttention with Bert->Realm
 class RealmAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -423,7 +423,7 @@ class RealmAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->Realm
 class RealmIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -439,7 +439,7 @@ class RealmIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput with Bert->Realm
 class RealmOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -454,7 +454,7 @@ class RealmOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLayer with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertLayer with Bert->Realm
 class RealmLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -541,7 +541,7 @@ class RealmLayer(nn.Module):
         return layer_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEncoder with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertEncoder with Bert->Realm
 class RealmEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -639,7 +639,7 @@ class RealmEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler with Bert->Realm
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler with Bert->Realm
 class RealmPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1177,7 +1177,7 @@ class RealmEmbedder(RealmPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RealmTokenizer, RealmEmbedder
+        >>> from transformersDev import RealmTokenizer, RealmEmbedder
         >>> import torch
 
         >>> tokenizer = RealmTokenizer.from_pretrained("google/realm-cc-news-pretrained-embedder")
@@ -1291,7 +1291,7 @@ class RealmScorer(RealmPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import RealmTokenizer, RealmScorer
+        >>> from transformersDev import RealmTokenizer, RealmScorer
 
         >>> tokenizer = RealmTokenizer.from_pretrained("google/realm-cc-news-pretrained-scorer")
         >>> model = RealmScorer.from_pretrained("google/realm-cc-news-pretrained-scorer", num_candidates=2)
@@ -1432,7 +1432,7 @@ class RealmKnowledgeAugEncoder(RealmPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import RealmTokenizer, RealmKnowledgeAugEncoder
+        >>> from transformersDev import RealmTokenizer, RealmKnowledgeAugEncoder
 
         >>> tokenizer = RealmTokenizer.from_pretrained("google/realm-cc-news-pretrained-encoder")
         >>> model = RealmKnowledgeAugEncoder.from_pretrained(
@@ -1776,7 +1776,7 @@ class RealmForOpenQA(RealmPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import RealmForOpenQA, RealmRetriever, RealmTokenizer
+        >>> from transformersDev import RealmForOpenQA, RealmRetriever, RealmTokenizer
 
         >>> retriever = RealmRetriever.from_pretrained("google/realm-orqa-nq-openqa")
         >>> tokenizer = RealmTokenizer.from_pretrained("google/realm-orqa-nq-openqa")

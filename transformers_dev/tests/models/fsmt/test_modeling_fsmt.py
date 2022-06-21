@@ -19,9 +19,9 @@ import unittest
 import timeout_decorator  # noqa
 
 from parameterized import parameterized
-from transformers import FSMTConfig, is_torch_available
-from transformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
-from transformers.utils import cached_property
+from transformersDev import FSMTConfig, is_torch_available
+from transformersDev.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
+from transformersDev.utils import cached_property
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -32,14 +32,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import FSMTForConditionalGeneration, FSMTModel, FSMTTokenizer
-    from transformers.models.fsmt.modeling_fsmt import (
+    from transformersDev import FSMTForConditionalGeneration, FSMTModel, FSMTTokenizer
+    from transformersDev.models.fsmt.modeling_fsmt import (
         SinusoidalPositionalEmbedding,
         _prepare_fsmt_decoder_inputs,
         invert_mask,
         shift_tokens_right,
     )
-    from transformers.pipelines import TranslationPipeline
+    from transformersDev.pipelines import TranslationPipeline
 
 
 class FSMTModelTester:

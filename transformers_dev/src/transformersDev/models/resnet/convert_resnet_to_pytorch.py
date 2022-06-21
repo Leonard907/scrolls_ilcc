@@ -28,8 +28,8 @@ from torch import Tensor
 
 import timm
 from huggingface_hub import hf_hub_download
-from transformers import AutoFeatureExtractor, ResNetConfig, ResNetForImageClassification
-from transformers.utils import logging
+from transformersDev import AutoFeatureExtractor, ResNetConfig, ResNetForImageClassification
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

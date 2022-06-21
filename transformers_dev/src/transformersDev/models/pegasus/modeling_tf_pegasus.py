@@ -61,7 +61,7 @@ _TOKENIZER_FOR_DOC = "PegasusTokenizer"
 LARGE_NEGATIVE = -1e8
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_tf_bart.shift_tokens_right
 def shift_tokens_right(input_ids: tf.Tensor, pad_token_id: int, decoder_start_token_id: int):
     pad_token_id = tf.cast(pad_token_id, input_ids.dtype)
     decoder_start_token_id = tf.cast(decoder_start_token_id, input_ids.dtype)
@@ -83,7 +83,7 @@ def shift_tokens_right(input_ids: tf.Tensor, pad_token_id: int, decoder_start_to
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_tf_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_tf_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: tf.TensorShape, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -100,7 +100,7 @@ def _make_causal_mask(input_ids_shape: tf.TensorShape, past_key_values_length: i
     return tf.tile(mask[None, None, :, :], (bsz, 1, 1, 1))
 
 
-# Copied from transformers.models.bart.modeling_tf_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_tf_bart._expand_mask
 def _expand_mask(mask: tf.Tensor, tgt_len: Optional[int] = None, past_key_values_length: int = 0):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -114,7 +114,7 @@ def _expand_mask(mask: tf.Tensor, tgt_len: Optional[int] = None, past_key_values
     return (one_cst - expanded_mask) * LARGE_NEGATIVE
 
 
-# Copied from transformers.models.marian.modeling_tf_marian.TFMarianSinusoidalPositionalEmbedding with Marian->Pegasus
+# Copied from transformersDev.models.marian.modeling_tf_marian.TFMarianSinusoidalPositionalEmbedding with Marian->Pegasus
 class TFPegasusSinusoidalPositionalEmbedding(tf.keras.layers.Layer):
     """This module produces sinusoidal positional embeddings of any length."""
 
@@ -171,7 +171,7 @@ class TFPegasusSinusoidalPositionalEmbedding(tf.keras.layers.Layer):
         return tf.gather(self.weight, positions)
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartAttention with Bart->Pegasus
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartAttention with Bart->Pegasus
 class TFPegasusAttention(tf.keras.layers.Layer):
     """Multi-headed attention from "Attention Is All You Need"""
 
@@ -337,7 +337,7 @@ class TFPegasusAttention(tf.keras.layers.Layer):
         return attn_output, attn_weights, past_key_value
 
 
-# Copied from transformers.models.mbart.modeling_tf_mbart.TFMBartEncoderLayer with MBart->Pegasus
+# Copied from transformersDev.models.mbart.modeling_tf_mbart.TFMBartEncoderLayer with MBart->Pegasus
 class TFPegasusEncoderLayer(tf.keras.layers.Layer):
     def __init__(self, config: PegasusConfig, **kwargs):
         super().__init__(**kwargs)
@@ -397,7 +397,7 @@ class TFPegasusEncoderLayer(tf.keras.layers.Layer):
         return hidden_states, self_attn_weights
 
 
-# Copied from transformers.models.mbart.modeling_tf_mbart.TFMBartDecoderLayer with MBart->Pegasus
+# Copied from transformersDev.models.mbart.modeling_tf_mbart.TFMBartDecoderLayer with MBart->Pegasus
 class TFPegasusDecoderLayer(tf.keras.layers.Layer):
     def __init__(self, config: PegasusConfig, **kwargs):
         super().__init__(**kwargs)
@@ -533,7 +533,7 @@ class TFPegasusPreTrainedModel(TFPreTrainedModel):
             }
         ]
     )
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartPretrainedModel.serving
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartPretrainedModel.serving
     def serving(self, inputs):
         output = self.call(inputs)
 
@@ -580,7 +580,7 @@ PEGASUS_GENERATION_EXAMPLE = r"""
     Summarization example:
 
     ```python
-    >>> from transformers import PegasusTokenizer, TFPegasusForConditionalGeneration
+    >>> from transformersDev import PegasusTokenizer, TFPegasusForConditionalGeneration
 
     >>> model = TFPegasusForConditionalGeneration.from_pretrained("google/pegasus-xsum")
     >>> tokenizer = PegasusTokenizer.from_pretrained("google/pegasus-xsum")
@@ -1240,7 +1240,7 @@ class TFPegasusModel(TFPegasusPreTrainedModel):
 
         return outputs
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartModel.serving_output
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartModel.serving_output
     def serving_output(self, output):
         pkv = tf.tuple(output.past_key_values)[1] if self.config.use_cache else None
         dec_hs = tf.convert_to_tensor(output.decoder_hidden_states) if self.config.output_hidden_states else None
@@ -1381,7 +1381,7 @@ class TFPegasusForConditionalGeneration(TFPegasusPreTrainedModel, TFCausalLangua
             encoder_attentions=outputs.encoder_attentions,  # 2 of e out
         )
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.serving_output
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.serving_output
     def serving_output(self, output):
         pkv = tf.tuple(output.past_key_values)[1] if self.config.use_cache else None
         dec_hs = tf.convert_to_tensor(output.decoder_hidden_states) if self.config.output_hidden_states else None
@@ -1401,7 +1401,7 @@ class TFPegasusForConditionalGeneration(TFPegasusPreTrainedModel, TFCausalLangua
             encoder_attentions=enc_attns,
         )
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.prepare_inputs_for_generation
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.prepare_inputs_for_generation
     def prepare_inputs_for_generation(
         self,
         decoder_input_ids,
@@ -1434,7 +1434,7 @@ class TFPegasusForConditionalGeneration(TFPegasusPreTrainedModel, TFCausalLangua
         return shift_tokens_right(labels, self.config.pad_token_id, self.config.decoder_start_token_id)
 
     @staticmethod
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration._reorder_cache
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration._reorder_cache
     def _reorder_cache(past, beam_idx):
         reordered_past = ()
         for layer_past in past:

@@ -24,9 +24,9 @@ from typing import Callable, Optional
 import numpy as np
 
 # Ensure there are no circular imports when importing the parent class
-from transformers import PreTrainedTokenizerFast
+from transformersDev import PreTrainedTokenizerFast
 
-from transformers import (
+from transformersDev import (
     BatchEncoding,
     BertTokenizer,
     BertTokenizerFast,
@@ -35,8 +35,8 @@ from transformers import (
     TokenSpan,
     is_tokenizers_available,
 )
-from transformers.models.gpt2.tokenization_gpt2 import GPT2Tokenizer
-from transformers.testing_utils import CaptureStderr, require_flax, require_tf, require_tokenizers, require_torch, slow
+from transformersDev.models.gpt2.tokenization_gpt2 import GPT2Tokenizer
+from transformersDev.testing_utils import CaptureStderr, require_flax, require_tf, require_tokenizers, require_torch, slow
 
 
 if is_tokenizers_available():

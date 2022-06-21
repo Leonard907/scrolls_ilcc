@@ -32,8 +32,8 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, Tenso
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm, trange
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     WEIGHTS_NAME,
     AdamW,
     AutoConfig,
@@ -41,7 +41,7 @@ from transformers import (
     AutoTokenizer,
     get_linear_schedule_with_warmup,
 )
-from transformers.trainer_utils import is_main_process
+from transformersDev.trainer_utils import is_main_process
 
 
 try:
@@ -635,9 +635,9 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        transformersDev.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.enable_default_handler()
+        transformersDev.utils.logging.enable_explicit_format()
 
     # Set seed
     set_seed(args)

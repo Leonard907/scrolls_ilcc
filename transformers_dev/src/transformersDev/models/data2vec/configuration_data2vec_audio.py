@@ -152,7 +152,7 @@ class Data2VecAudioConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import Data2VecAudioModel, Data2VecAudioConfig
+    >>> from transformersDev import Data2VecAudioModel, Data2VecAudioConfig
 
     >>> # Initializing a Data2VecAudio facebook/data2vec-audio-base-960h style configuration
     >>> configuration = Data2VecAudioConfig()

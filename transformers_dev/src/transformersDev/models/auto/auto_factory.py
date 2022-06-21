@@ -49,7 +49,7 @@ FROM_CONFIG_DOCSTRING = """
         Examples:
 
         ```python
-        >>> from transformers import AutoConfig, BaseAutoModelClass
+        >>> from transformersDev import AutoConfig, BaseAutoModelClass
 
         >>> # Download configuration from huggingface.co and cache.
         >>> config = AutoConfig.from_pretrained("checkpoint_placeholder")
@@ -144,7 +144,7 @@ FROM_PRETRAINED_TORCH_DOCSTRING = """
         Examples:
 
         ```python
-        >>> from transformers import AutoConfig, BaseAutoModelClass
+        >>> from transformersDev import AutoConfig, BaseAutoModelClass
 
         >>> # Download model and configuration from huggingface.co and cache.
         >>> model = BaseAutoModelClass.from_pretrained("checkpoint_placeholder")
@@ -240,7 +240,7 @@ FROM_PRETRAINED_TF_DOCSTRING = """
         Examples:
 
         ```python
-        >>> from transformers import AutoConfig, BaseAutoModelClass
+        >>> from transformersDev import AutoConfig, BaseAutoModelClass
 
         >>> # Download model and configuration from huggingface.co and cache.
         >>> model = BaseAutoModelClass.from_pretrained("checkpoint_placeholder")
@@ -336,7 +336,7 @@ FROM_PRETRAINED_FLAX_DOCSTRING = """
         Examples:
 
         ```python
-        >>> from transformers import AutoConfig, BaseAutoModelClass
+        >>> from transformersDev import AutoConfig, BaseAutoModelClass
 
         >>> # Download model and configuration from huggingface.co and cache.
         >>> model = BaseAutoModelClass.from_pretrained("checkpoint_placeholder")

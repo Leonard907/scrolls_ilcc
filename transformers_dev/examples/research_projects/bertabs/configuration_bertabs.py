@@ -16,7 +16,7 @@
 """ BertAbs configuration """
 import logging
 
-from transformers import PretrainedConfig
+from transformersDev import PretrainedConfig
 
 
 logger = logging.getLogger(__name__)

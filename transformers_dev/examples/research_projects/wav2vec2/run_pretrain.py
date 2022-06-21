@@ -10,7 +10,7 @@ from packaging import version
 from torch import nn
 
 import librosa
-from transformers import (
+from transformersDev import (
     HfArgumentParser,
     Trainer,
     TrainingArguments,
@@ -20,7 +20,7 @@ from transformers import (
     is_apex_available,
     trainer_utils,
 )
-from transformers.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices
+from transformersDev.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices
 
 
 if is_apex_available():

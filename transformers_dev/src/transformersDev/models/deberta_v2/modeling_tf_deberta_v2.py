@@ -56,7 +56,7 @@ TF_DEBERTA_V2_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaContextPooler with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaContextPooler with Deberta->DebertaV2
 class TFDebertaV2ContextPooler(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -78,7 +78,7 @@ class TFDebertaV2ContextPooler(tf.keras.layers.Layer):
         return self.config.hidden_size
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaXSoftmax with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaXSoftmax with Deberta->DebertaV2
 class TFDebertaV2XSoftmax(tf.keras.layers.Layer):
     """
     Masked Softmax which is optimized for saving memory
@@ -102,7 +102,7 @@ class TFDebertaV2XSoftmax(tf.keras.layers.Layer):
         return output
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.get_mask
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.get_mask
 def get_mask(input, dropout):
     mask = tf.cast(
         1 - tf.compat.v1.distributions.Bernoulli(probs=1 - dropout).sample(sample_shape=shape_list(input)), tf.bool
@@ -111,7 +111,7 @@ def get_mask(input, dropout):
 
 
 @tf.custom_gradient
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaXDropout
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaXDropout
 def TFDebertaV2XDropout(input, local_ctx):
     mask, dropout = get_mask(input, local_ctx)
     scale = tf.convert_to_tensor(1.0 / (1 - dropout), dtype=tf.float32)
@@ -125,7 +125,7 @@ def TFDebertaV2XDropout(input, local_ctx):
     return input, custom_grad
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaStableDropout with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaStableDropout with Deberta->DebertaV2
 class TFDebertaV2StableDropout(tf.keras.layers.Layer):
     """
     Optimized dropout module for stabilizing the training
@@ -144,7 +144,7 @@ class TFDebertaV2StableDropout(tf.keras.layers.Layer):
         return inputs
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaSelfOutput with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaSelfOutput with Deberta->DebertaV2
 class TFDebertaV2SelfOutput(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -159,7 +159,7 @@ class TFDebertaV2SelfOutput(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaAttention with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaAttention with Deberta->DebertaV2
 class TFDebertaV2Attention(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -197,7 +197,7 @@ class TFDebertaV2Attention(tf.keras.layers.Layer):
         return output
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaIntermediate with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaIntermediate with Deberta->DebertaV2
 class TFDebertaV2Intermediate(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -218,7 +218,7 @@ class TFDebertaV2Intermediate(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaOutput with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaOutput with Deberta->DebertaV2
 class TFDebertaV2Output(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -237,7 +237,7 @@ class TFDebertaV2Output(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaLayer with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaLayer with Deberta->DebertaV2
 class TFDebertaV2Layer(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -812,7 +812,7 @@ class TFDebertaV2DisentangledSelfAttention(tf.keras.layers.Layer):
         return score
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaEmbeddings Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaEmbeddings Deberta->DebertaV2
 class TFDebertaV2Embeddings(tf.keras.layers.Layer):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -916,7 +916,7 @@ class TFDebertaV2Embeddings(tf.keras.layers.Layer):
         return final_embeddings
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaPredictionHeadTransform with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaPredictionHeadTransform with Deberta->DebertaV2
 class TFDebertaV2PredictionHeadTransform(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, **kwargs):
         super().__init__(**kwargs)
@@ -941,7 +941,7 @@ class TFDebertaV2PredictionHeadTransform(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaLMPredictionHead with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaLMPredictionHead with Deberta->DebertaV2
 class TFDebertaV2LMPredictionHead(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, input_embeddings: tf.keras.layers.Layer, **kwargs):
         super().__init__(**kwargs)
@@ -985,7 +985,7 @@ class TFDebertaV2LMPredictionHead(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaOnlyMLMHead with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaOnlyMLMHead with Deberta->DebertaV2
 class TFDebertaV2OnlyMLMHead(tf.keras.layers.Layer):
     def __init__(self, config: DebertaV2Config, input_embeddings: tf.keras.layers.Layer, **kwargs):
         super().__init__(**kwargs)
@@ -997,7 +997,7 @@ class TFDebertaV2OnlyMLMHead(tf.keras.layers.Layer):
         return prediction_scores
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaMainLayer with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaMainLayer with Deberta->DebertaV2
 class TFDebertaV2MainLayer(tf.keras.layers.Layer):
     config_class = DebertaV2Config
 
@@ -1082,7 +1082,7 @@ class TFDebertaV2MainLayer(tf.keras.layers.Layer):
         )
 
 
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaPreTrainedModel with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaPreTrainedModel with Deberta->DebertaV2
 class TFDebertaV2PreTrainedModel(TFPreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -1178,7 +1178,7 @@ DEBERTA_INPUTS_DOCSTRING = r"""
     "The bare DeBERTa Model transformer outputting raw hidden-states without any specific head on top.",
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaModel with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaModel with Deberta->DebertaV2
 class TFDebertaV2Model(TFDebertaV2PreTrainedModel):
     def __init__(self, config: DebertaV2Config, *inputs, **kwargs):
         super().__init__(config, *inputs, **kwargs)
@@ -1227,7 +1227,7 @@ class TFDebertaV2Model(TFDebertaV2PreTrainedModel):
 
 
 @add_start_docstrings("""DeBERTa Model with a `language modeling` head on top.""", DEBERTA_START_DOCSTRING)
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaForMaskedLM with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaForMaskedLM with Deberta->DebertaV2
 class TFDebertaV2ForMaskedLM(TFDebertaV2PreTrainedModel, TFMaskedLanguageModelingLoss):
     def __init__(self, config: DebertaV2Config, *inputs, **kwargs):
         super().__init__(config, *inputs, **kwargs)
@@ -1311,7 +1311,7 @@ class TFDebertaV2ForMaskedLM(TFDebertaV2PreTrainedModel, TFMaskedLanguageModelin
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaForSequenceClassification with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaForSequenceClassification with Deberta->DebertaV2
 class TFDebertaV2ForSequenceClassification(TFDebertaV2PreTrainedModel, TFSequenceClassificationLoss):
     def __init__(self, config: DebertaV2Config, *inputs, **kwargs):
         super().__init__(config, *inputs, **kwargs)
@@ -1400,7 +1400,7 @@ class TFDebertaV2ForSequenceClassification(TFDebertaV2PreTrainedModel, TFSequenc
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaForTokenClassification with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaForTokenClassification with Deberta->DebertaV2
 class TFDebertaV2ForTokenClassification(TFDebertaV2PreTrainedModel, TFTokenClassificationLoss):
     def __init__(self, config: DebertaV2Config, *inputs, **kwargs):
         super().__init__(config, *inputs, **kwargs)
@@ -1479,7 +1479,7 @@ class TFDebertaV2ForTokenClassification(TFDebertaV2PreTrainedModel, TFTokenClass
     """,
     DEBERTA_START_DOCSTRING,
 )
-# Copied from transformers.models.deberta.modeling_tf_deberta.TFDebertaForQuestionAnswering with Deberta->DebertaV2
+# Copied from transformersDev.models.deberta.modeling_tf_deberta.TFDebertaForQuestionAnswering with Deberta->DebertaV2
 class TFDebertaV2ForQuestionAnswering(TFDebertaV2PreTrainedModel, TFQuestionAnsweringLoss):
     def __init__(self, config: DebertaV2Config, *inputs, **kwargs):
         super().__init__(config, *inputs, **kwargs)

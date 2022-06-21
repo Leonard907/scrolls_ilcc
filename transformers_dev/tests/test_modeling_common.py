@@ -31,10 +31,10 @@ from typing import Dict, List, Tuple
 
 import numpy as np
 
-import transformers
+import transformersDev
 from huggingface_hub import Repository, delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import (
+from transformersDev import (
     AutoConfig,
     AutoModel,
     AutoModelForSequenceClassification,
@@ -42,8 +42,8 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import (
     PASS,
     USER,
     CaptureLogger,
@@ -59,7 +59,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import (
+from transformersDev.utils import (
     WEIGHTS_INDEX_NAME,
     WEIGHTS_NAME,
     is_accelerate_available,
@@ -67,7 +67,7 @@ from transformers.utils import (
     is_tf_available,
     is_torch_fx_available,
 )
-from transformers.utils.generic import ModelOutput
+from transformersDev.utils.generic import ModelOutput
 
 
 sys.path.append(str(Path(__file__).parent.parent / "utils"))
@@ -84,7 +84,7 @@ if is_torch_available():
     from torch import nn
 
     from test_module.custom_modeling import CustomModel, NoSuperInitModel
-    from transformers import (
+    from transformersDev import (
         BERT_PRETRAINED_MODEL_ARCHIVE_LIST,
         MODEL_FOR_AUDIO_XVECTOR_MAPPING,
         MODEL_FOR_CAUSAL_IMAGE_MODELING_MAPPING,
@@ -109,20 +109,20 @@ if is_torch_available():
         T5Config,
         T5ForConditionalGeneration,
     )
-    from transformers.modeling_utils import shard_checkpoint
+    from transformersDev.modeling_utils import shard_checkpoint
 
 if is_tf_available():
     import tensorflow as tf
 
 if is_flax_available():
     import jax.numpy as jnp
-    from transformers.modeling_flax_pytorch_utils import (
+    from transformersDev.modeling_flax_pytorch_utils import (
         convert_pytorch_state_dict_to_flax,
         load_flax_weights_in_pytorch_model,
     )
 
 if is_torch_fx_available():
-    from transformers.utils.fx import symbolic_trace
+    from transformersDev.utils.fx import symbolic_trace
 
 
 def _config_zero_init(config):
@@ -1757,7 +1757,7 @@ class ModelTesterMixin:
 
     @is_pt_tf_cross_test
     def test_pt_tf_model_equivalence(self):
-        import transformers
+        import transformersDev
 
         for model_class in self.all_model_classes:
 
@@ -1809,8 +1809,8 @@ class ModelTesterMixin:
             # Check we can load pt model in tf and vice-versa with model => model functions
             # Here requires `tf_inputs_dict` to build `tf_model`
             tf_inputs_dict = self.prepare_tf_inputs_from_pt_inputs(pt_inputs_dict)
-            tf_model = transformers.load_pytorch_model_in_tf2_model(tf_model, pt_model, tf_inputs=tf_inputs_dict)
-            pt_model = transformers.load_tf2_model_in_pytorch_model(pt_model, tf_model)
+            tf_model = transformersDev.load_pytorch_model_in_tf2_model(tf_model, pt_model, tf_inputs=tf_inputs_dict)
+            pt_model = transformersDev.load_tf2_model_in_pytorch_model(pt_model, tf_model)
 
             # Original test: check without `labels`
             self.check_pt_tf_models(tf_model, pt_model, pt_inputs_dict)
@@ -1822,11 +1822,11 @@ class ModelTesterMixin:
             with tempfile.TemporaryDirectory() as tmpdirname:
                 pt_checkpoint_path = os.path.join(tmpdirname, "pt_model.bin")
                 torch.save(pt_model.state_dict(), pt_checkpoint_path)
-                tf_model = transformers.load_pytorch_checkpoint_in_tf2_model(tf_model, pt_checkpoint_path)
+                tf_model = transformersDev.load_pytorch_checkpoint_in_tf2_model(tf_model, pt_checkpoint_path)
 
                 tf_checkpoint_path = os.path.join(tmpdirname, "tf_model.h5")
                 tf_model.save_weights(tf_checkpoint_path)
-                pt_model = transformers.load_tf2_checkpoint_in_pytorch_model(pt_model, tf_checkpoint_path)
+                pt_model = transformersDev.load_tf2_checkpoint_in_pytorch_model(pt_model, tf_checkpoint_path)
 
             # Original test: check without `labels`
             self.check_pt_tf_models(tf_model, pt_model, pt_inputs_dict)
@@ -2710,7 +2710,7 @@ class ModelUtilsTest(TestCasePlus):
 
         mname = "bert-base-cased"
 
-        preamble = "from transformers import AutoModel"
+        preamble = "from transformersDev import AutoModel"
         one_liner_str = f'{preamble}; AutoModel.from_pretrained("{mname}", low_cpu_mem_usage=False)'
         max_rss_normal = self.python_one_liner_max_rss(one_liner_str)
         # print(f"{max_rss_normal=}")

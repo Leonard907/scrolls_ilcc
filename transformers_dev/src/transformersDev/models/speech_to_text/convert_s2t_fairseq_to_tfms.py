@@ -17,7 +17,7 @@ import argparse
 import torch
 from torch import nn
 
-from transformers import Speech2TextConfig, Speech2TextForConditionalGeneration
+from transformersDev import Speech2TextConfig, Speech2TextForConditionalGeneration
 
 
 def remove_ignore_keys_(state_dict):

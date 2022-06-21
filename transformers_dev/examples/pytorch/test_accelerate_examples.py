@@ -26,8 +26,8 @@ import tempfile
 import torch
 
 from accelerate.utils import write_basic_config
-from transformers.testing_utils import TestCasePlus, get_gpu_count, slow, torch_device
-from transformers.utils import is_apex_available
+from transformersDev.testing_utils import TestCasePlus, get_gpu_count, slow, torch_device
+from transformersDev.utils import is_apex_available
 
 
 logging.basicConfig(level=logging.DEBUG)

@@ -1144,7 +1144,7 @@ class FunnelForPreTraining(FunnelPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import FunnelTokenizer, FunnelForPreTraining
+        >>> from transformersDev import FunnelTokenizer, FunnelForPreTraining
         >>> import torch
 
         >>> tokenizer = FunnelTokenizer.from_pretrained("funnel-transformer/small")

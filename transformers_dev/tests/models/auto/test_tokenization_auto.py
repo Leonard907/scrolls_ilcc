@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pytest
 
-from transformers import (
+from transformersDev import (
     BERT_PRETRAINED_CONFIG_ARCHIVE_MAP,
     GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP,
     AutoTokenizer,
@@ -37,14 +37,14 @@ from transformers import (
     RobertaTokenizerFast,
     is_tokenizers_available,
 )
-from transformers.models.auto.configuration_auto import CONFIG_MAPPING, AutoConfig
-from transformers.models.auto.tokenization_auto import (
+from transformersDev.models.auto.configuration_auto import CONFIG_MAPPING, AutoConfig
+from transformersDev.models.auto.tokenization_auto import (
     TOKENIZER_MAPPING,
     get_tokenizer_config,
     tokenizer_class_from_name,
 )
-from transformers.models.roberta.configuration_roberta import RobertaConfig
-from transformers.testing_utils import (
+from transformersDev.models.roberta.configuration_roberta import RobertaConfig
+from transformersDev.testing_utils import (
     DUMMY_DIFF_TOKENIZER_IDENTIFIER,
     DUMMY_UNKNOWN_IDENTIFIER,
     SMALL_MODEL_IDENTIFIER,

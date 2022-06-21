@@ -27,7 +27,7 @@ from .tokenization_gpt2 import GPT2Tokenizer
 
 
 if TYPE_CHECKING:
-    from transformers.pipelines.conversational import Conversation
+    from transformersDev.pipelines.conversational import Conversation
 
 
 logger = logging.get_logger(__name__)
@@ -76,7 +76,7 @@ class GPT2TokenizerFast(PreTrainedTokenizerFast):
     be encoded differently whether it is at the beginning of the sentence (without space) or not:
 
     ```
-    >>> from transformers import GPT2TokenizerFast
+    >>> from transformersDev import GPT2TokenizerFast
     >>> tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
     >>> tokenizer("Hello world")['input_ids']
     [15496, 995]

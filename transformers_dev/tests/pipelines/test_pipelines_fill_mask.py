@@ -14,9 +14,9 @@
 
 import unittest
 
-from transformers import MODEL_FOR_MASKED_LM_MAPPING, TF_MODEL_FOR_MASKED_LM_MAPPING, FillMaskPipeline, pipeline
-from transformers.pipelines import PipelineException
-from transformers.testing_utils import (
+from transformersDev import MODEL_FOR_MASKED_LM_MAPPING, TF_MODEL_FOR_MASKED_LM_MAPPING, FillMaskPipeline, pipeline
+from transformersDev.pipelines import PipelineException
+from transformersDev.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_tf,

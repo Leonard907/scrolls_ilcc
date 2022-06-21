@@ -1,5 +1,5 @@
 from arguments import InitializationArguments
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, HfArgumentParser
+from transformersDev import AutoConfig, AutoModelForCausalLM, AutoTokenizer, HfArgumentParser
 
 
 # Configuration

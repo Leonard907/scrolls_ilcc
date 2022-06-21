@@ -15,7 +15,7 @@
 
 import unittest
 
-from transformers.utils import flatten_dict
+from transformersDev.utils import flatten_dict
 
 
 class GenericTester(unittest.TestCase):

@@ -18,8 +18,8 @@
 import os
 import unittest
 
-from transformers import RetriBertTokenizer, RetriBertTokenizerFast
-from transformers.models.bert.tokenization_bert import (
+from transformersDev import RetriBertTokenizer, RetriBertTokenizerFast
+from transformersDev.models.bert.tokenization_bert import (
     VOCAB_FILES_NAMES,
     BasicTokenizer,
     WordpieceTokenizer,
@@ -27,12 +27,12 @@ from transformers.models.bert.tokenization_bert import (
     _is_punctuation,
     _is_whitespace,
 )
-from transformers.testing_utils import require_tokenizers, require_torch, slow
+from transformersDev.testing_utils import require_tokenizers, require_torch, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, filter_non_english, merge_model_tokenizer_mappings
 
 
-# Copied from transformers.tests.bert.test_modeling_bert.py with Bert->RetriBert
+# Copied from transformersDev.tests.bert.test_modeling_bert.py with Bert->RetriBert
 @require_tokenizers
 class RetriBertTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
 
@@ -345,7 +345,7 @@ class RetriBertTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 

@@ -85,7 +85,7 @@ class ViltConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import ViLTModel, ViLTConfig
+    >>> from transformersDev import ViLTModel, ViLTConfig
 
     >>> # Initializing a ViLT dandelin/vilt-b32-mlm style configuration
     >>> configuration = ViLTConfig()

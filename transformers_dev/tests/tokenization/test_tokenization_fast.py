@@ -20,8 +20,8 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import AutoTokenizer, PreTrainedTokenizerFast
-from transformers.testing_utils import require_tokenizers
+from transformersDev import AutoTokenizer, PreTrainedTokenizerFast
+from transformersDev.testing_utils import require_tokenizers
 
 from ..test_tokenization_common import TokenizerTesterMixin
 
@@ -150,7 +150,7 @@ class TokenizerVersioningTest(unittest.TestCase):
         self.assertIn("huggingface", json_tokenizer["model"]["vocab"])
 
         # Testing an older version by monkey-patching the version in the module it's used.
-        import transformers as old_transformers
+        import transformersDev as old_transformers
 
         old_transformers.tokenization_utils_base.__version__ = "3.0.0"
         old_tokenizer = old_transformers.models.auto.AutoTokenizer.from_pretrained(repo)

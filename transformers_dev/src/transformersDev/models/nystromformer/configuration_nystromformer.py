@@ -78,7 +78,7 @@ class NystromformerConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import NystromformerModel, NystromformerConfig
+    >>> from transformersDev import NystromformerModel, NystromformerConfig
 
     >>> # Initializing a Nystromformer uw-madison/nystromformer-512 style configuration
     >>> configuration = NystromformerConfig()

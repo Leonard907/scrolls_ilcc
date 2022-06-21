@@ -163,7 +163,7 @@ class TFMPNetEmbeddings(tf.keras.layers.Layer):
         return final_embeddings
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertPooler with Bert->MPNet
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPooler with Bert->MPNet
 class TFMPNetPooler(tf.keras.layers.Layer):
     def __init__(self, config: MPNetConfig, **kwargs):
         super().__init__(**kwargs)
@@ -277,7 +277,7 @@ class TFMPNetAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->MPNet
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->MPNet
 class TFMPNetIntermediate(tf.keras.layers.Layer):
     def __init__(self, config: MPNetConfig, **kwargs):
         super().__init__(**kwargs)
@@ -298,7 +298,7 @@ class TFMPNetIntermediate(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertOutput with Bert->MPNet
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertOutput with Bert->MPNet
 class TFMPNetOutput(tf.keras.layers.Layer):
     def __init__(self, config: MPNetConfig, **kwargs):
         super().__init__(**kwargs)
@@ -468,16 +468,16 @@ class TFMPNetMainLayer(tf.keras.layers.Layer):
         # The embeddings must be the last declaration in order to follow the weights order
         self.embeddings = TFMPNetEmbeddings(config, name="embeddings")
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer.get_input_embeddings
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer.get_input_embeddings
     def get_input_embeddings(self) -> tf.keras.layers.Layer:
         return self.embeddings
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer.set_input_embeddings
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer.set_input_embeddings
     def set_input_embeddings(self, value: tf.Variable):
         self.embeddings.weight = value
         self.embeddings.vocab_size = shape_list(value)[0]
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer._prune_heads
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer._prune_heads
     def _prune_heads(self, heads_to_prune):
         """
         Prunes heads of the model. heads_to_prune: dict of {layer_num: list of heads to prune in this layer} See base
@@ -835,7 +835,7 @@ class TFMPNetForMaskedLM(TFMPNetPreTrainedModel, TFMaskedLanguageModelingLoss):
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
     def serving_output(self, output: TFMaskedLMOutput) -> TFMaskedLMOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -941,7 +941,7 @@ class TFMPNetForSequenceClassification(TFMPNetPreTrainedModel, TFSequenceClassif
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
     def serving_output(self, output: TFSequenceClassifierOutput) -> TFSequenceClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1058,7 +1058,7 @@ class TFMPNetForMultipleChoice(TFMPNetPreTrainedModel, TFMultipleChoiceLoss):
 
         return self.serving_output(output)
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
     def serving_output(self, output: TFMultipleChoiceModelOutput) -> TFMultipleChoiceModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1141,7 +1141,7 @@ class TFMPNetForTokenClassification(TFMPNetPreTrainedModel, TFTokenClassificatio
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
     def serving_output(self, output: TFTokenClassifierOutput) -> TFTokenClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1237,7 +1237,7 @@ class TFMPNetForQuestionAnswering(TFMPNetPreTrainedModel, TFQuestionAnsweringLos
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
     def serving_output(self, output: TFQuestionAnsweringModelOutput) -> TFQuestionAnsweringModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None

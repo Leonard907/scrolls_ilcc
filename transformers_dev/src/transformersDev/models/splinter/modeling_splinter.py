@@ -99,7 +99,7 @@ class SplinterEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->Splinter
 class SplinterSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -227,7 +227,7 @@ class SplinterSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput with Bert->Splinter
 class SplinterSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -242,7 +242,7 @@ class SplinterSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertAttention with Bert->Splinter
 class SplinterAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -292,7 +292,7 @@ class SplinterAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->Splinter
 class SplinterIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -308,7 +308,7 @@ class SplinterIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput with Bert->Splinter
 class SplinterOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -323,7 +323,7 @@ class SplinterOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLayer with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertLayer with Bert->Splinter
 class SplinterLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -410,7 +410,7 @@ class SplinterLayer(nn.Module):
         return layer_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEncoder with Bert->Splinter
+# Copied from transformersDev.models.bert.modeling_bert.BertEncoder with Bert->Splinter
 class SplinterEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -519,7 +519,7 @@ class SplinterPreTrainedModel(PreTrainedModel):
     supports_gradient_checkpointing = True
     _keys_to_ignore_on_load_missing = [r"position_ids"]
 
-    # Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+    # Copied from transformersDev.models.bert.modeling_bert.BertPreTrainedModel._init_weights
     def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, nn.Linear):

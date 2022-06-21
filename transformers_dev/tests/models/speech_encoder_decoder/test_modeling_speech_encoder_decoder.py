@@ -17,8 +17,8 @@
 import tempfile
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_modeling_common import floats_tensor, ids_tensor, random_attention_mask
 from ..bert.test_modeling_bert import BertModelTester
@@ -31,15 +31,15 @@ if is_torch_available():
     import numpy as np
     import torch
 
-    from transformers import (
+    from transformersDev import (
         BertLMHeadModel,
         Speech2Text2ForCausalLM,
         SpeechEncoderDecoderConfig,
         SpeechEncoderDecoderModel,
         Wav2Vec2Model,
     )
-    from transformers.modeling_outputs import BaseModelOutput
-    from transformers.models.speech_to_text.modeling_speech_to_text import Speech2TextEncoder
+    from transformersDev.modeling_outputs import BaseModelOutput
+    from transformersDev.models.speech_to_text.modeling_speech_to_text import Speech2TextEncoder
 
 
 @require_torch

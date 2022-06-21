@@ -189,7 +189,7 @@ class MegatronBertEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->MegatronBert
 class MegatronBertSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -317,7 +317,7 @@ class MegatronBertSelfAttention(nn.Module):
         return outputs
 
 
-# Based transformers.models.bert.modeling_bert.BertSelfOutput. Moved LayerNorm to MegatronBertAttention below.
+# Based transformersDev.models.bert.modeling_bert.BertSelfOutput. Moved LayerNorm to MegatronBertAttention below.
 class MegatronBertSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -330,7 +330,7 @@ class MegatronBertSelfOutput(nn.Module):
         return residual + hidden_states
 
 
-# Based transformers.models.bert.modeling_bert.BertAttention. Added LayerNorm.
+# Based transformersDev.models.bert.modeling_bert.BertAttention. Added LayerNorm.
 class MegatronBertAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -382,7 +382,7 @@ class MegatronBertAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->MegatronBert
 class MegatronBertIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -398,7 +398,7 @@ class MegatronBertIntermediate(nn.Module):
         return hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertOutput. Moved LayerNorm to MegatronBertLayer below.
+# Based on transformersDev.models.bert.modeling_bert.BertOutput. Moved LayerNorm to MegatronBertLayer below.
 class MegatronBertOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -411,7 +411,7 @@ class MegatronBertOutput(nn.Module):
         return input_tensor + hidden_states
 
 
-# Based on transformers.models.bert.modeling_bert.BertLayer. Added LayerNorm.
+# Based on transformersDev.models.bert.modeling_bert.BertLayer. Added LayerNorm.
 class MegatronBertLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -607,7 +607,7 @@ class MegatronBertEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler with Bert->MegatronBert
 class MegatronBertPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -623,7 +623,7 @@ class MegatronBertPooler(nn.Module):
         return pooled_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->MegatronBert
 class MegatronBertPredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -641,7 +641,7 @@ class MegatronBertPredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->MegatronBert
 class MegatronBertLMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -662,7 +662,7 @@ class MegatronBertLMPredictionHead(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOnlyMLMHead with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertOnlyMLMHead with Bert->MegatronBert
 class MegatronBertOnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -673,7 +673,7 @@ class MegatronBertOnlyMLMHead(nn.Module):
         return prediction_scores
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOnlyNSPHead with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertOnlyNSPHead with Bert->MegatronBert
 class MegatronBertOnlyNSPHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -684,7 +684,7 @@ class MegatronBertOnlyNSPHead(nn.Module):
         return seq_relationship_score
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPreTrainingHeads with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPreTrainingHeads with Bert->MegatronBert
 class MegatronBertPreTrainingHeads(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -727,7 +727,7 @@ class MegatronBertPreTrainedModel(PreTrainedModel):
 
 
 @dataclass
-# Copied from transformers.models.bert.modeling_bert.BertForPreTrainingOutput with Bert->MegatronBert
+# Copied from transformersDev.models.bert.modeling_bert.BertForPreTrainingOutput with Bert->MegatronBert
 class MegatronBertForPreTrainingOutput(ModelOutput):
     """
     Output type of [`MegatronBertForPreTraining`].
@@ -1059,7 +1059,7 @@ class MegatronBertForPreTraining(MegatronBertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BertTokenizer, MegatronBertForPreTraining
+        >>> from transformersDev import BertTokenizer, MegatronBertForPreTraining
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("nvidia/megatron-bert-cased-345m")
@@ -1183,7 +1183,7 @@ class MegatronBertForCausalLM(MegatronBertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BertTokenizer, MegatronBertForCausalLM, MegatronBertConfig
+        >>> from transformersDev import BertTokenizer, MegatronBertForCausalLM, MegatronBertConfig
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("nvidia/megatron-bert-cased-345m")
@@ -1410,7 +1410,7 @@ class MegatronBertForNextSentencePrediction(MegatronBertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BertTokenizer, MegatronBertForNextSentencePrediction
+        >>> from transformersDev import BertTokenizer, MegatronBertForNextSentencePrediction
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("nvidia/megatron-bert-cased-345m")

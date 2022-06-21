@@ -74,7 +74,7 @@ def drop_path(x, drop_prob: float = 0.0, training: bool = False):
     return output
 
 
-# Copied from transformers.models.convnext.modeling_convnext.ConvNextDropPath with ConvNext->Van
+# Copied from transformersDev.models.convnext.modeling_convnext.ConvNextDropPath with ConvNext->Van
 class VanDropPath(nn.Module):
     """Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks)."""
 

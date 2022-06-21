@@ -73,7 +73,7 @@ class GPTNeoXConfig(PretrainedConfig):
         Example:
 
     ```python
-    >>> from transformers import GPTNeoXModel, GPTNeoXConfig
+    >>> from transformersDev import GPTNeoXModel, GPTNeoXConfig
 
     >>> # Initializing a GPTNeoX gpt-neox-20b style configuration
     >>> configuration = GPTNeoXConfig()

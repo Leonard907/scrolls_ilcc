@@ -485,7 +485,7 @@ class TrajectoryTransformerModel(TrajectoryTransformerPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import TrajectoryTransformerModel
+        >>> from transformersDev import TrajectoryTransformerModel
         >>> import torch
 
         >>> model = TrajectoryTransformerModel.from_pretrained(

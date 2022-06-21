@@ -17,8 +17,8 @@
 import copy
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attention_mask
@@ -27,8 +27,8 @@ from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attenti
 if is_torch_available():
     import torch
 
-    from transformers import SplinterConfig, SplinterForPreTraining, SplinterForQuestionAnswering, SplinterModel
-    from transformers.models.splinter.modeling_splinter import SPLINTER_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev import SplinterConfig, SplinterForPreTraining, SplinterForQuestionAnswering, SplinterModel
+    from transformersDev.models.splinter.modeling_splinter import SPLINTER_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class SplinterModelTester:

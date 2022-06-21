@@ -17,7 +17,7 @@
 from collections import OrderedDict
 from typing import Any, List, Mapping, Optional
 
-from transformers import PreTrainedTokenizer, TensorType, is_torch_available
+from transformersDev import PreTrainedTokenizer, TensorType, is_torch_available
 
 from ...configuration_utils import PretrainedConfig
 from ...onnx import OnnxConfigWithPast, PatchingSpec
@@ -117,7 +117,7 @@ class GPT2Config(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import GPT2Model, GPT2Config
+    >>> from transformersDev import GPT2Model, GPT2Config
 
     >>> # Initializing a GPT2 configuration
     >>> configuration = GPT2Config()

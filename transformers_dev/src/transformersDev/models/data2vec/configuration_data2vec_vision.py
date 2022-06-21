@@ -103,7 +103,7 @@ class Data2VecVisionConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import Data2VecVisionModel, Data2VecVisionConfig
+    >>> from transformersDev import Data2VecVisionModel, Data2VecVisionConfig
 
     >>> # Initializing a Data2VecVision data2vec_vision-base-patch16-224-in22k style configuration
     >>> configuration = Data2VecVisionConfig()
@@ -184,7 +184,7 @@ class Data2VecVisionConfig(PretrainedConfig):
         self.semantic_loss_ignore_index = semantic_loss_ignore_index
 
 
-# Copied from transformers.models.vit.configuration_vit.ViTOnnxConfig
+# Copied from transformersDev.models.vit.configuration_vit.ViTOnnxConfig
 class Data2VecVisionOnnxConfig(OnnxConfig):
 
     torch_onnx_minimum_version = version.parse("1.11")

@@ -23,9 +23,9 @@ from typing import List
 
 import pandas as pd
 
-from transformers import AddedToken, TapexTokenizer
-from transformers.models.tapex.tokenization_tapex import VOCAB_FILES_NAMES
-from transformers.testing_utils import is_pt_tf_cross_test, require_pandas, slow
+from transformersDev import AddedToken, TapexTokenizer
+from transformersDev.models.tapex.tokenization_tapex import VOCAB_FILES_NAMES
+from transformersDev.testing_utils import is_pt_tf_cross_test, require_pandas, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

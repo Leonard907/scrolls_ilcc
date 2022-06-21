@@ -25,14 +25,14 @@ from PIL import Image
 
 import requests
 from huggingface_hub import hf_hub_download
-from transformers import (
+from transformersDev import (
     BeitConfig,
     BeitFeatureExtractor,
     BeitForImageClassification,
     BeitForMaskedImageModeling,
     BeitForSemanticSegmentation,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

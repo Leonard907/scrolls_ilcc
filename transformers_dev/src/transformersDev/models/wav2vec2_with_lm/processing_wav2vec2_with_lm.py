@@ -401,7 +401,7 @@ class Wav2Vec2ProcessorWithLM(ProcessorMixin):
 
         ```python
         >>> # Let's see how to retrieve time steps for a model
-        >>> from transformers import AutoTokenizer, AutoProcessor, AutoModelForCTC
+        >>> from transformersDev import AutoTokenizer, AutoProcessor, AutoModelForCTC
         >>> from datasets import load_dataset
         >>> import datasets
         >>> import torch

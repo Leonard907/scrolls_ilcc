@@ -25,8 +25,8 @@ from PIL import Image
 import requests
 import timm
 from huggingface_hub import hf_hub_download
-from transformers import DeiTFeatureExtractor, ViTConfig, ViTFeatureExtractor, ViTForImageClassification, ViTModel
-from transformers.utils import logging
+from transformersDev import DeiTFeatureExtractor, ViTConfig, ViTFeatureExtractor, ViTForImageClassification, ViTModel
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

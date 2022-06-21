@@ -75,7 +75,7 @@ class MBartTokenizerFast(PreTrainedTokenizerFast):
     Examples:
 
     ```python
-    >>> from transformers import MBartTokenizerFast
+    >>> from transformersDev import MBartTokenizerFast
 
     >>> tokenizer = MBartTokenizerFast.from_pretrained(
     ...     "facebook/mbart-large-en-ro", src_lang="en_XX", tgt_lang="ro_RO"

@@ -147,7 +147,7 @@ def check_dummies(overwrite=False):
         if dummy_files[backend] != actual_dummies[backend]:
             if overwrite:
                 print(
-                    f"Updating transformers.utils.dummy_{short_names.get(backend, backend)}_objects.py as the main "
+                    f"Updating transformersDev.utils.dummy_{short_names.get(backend, backend)}_objects.py as the main "
                     "__init__ has new objects."
                 )
                 with open(dummy_file_paths[backend], "w", encoding="utf-8", newline="\n") as f:

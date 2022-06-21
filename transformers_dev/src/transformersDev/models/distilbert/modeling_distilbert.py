@@ -27,7 +27,7 @@ from packaging import version
 from torch import nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
-from transformers.configuration_utils import PretrainedConfig
+from transformersDev.configuration_utils import PretrainedConfig
 
 from ...activations import get_activation
 from ...deepspeed import is_deepspeed_zero3_enabled
@@ -1072,7 +1072,7 @@ class DistilBertForMultipleChoice(DistilBertPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import DistilBertTokenizer, DistilBertForMultipleChoice
+        >>> from transformersDev import DistilBertTokenizer, DistilBertForMultipleChoice
         >>> import torch
 
         >>> tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-cased")

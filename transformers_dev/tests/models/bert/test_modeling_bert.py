@@ -16,9 +16,9 @@ import os
 import tempfile
 import unittest
 
-from transformers import BertConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import require_torch, require_torch_gpu, slow, torch_device
+from transformersDev import BertConfig, is_torch_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import require_torch, require_torch_gpu, slow, torch_device
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -28,7 +28,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         MODEL_FOR_PRETRAINING_MAPPING,
         BertForMaskedLM,
         BertForMultipleChoice,
@@ -40,7 +40,7 @@ if is_torch_available():
         BertLMHeadModel,
         BertModel,
     )
-    from transformers.models.bert.modeling_bert import BERT_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.bert.modeling_bert import BERT_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class BertModelTester:

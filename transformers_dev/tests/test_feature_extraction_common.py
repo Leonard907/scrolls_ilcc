@@ -24,9 +24,9 @@ from pathlib import Path
 
 from huggingface_hub import Repository, delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import AutoFeatureExtractor, Wav2Vec2FeatureExtractor
-from transformers.testing_utils import PASS, USER, check_json_file_has_correct_format, get_tests_dir, is_staging_test
-from transformers.utils import is_torch_available, is_vision_available
+from transformersDev import AutoFeatureExtractor, Wav2Vec2FeatureExtractor
+from transformersDev.testing_utils import PASS, USER, check_json_file_has_correct_format, get_tests_dir, is_staging_test
+from transformersDev.utils import is_torch_available, is_vision_available
 
 
 sys.path.append(str(Path(__file__).parent.parent / "utils"))

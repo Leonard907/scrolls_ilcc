@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Tuple, Union
 
 from huggingface_hub import Repository, delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import (
+from transformersDev import (
     AlbertTokenizer,
     AlbertTokenizerFast,
     AutoTokenizer,
@@ -48,7 +48,7 @@ from transformers import (
     is_tokenizers_available,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from transformersDev.testing_utils import (
     PASS,
     USER,
     check_json_file_has_correct_format,
@@ -60,7 +60,7 @@ from transformers.testing_utils import (
     require_torch,
     slow,
 )
-from transformers.tokenization_utils import AddedToken, Trie
+from transformersDev.tokenization_utils import AddedToken, Trie
 
 
 if is_torch_available():
@@ -68,7 +68,7 @@ if is_torch_available():
 
 
 if TYPE_CHECKING:
-    from transformers import PretrainedConfig, PreTrainedModel, TFPreTrainedModel
+    from transformersDev import PretrainedConfig, PreTrainedModel, TFPreTrainedModel
 
 
 sys.path.append(str(Path(__file__).parent.parent / "utils"))
@@ -2265,7 +2265,7 @@ class TokenizerTesterMixin:
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -2315,7 +2315,7 @@ class TokenizerTesterMixin:
     @require_tf
     @slow
     def test_tf_encode_plus_sent_to_model(self):
-        from transformers import TF_MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import TF_MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(TF_MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -2350,7 +2350,7 @@ class TokenizerTesterMixin:
     @require_torch
     @slow
     def test_np_encode_plus_sent_to_model(self):
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 

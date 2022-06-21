@@ -3,7 +3,7 @@ import torch
 
 import gym
 from mujoco_py import GlfwContext
-from transformers import DecisionTransformerModel
+from transformersDev import DecisionTransformerModel
 
 
 GlfwContext(offscreen=True)  # Create a window to init GLFW.

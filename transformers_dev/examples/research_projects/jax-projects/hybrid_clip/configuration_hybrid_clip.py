@@ -1,7 +1,7 @@
 import copy
 
-from transformers.configuration_utils import PretrainedConfig
-from transformers.utils import logging
+from transformersDev.configuration_utils import PretrainedConfig
+from transformersDev.utils import logging
 
 
 logger = logging.get_logger(__name__)
@@ -28,7 +28,7 @@ class HybridCLIPConfig(PretrainedConfig):
 
     Examples::
 
-        >>> from transformers import BertConfig, CLIPConfig, HybridCLIPConfig, FlaxHybridCLIP
+        >>> from transformersDev import BertConfig, CLIPConfig, HybridCLIPConfig, FlaxHybridCLIP
 
         >>> # Initializing a BERT and CLIP configuration
         >>> config_text = BertConfig()
@@ -69,14 +69,14 @@ class HybridCLIPConfig(PretrainedConfig):
         text_model_type = text_config.pop("model_type")
         vision_model_type = vision_config.pop("model_type")
 
-        from transformers import AutoConfig
+        from transformersDev import AutoConfig
 
         self.text_config = AutoConfig.for_model(text_model_type, **text_config)
 
         if vision_model_type == "clip":
             self.vision_config = AutoConfig.for_model(vision_model_type, **vision_config).vision_config
         elif vision_model_type == "clip_vision_model":
-            from transformers import CLIPVisionConfig
+            from transformersDev import CLIPVisionConfig
 
             self.vision_config = CLIPVisionConfig(**vision_config)
         else:

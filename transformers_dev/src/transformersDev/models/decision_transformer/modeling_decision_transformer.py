@@ -57,7 +57,7 @@ DECISION_TRANSFORMER_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.gpt2.modeling_gpt2.load_tf_weights_in_gpt2
+# Copied from transformersDev.models.gpt2.modeling_gpt2.load_tf_weights_in_gpt2
 def load_tf_weights_in_gpt2(model, config, gpt2_checkpoint_path):
     """Load tf checkpoints in a pytorch model"""
     try:
@@ -115,7 +115,7 @@ def load_tf_weights_in_gpt2(model, config, gpt2_checkpoint_path):
     return model
 
 
-# Copied from transformers.models.gpt2.modeling_gpt2.GPT2Attention with GPT2->DecisionTransformerGPT2
+# Copied from transformersDev.models.gpt2.modeling_gpt2.GPT2Attention with GPT2->DecisionTransformerGPT2
 class DecisionTransformerGPT2Attention(nn.Module):
     def __init__(self, config, is_cross_attention=False, layer_idx=None):
         super().__init__()
@@ -331,7 +331,7 @@ class DecisionTransformerGPT2Attention(nn.Module):
         return outputs  # a, present, (attentions)
 
 
-# Copied from transformers.models.gpt2.modeling_gpt2.GPT2MLP with GPT2->DecisionTransformerGPT2
+# Copied from transformersDev.models.gpt2.modeling_gpt2.GPT2MLP with GPT2->DecisionTransformerGPT2
 class DecisionTransformerGPT2MLP(nn.Module):
     def __init__(self, intermediate_size, config):
         super().__init__()
@@ -349,7 +349,7 @@ class DecisionTransformerGPT2MLP(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.gpt2.modeling_gpt2.GPT2Block with GPT2->DecisionTransformerGPT2
+# Copied from transformersDev.models.gpt2.modeling_gpt2.GPT2Block with GPT2->DecisionTransformerGPT2
 class DecisionTransformerGPT2Block(nn.Module):
     def __init__(self, config, layer_idx=None):
         super().__init__()
@@ -508,7 +508,7 @@ class DecisionTransformerGPT2Model(DecisionTransformerGPT2PreTrainedModel):
     def set_input_embeddings(self, new_embeddings):
         self.wte = new_embeddings
 
-    # Copied from transformers.models.gpt2.modeling_gpt2.GPT2Model.forward
+    # Copied from transformersDev.models.gpt2.modeling_gpt2.GPT2Model.forward
     def forward(
         self,
         input_ids: Optional[torch.LongTensor] = None,
@@ -851,7 +851,7 @@ class DecisionTransformerModel(DecisionTransformerPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import DecisionTransformerModel
+        >>> from transformersDev import DecisionTransformerModel
         >>> import torch
 
         >>> model = DecisionTransformerModel.from_pretrained("edbeeching/decision-transformer-gym-hopper-medium")

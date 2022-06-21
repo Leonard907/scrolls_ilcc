@@ -16,9 +16,9 @@
 
 import unittest
 
-from transformers import ElectraConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import ElectraConfig, is_torch_available
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -27,7 +27,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         MODEL_FOR_PRETRAINING_MAPPING,
         ElectraForCausalLM,
         ElectraForMaskedLM,
@@ -38,7 +38,7 @@ if is_torch_available():
         ElectraForTokenClassification,
         ElectraModel,
     )
-    from transformers.models.electra.modeling_electra import ELECTRA_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.electra.modeling_electra import ELECTRA_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class ElectraModelTester:

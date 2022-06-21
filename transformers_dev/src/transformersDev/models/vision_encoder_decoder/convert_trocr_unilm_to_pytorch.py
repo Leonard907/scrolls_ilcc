@@ -22,7 +22,7 @@ import torch
 from PIL import Image
 
 import requests
-from transformers import (
+from transformersDev import (
     RobertaTokenizer,
     TrOCRConfig,
     TrOCRForCausalLM,
@@ -32,7 +32,7 @@ from transformers import (
     ViTFeatureExtractor,
     ViTModel,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

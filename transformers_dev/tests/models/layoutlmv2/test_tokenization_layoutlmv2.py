@@ -21,8 +21,8 @@ import tempfile
 import unittest
 from typing import List
 
-from transformers import AddedToken, LayoutLMv2TokenizerFast, SpecialTokensMixin, is_tf_available, is_torch_available
-from transformers.models.layoutlmv2.tokenization_layoutlmv2 import (
+from transformersDev import AddedToken, LayoutLMv2TokenizerFast, SpecialTokensMixin, is_tf_available, is_torch_available
+from transformersDev.models.layoutlmv2.tokenization_layoutlmv2 import (
     VOCAB_FILES_NAMES,
     BasicTokenizer,
     LayoutLMv2Tokenizer,
@@ -31,7 +31,7 @@ from transformers.models.layoutlmv2.tokenization_layoutlmv2 import (
     _is_punctuation,
     _is_whitespace,
 )
-from transformers.testing_utils import is_pt_tf_cross_test, require_pandas, require_tokenizers, require_torch, slow
+from transformersDev.testing_utils import is_pt_tf_cross_test, require_pandas, require_tokenizers, require_torch, slow
 
 from ...test_tokenization_common import (
     SMALL_TRAINING_CORPUS,
@@ -1215,7 +1215,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 

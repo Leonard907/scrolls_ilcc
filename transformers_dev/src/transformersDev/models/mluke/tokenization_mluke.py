@@ -365,7 +365,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
         self.sp_model.LoadFromSerializedProto(self.sp_model_proto)
 
     @add_end_docstrings(ENCODE_KWARGS_DOCSTRING, ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer.__call__
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer.__call__
     def __call__(
         self,
         text: Union[TextInput, List[TextInput]],
@@ -511,7 +511,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
                 **kwargs,
             )
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._encode_plus
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._encode_plus
     def _encode_plus(
         self,
         text: Union[TextInput],
@@ -593,7 +593,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
             verbose=verbose,
         )
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._batch_encode_plus
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._batch_encode_plus
     def _batch_encode_plus(
         self,
         batch_text_or_text_pairs: Union[List[TextInput], List[TextInputPair]],
@@ -702,7 +702,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
 
         return BatchEncoding(batch_outputs)
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._check_entity_input_format
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._check_entity_input_format
     def _check_entity_input_format(self, entities: Optional[EntityInput], entity_spans: Optional[EntitySpanInput]):
         if not isinstance(entity_spans, list):
             raise ValueError("entity_spans should be given as a list")
@@ -722,7 +722,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
             if len(entities) != len(entity_spans):
                 raise ValueError("If you specify entities, entities and entity_spans must be the same length")
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._create_input_sequence
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._create_input_sequence
     def _create_input_sequence(
         self,
         text: Union[TextInput],
@@ -878,7 +878,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
         )
 
     @add_end_docstrings(ENCODE_KWARGS_DOCSTRING, ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._batch_prepare_for_model
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._batch_prepare_for_model
     def _batch_prepare_for_model(
         self,
         batch_ids_pairs: List[Tuple[List[int], None]],
@@ -961,7 +961,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
         return batch_outputs
 
     @add_end_docstrings(ENCODE_KWARGS_DOCSTRING, ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer.prepare_for_model
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer.prepare_for_model
     def prepare_for_model(
         self,
         ids: List[int],
@@ -1191,7 +1191,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
 
         return batch_outputs
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer.pad
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer.pad
     def pad(
         self,
         encoded_inputs: Union[
@@ -1352,7 +1352,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
 
         return BatchEncoding(batch_outputs, tensor_type=return_tensors)
 
-    # Copied from transformers.models.luke.tokenization_luke.LukeTokenizer._pad
+    # Copied from transformersDev.models.luke.tokenization_luke.LukeTokenizer._pad
     def _pad(
         self,
         encoded_inputs: Union[Dict[str, EncodedInput], BatchEncoding],
@@ -1513,7 +1513,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
 
         return out_vocab_file, entity_vocab_file
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.build_inputs_with_special_tokens
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.build_inputs_with_special_tokens
     def build_inputs_with_special_tokens(
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None
     ) -> List[int]:
@@ -1540,7 +1540,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
         sep = [self.sep_token_id]
         return cls + token_ids_0 + sep + sep + token_ids_1 + sep
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.get_special_tokens_mask
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.get_special_tokens_mask
     def get_special_tokens_mask(
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None, already_has_special_tokens: bool = False
     ) -> List[int]:
@@ -1569,7 +1569,7 @@ class MLukeTokenizer(PreTrainedTokenizer):
             return [1] + ([0] * len(token_ids_0)) + [1]
         return [1] + ([0] * len(token_ids_0)) + [1, 1] + ([0] * len(token_ids_1)) + [1]
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.create_token_type_ids_from_sequences
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.create_token_type_ids_from_sequences
     def create_token_type_ids_from_sequences(
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None
     ) -> List[int]:
@@ -1596,21 +1596,21 @@ class MLukeTokenizer(PreTrainedTokenizer):
         return len(cls + token_ids_0 + sep + sep + token_ids_1 + sep) * [0]
 
     @property
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.vocab_size
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.vocab_size
     def vocab_size(self):
         return len(self.sp_model) + self.fairseq_offset + 1  # Add the <mask> token
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.get_vocab
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer.get_vocab
     def get_vocab(self):
         vocab = {self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)}
         vocab.update(self.added_tokens_encoder)
         return vocab
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer._tokenize
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer._tokenize
     def _tokenize(self, text: str) -> List[str]:
         return self.sp_model.encode(text, out_type=str)
 
-    # Copied from transformers.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer._convert_token_to_id
+    # Copied from transformersDev.models.xlm_roberta.tokenization_xlm_roberta.XLMRobertaTokenizer._convert_token_to_id
     def _convert_token_to_id(self, token):
         """Converts a token (str) in an id using the vocab."""
         if token in self.fairseq_tokens_to_ids:

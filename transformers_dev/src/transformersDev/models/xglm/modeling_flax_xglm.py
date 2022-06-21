@@ -346,7 +346,7 @@ class FlaxXGLMDecoderLayer(nn.Module):
         )
         self.final_layer_norm = nn.LayerNorm(dtype=self.dtype, epsilon=1e-05)
 
-    # Copied from transformers.models.mbart.modeling_flax_mbart.FlaxMBartDecoderLayer.__call__
+    # Copied from transformersDev.models.mbart.modeling_flax_mbart.FlaxMBartDecoderLayer.__call__
     def __call__(
         self,
         hidden_states: jnp.ndarray,

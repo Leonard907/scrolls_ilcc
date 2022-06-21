@@ -82,7 +82,7 @@ class ViltForImagesAndTextClassificationOutput(ModelOutput):
     attentions: Optional[List[Tuple[torch.FloatTensor]]] = None
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -388,7 +388,7 @@ class ViltSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfOutput with ViT->Vilt
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfOutput with ViT->Vilt
 class ViltSelfOutput(nn.Module):
     """
     The residual connection is defined in ViltLayer instead of here (as is the case with other models), due to the
@@ -442,7 +442,7 @@ class ViltAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTIntermediate with ViT->Vilt
+# Copied from transformersDev.models.vit.modeling_vit.ViTIntermediate with ViT->Vilt
 class ViltIntermediate(nn.Module):
     def __init__(self, config: ViltConfig) -> None:
         super().__init__()
@@ -460,7 +460,7 @@ class ViltIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTOutput with ViT->Vilt
+# Copied from transformersDev.models.vit.modeling_vit.ViTOutput with ViT->Vilt
 class ViltOutput(nn.Module):
     def __init__(self, config: ViltConfig) -> None:
         super().__init__()
@@ -781,7 +781,7 @@ class ViltModel(ViltPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ViltProcessor, ViltModel
+        >>> from transformersDev import ViltProcessor, ViltModel
         >>> from PIL import Image
         >>> import requests
 
@@ -939,7 +939,7 @@ class ViltForMaskedLM(ViltPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ViltProcessor, ViltForMaskedLM
+        >>> from transformersDev import ViltProcessor, ViltForMaskedLM
         >>> import requests
         >>> from PIL import Image
         >>> import re
@@ -1113,7 +1113,7 @@ class ViltForQuestionAnswering(ViltPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ViltProcessor, ViltForQuestionAnswering
+        >>> from transformersDev import ViltProcessor, ViltForQuestionAnswering
         >>> import requests
         >>> from PIL import Image
 
@@ -1216,7 +1216,7 @@ class ViltForImageAndTextRetrieval(ViltPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ViltProcessor, ViltForImageAndTextRetrieval
+        >>> from transformersDev import ViltProcessor, ViltForImageAndTextRetrieval
         >>> import requests
         >>> from PIL import Image
 
@@ -1322,7 +1322,7 @@ class ViltForImagesAndTextClassification(ViltPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ViltProcessor, ViltForImagesAndTextClassification
+        >>> from transformersDev import ViltProcessor, ViltForImagesAndTextClassification
         >>> import requests
         >>> from PIL import Image
 

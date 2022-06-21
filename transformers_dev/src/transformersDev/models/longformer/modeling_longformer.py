@@ -1104,7 +1104,7 @@ class LongformerSelfAttention(nn.Module):
         return global_attn_output, global_attn_probs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput
 class LongformerSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1168,7 +1168,7 @@ class LongformerAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate
 class LongformerIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1184,7 +1184,7 @@ class LongformerIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput
 class LongformerOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1339,7 +1339,7 @@ class LongformerEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler
 class LongformerPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1355,7 +1355,7 @@ class LongformerPooler(nn.Module):
         return pooled_output
 
 
-# Copied from transformers.models.roberta.modeling_roberta.RobertaLMHead with Roberta->Longformer
+# Copied from transformersDev.models.roberta.modeling_roberta.RobertaLMHead with Roberta->Longformer
 class LongformerLMHead(nn.Module):
     """Longformer Head for masked language modeling."""
 
@@ -1636,7 +1636,7 @@ class LongformerModel(LongformerPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import LongformerModel, LongformerTokenizer
+        >>> from transformersDev import LongformerModel, LongformerTokenizer
 
         >>> model = LongformerModel.from_pretrained("allenai/longformer-base-4096")
         >>> tokenizer = LongformerTokenizer.from_pretrained("allenai/longformer-base-4096")
@@ -1785,7 +1785,7 @@ class LongformerForMaskedLM(LongformerPreTrainedModel):
         Mask filling example:
 
         ```python
-        >>> from transformers import LongformerTokenizer, LongformerForMaskedLM
+        >>> from transformersDev import LongformerTokenizer, LongformerForMaskedLM
 
         >>> tokenizer = LongformerTokenizer.from_pretrained("allenai/longformer-base-4096")
         >>> model = LongformerForMaskedLM.from_pretrained("allenai/longformer-base-4096")
@@ -2025,7 +2025,7 @@ class LongformerForQuestionAnswering(LongformerPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import LongformerTokenizer, LongformerForQuestionAnswering
+        >>> from transformersDev import LongformerTokenizer, LongformerForQuestionAnswering
         >>> import torch
 
         >>> tokenizer = LongformerTokenizer.from_pretrained("allenai/longformer-large-4096-finetuned-triviaqa")

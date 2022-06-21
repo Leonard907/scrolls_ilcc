@@ -14,15 +14,15 @@
 
 import unittest
 
-from transformers import AutoConfig, AutoTokenizer, BertConfig, TensorType, is_flax_available
-from transformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, require_flax, slow
+from transformersDev import AutoConfig, AutoTokenizer, BertConfig, TensorType, is_flax_available
+from transformersDev.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, require_flax, slow
 
 
 if is_flax_available():
     import jax
-    from transformers.models.auto.modeling_flax_auto import FlaxAutoModel
-    from transformers.models.bert.modeling_flax_bert import FlaxBertModel
-    from transformers.models.roberta.modeling_flax_roberta import FlaxRobertaModel
+    from transformersDev.models.auto.modeling_flax_auto import FlaxAutoModel
+    from transformersDev.models.bert.modeling_flax_bert import FlaxBertModel
+    from transformersDev.models.roberta.modeling_flax_roberta import FlaxRobertaModel
 
 
 @require_flax

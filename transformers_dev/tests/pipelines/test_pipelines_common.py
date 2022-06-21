@@ -22,7 +22,7 @@ from abc import abstractmethod
 from functools import lru_cache
 from unittest import skipIf
 
-from transformers import (
+from transformersDev import (
     FEATURE_EXTRACTOR_MAPPING,
     TOKENIZER_MAPPING,
     AutoFeatureExtractor,
@@ -33,9 +33,9 @@ from transformers import (
     TextClassificationPipeline,
     pipeline,
 )
-from transformers.pipelines import get_task
-from transformers.pipelines.base import _pad
-from transformers.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch
+from transformersDev.pipelines import get_task
+from transformersDev.pipelines.base import _pad
+from transformersDev.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch
 
 
 logger = logging.getLogger(__name__)
@@ -464,7 +464,7 @@ class PipelinePadTest(unittest.TestCase):
 @require_torch
 class PipelineUtilsTest(unittest.TestCase):
     def test_pipeline_dataset(self):
-        from transformers.pipelines.pt_utils import PipelineDataset
+        from transformersDev.pipelines.pt_utils import PipelineDataset
 
         dummy_dataset = [0, 1, 2, 3]
 
@@ -477,7 +477,7 @@ class PipelineUtilsTest(unittest.TestCase):
         self.assertEqual(outputs, [2, 3, 4, 5])
 
     def test_pipeline_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from transformersDev.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [0, 1, 2, 3]
 
@@ -491,7 +491,7 @@ class PipelineUtilsTest(unittest.TestCase):
         self.assertEqual(outputs, [2, 3, 4, 5])
 
     def test_pipeline_iterator_no_len(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from transformersDev.pipelines.pt_utils import PipelineIterator
 
         def dummy_dataset():
             for i in range(4):
@@ -508,7 +508,7 @@ class PipelineUtilsTest(unittest.TestCase):
         self.assertEqual(outputs, [2, 3, 4, 5])
 
     def test_pipeline_batch_unbatch_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from transformersDev.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [{"id": [0, 1, 2]}, {"id": [3]}]
 
@@ -523,7 +523,7 @@ class PipelineUtilsTest(unittest.TestCase):
     def test_pipeline_batch_unbatch_iterator_tensors(self):
         import torch
 
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from transformersDev.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [{"id": torch.LongTensor([[10, 20], [0, 1], [0, 2]])}, {"id": torch.LongTensor([[3]])}]
 
@@ -538,7 +538,7 @@ class PipelineUtilsTest(unittest.TestCase):
         )
 
     def test_pipeline_chunk_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineChunkIterator
+        from transformersDev.pipelines.pt_utils import PipelineChunkIterator
 
         def preprocess_chunk(n: int):
             for i in range(n):
@@ -553,7 +553,7 @@ class PipelineUtilsTest(unittest.TestCase):
         self.assertEqual(outputs, [0, 1, 0, 1, 2])
 
     def test_pipeline_pack_iterator(self):
-        from transformers.pipelines.pt_utils import PipelinePackIterator
+        from transformersDev.pipelines.pt_utils import PipelinePackIterator
 
         def pack(item):
             return {"id": item["id"] + 1, "is_last": item["is_last"]}
@@ -585,7 +585,7 @@ class PipelineUtilsTest(unittest.TestCase):
         )
 
     def test_pipeline_pack_unbatch_iterator(self):
-        from transformers.pipelines.pt_utils import PipelinePackIterator
+        from transformersDev.pipelines.pt_utils import PipelinePackIterator
 
         dummy_dataset = [{"id": [0, 1, 2], "is_last": [False, True, False]}, {"id": [3], "is_last": [True]}]
 

@@ -107,7 +107,7 @@ class MarianTokenizer(PreTrainedTokenizer):
     Examples:
 
     ```python
-    >>> from transformers import MarianTokenizer
+    >>> from transformersDev import MarianTokenizer
 
     >>> tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-de")
     >>> src_texts = ["I am a small frog.", "Tom asked his teacher for advice."]

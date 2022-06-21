@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import require_torch, torch_device
+from transformersDev import is_torch_available
+from transformersDev.testing_utils import require_torch, torch_device
 
 from ..test_modeling_common import ids_tensor
 
@@ -26,7 +26,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers.generation_logits_process import (
+    from transformersDev.generation_logits_process import (
         EncoderNoRepeatNGramLogitsProcessor,
         ExponentialDecayLengthPenalty,
         ForcedBOSTokenLogitsProcessor,

@@ -21,11 +21,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import transformers.models.auto
-from transformers.models.auto.configuration_auto import CONFIG_MAPPING, AutoConfig
-from transformers.models.bert.configuration_bert import BertConfig
-from transformers.models.roberta.configuration_roberta import RobertaConfig
-from transformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, get_tests_dir
+import transformersDev.models.auto
+from transformersDev.models.auto.configuration_auto import CONFIG_MAPPING, AutoConfig
+from transformersDev.models.bert.configuration_bert import BertConfig
+from transformersDev.models.roberta.configuration_roberta import RobertaConfig
+from transformersDev.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, get_tests_dir
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent.parent / "utils"))

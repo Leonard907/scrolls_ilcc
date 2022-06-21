@@ -21,14 +21,14 @@ from pathlib import Path
 
 import torch
 
-from transformers import (
+from transformersDev import (
     VisualBertConfig,
     VisualBertForMultipleChoice,
     VisualBertForPreTraining,
     VisualBertForQuestionAnswering,
     VisualBertForVisualReasoning,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

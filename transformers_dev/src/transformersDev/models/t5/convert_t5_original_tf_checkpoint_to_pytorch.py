@@ -17,8 +17,8 @@
 
 import argparse
 
-from transformers import T5Config, T5ForConditionalGeneration, load_tf_weights_in_t5
-from transformers.utils import logging
+from transformersDev import T5Config, T5ForConditionalGeneration, load_tf_weights_in_t5
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

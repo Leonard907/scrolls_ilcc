@@ -219,7 +219,7 @@ class AlbertEmbeddings(nn.Module):
                 persistent=False,
             )
 
-    # Copied from transformers.models.bert.modeling_bert.BertEmbeddings.forward
+    # Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings.forward
     def forward(
         self,
         input_ids: Optional[torch.LongTensor] = None,
@@ -291,7 +291,7 @@ class AlbertAttention(nn.Module):
             self.max_position_embeddings = config.max_position_embeddings
             self.distance_embedding = nn.Embedding(2 * config.max_position_embeddings - 1, self.attention_head_size)
 
-    # Copied from transformers.models.bert.modeling_bert.BertSelfAttention.transpose_for_scores
+    # Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention.transpose_for_scores
     def transpose_for_scores(self, x: torch.Tensor) -> torch.Tensor:
         new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
         x = x.view(new_x_shape)
@@ -816,7 +816,7 @@ class AlbertForPreTraining(AlbertPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import AlbertTokenizer, AlbertForPreTraining
+        >>> from transformersDev import AlbertTokenizer, AlbertForPreTraining
         >>> import torch
 
         >>> tokenizer = AlbertTokenizer.from_pretrained("albert-base-v2")
@@ -960,7 +960,7 @@ class AlbertForMaskedLM(AlbertPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import AlbertTokenizer, AlbertForMaskedLM
+        >>> from transformersDev import AlbertTokenizer, AlbertForMaskedLM
 
         >>> tokenizer = AlbertTokenizer.from_pretrained("albert-base-v2")
         >>> model = AlbertForMaskedLM.from_pretrained("albert-base-v2")

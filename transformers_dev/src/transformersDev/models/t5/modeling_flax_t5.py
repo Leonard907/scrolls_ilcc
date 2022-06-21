@@ -54,7 +54,7 @@ _CONFIG_FOR_DOC = "T5Config"
 _TOKENIZER_FOR_DOC = "T5Tokenizer"
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_flax_bart.shift_tokens_right
 def shift_tokens_right(input_ids: np.array, pad_token_id: int, decoder_start_token_id: int) -> np.ndarray:
     """
     Shift input ids one token to the right.
@@ -1057,7 +1057,7 @@ class FlaxT5PreTrainedModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import T5Tokenizer, FlaxT5ForConditionalGeneration
+        >>> from transformersDev import T5Tokenizer, FlaxT5ForConditionalGeneration
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
         >>> model = FlaxT5ForConditionalGeneration.from_pretrained("t5-small")
@@ -1118,7 +1118,7 @@ class FlaxT5PreTrainedModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import T5Tokenizer, FlaxT5ForConditionalGeneration
+        >>> from transformersDev import T5Tokenizer, FlaxT5ForConditionalGeneration
         >>> import jax.numpy as jnp
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
@@ -1335,7 +1335,7 @@ FLAX_T5_MODEL_DOCSTRING = """
     Example:
 
     ```python
-    >>> from transformers import T5Tokenizer, FlaxT5Model
+    >>> from transformersDev import T5Tokenizer, FlaxT5Model
 
     >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
     >>> model = FlaxT5Model.from_pretrained("t5-small")
@@ -1486,7 +1486,7 @@ class FlaxT5ForConditionalGeneration(FlaxT5PreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import T5Tokenizer, FlaxT5ForConditionalGeneration
+        >>> from transformersDev import T5Tokenizer, FlaxT5ForConditionalGeneration
         >>> import jax.numpy as jnp
 
         >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
@@ -1635,7 +1635,7 @@ FLAX_T5_CONDITIONAL_GENERATION_DOCSTRING = """
     Example:
 
     ```python
-    >>> from transformers import T5Tokenizer, FlaxT5ForConditionalGeneration
+    >>> from transformersDev import T5Tokenizer, FlaxT5ForConditionalGeneration
 
     >>> tokenizer = T5Tokenizer.from_pretrained("t5-small")
     >>> model = FlaxT5ForConditionalGeneration.from_pretrained("t5-small")

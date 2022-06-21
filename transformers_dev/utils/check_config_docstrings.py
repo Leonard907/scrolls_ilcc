@@ -32,7 +32,7 @@ spec = importlib.util.spec_from_file_location(
 )
 transformers = spec.loader.load_module()
 
-CONFIG_MAPPING = transformers.models.auto.configuration_auto.CONFIG_MAPPING
+CONFIG_MAPPING = transformersDev.models.auto.configuration_auto.CONFIG_MAPPING
 
 # Regex pattern used to find the checkpoint mentioned in the docstring of `config_class`.
 # For example, `[bert-base-uncased](https://huggingface.co/bert-base-uncased)`

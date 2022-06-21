@@ -28,8 +28,8 @@ from typing import Optional
 import tensorflow as tf
 from datasets import load_dataset, load_metric
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoTokenizer,
     DataCollatorWithPadding,
@@ -41,7 +41,7 @@ from transformers import (
     TFTrainingArguments,
     set_seed,
 )
-from transformers.utils import CONFIG_NAME, TF2_WEIGHTS_NAME, check_min_version, send_example_telemetry
+from transformersDev.utils import CONFIG_NAME, TF2_WEIGHTS_NAME, check_min_version, send_example_telemetry
 from utils_qa import postprocess_qa_predictions
 
 
@@ -276,9 +276,9 @@ def main():
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     if training_args.should_log:
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        transformersDev.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.enable_default_handler()
+        transformersDev.utils.logging.enable_explicit_format()
     logger.info(f"Training/evaluation parameters {training_args}")
     # endregion
 

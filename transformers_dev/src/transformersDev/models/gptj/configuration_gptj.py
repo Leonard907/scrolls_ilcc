@@ -76,7 +76,7 @@ class GPTJConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import GPTJModel, GPTJConfig
+    >>> from transformersDev import GPTJModel, GPTJConfig
 
     >>> # Initializing a GPT-J 6B configuration
     >>> configuration = GPTJConfig()
@@ -141,7 +141,7 @@ class GPTJConfig(PretrainedConfig):
         )
 
 
-# Copied from transformers.models.gpt2.configuration_gpt2.GPT2OnnxConfig
+# Copied from transformersDev.models.gpt2.configuration_gpt2.GPT2OnnxConfig
 class GPTJOnnxConfig(OnnxConfigWithPast):
     def __init__(
         self,

@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import SqueezeBertConfig, is_torch_available
-from transformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
+from transformersDev import SqueezeBertConfig, is_torch_available
+from transformersDev.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attention_mask
@@ -26,7 +26,7 @@ from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attenti
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         SQUEEZEBERT_PRETRAINED_MODEL_ARCHIVE_LIST,
         SqueezeBertForMaskedLM,
         SqueezeBertForMultipleChoice,

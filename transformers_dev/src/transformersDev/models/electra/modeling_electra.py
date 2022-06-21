@@ -172,7 +172,7 @@ class ElectraEmbeddings(nn.Module):
                 persistent=False,
             )
 
-    # Copied from transformers.models.bert.modeling_bert.BertEmbeddings.forward
+    # Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings.forward
     def forward(
         self,
         input_ids: Optional[torch.LongTensor] = None,
@@ -215,7 +215,7 @@ class ElectraEmbeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->Electra
 class ElectraSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -343,7 +343,7 @@ class ElectraSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput
 class ElectraSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -358,7 +358,7 @@ class ElectraSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_bert.BertAttention with Bert->Electra
 class ElectraAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -408,7 +408,7 @@ class ElectraAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate
 class ElectraIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -424,7 +424,7 @@ class ElectraIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput
 class ElectraOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -439,7 +439,7 @@ class ElectraOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLayer with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_bert.BertLayer with Bert->Electra
 class ElectraLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -526,7 +526,7 @@ class ElectraLayer(nn.Module):
         return layer_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEncoder with Bert->Electra
+# Copied from transformersDev.models.bert.modeling_bert.BertEncoder with Bert->Electra
 class ElectraEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -672,7 +672,7 @@ class ElectraPreTrainedModel(PreTrainedModel):
     _keys_to_ignore_on_load_missing = [r"position_ids"]
     _keys_to_ignore_on_load_unexpected = [r"electra.embeddings_project.weight", r"electra.embeddings_project.bias"]
 
-    # Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+    # Copied from transformersDev.models.bert.modeling_bert.BertPreTrainedModel._init_weights
     def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, nn.Linear):
@@ -1095,7 +1095,7 @@ class ElectraForPreTraining(ElectraPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import ElectraForPreTraining, ElectraTokenizerFast
+        >>> from transformersDev import ElectraForPreTraining, ElectraTokenizerFast
         >>> import torch
 
         >>> discriminator = ElectraForPreTraining.from_pretrained("google/electra-base-discriminator")
@@ -1601,7 +1601,7 @@ class ElectraForCausalLM(ElectraPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ElectraTokenizer, ElectraForCausalLM, ElectraConfig
+        >>> from transformersDev import ElectraTokenizer, ElectraForCausalLM, ElectraConfig
         >>> import torch
 
         >>> tokenizer = ElectraTokenizer.from_pretrained("google/electra-base-generator")
@@ -1658,7 +1658,7 @@ class ElectraForCausalLM(ElectraPreTrainedModel):
             cross_attentions=outputs.cross_attentions,
         )
 
-    # Copied from transformers.models.roberta.modeling_roberta.RobertaForCausalLM.prepare_inputs_for_generation
+    # Copied from transformersDev.models.roberta.modeling_roberta.RobertaForCausalLM.prepare_inputs_for_generation
     def prepare_inputs_for_generation(self, input_ids, past=None, attention_mask=None, **model_kwargs):
         input_shape = input_ids.shape
         # if model is used as a decoder in encoder-decoder model, the decoder attention mask is created on the fly
@@ -1671,7 +1671,7 @@ class ElectraForCausalLM(ElectraPreTrainedModel):
 
         return {"input_ids": input_ids, "attention_mask": attention_mask, "past_key_values": past}
 
-    # Copied from transformers.models.roberta.modeling_roberta.RobertaForCausalLM._reorder_cache
+    # Copied from transformersDev.models.roberta.modeling_roberta.RobertaForCausalLM._reorder_cache
     def _reorder_cache(self, past, beam_idx):
         reordered_past = ()
         for layer_past in past:

@@ -22,8 +22,8 @@ import numpy as np
 import torch
 from torch import nn
 
-from transformers import ReformerConfig, ReformerModelWithLMHead
-from transformers.utils import logging
+from transformersDev import ReformerConfig, ReformerModelWithLMHead
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

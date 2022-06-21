@@ -21,8 +21,8 @@ import unittest
 
 import numpy as np
 
-from transformers import is_tf_available, is_torch_available
-from transformers.testing_utils import is_pt_tf_cross_test, require_tf, require_torch, slow, torch_device
+from transformersDev import is_tf_available, is_torch_available
+from transformersDev.testing_utils import is_pt_tf_cross_test, require_tf, require_torch, slow, torch_device
 
 from ...test_modeling_tf_common import ids_tensor
 from ..bert.test_modeling_tf_bert import TFBertModelTester
@@ -34,7 +34,7 @@ from ..roberta.test_modeling_tf_roberta import TFRobertaModelTester
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import (
+    from transformersDev import (
         AutoConfig,
         AutoTokenizer,
         EncoderDecoderConfig,
@@ -49,12 +49,12 @@ if is_tf_available():
         TFRobertaForCausalLM,
         TFRobertaModel,
     )
-    from transformers.modeling_tf_outputs import TFBaseModelOutput
+    from transformersDev.modeling_tf_outputs import TFBaseModelOutput
 
 if is_torch_available():
     import torch
 
-    from transformers import BertLMHeadModel, BertModel, EncoderDecoderModel
+    from transformersDev import BertLMHeadModel, BertModel, EncoderDecoderModel
 
 
 @require_tf
@@ -614,7 +614,7 @@ class TFBertEncoderDecoderModelTest(TFEncoderDecoderMixin, unittest.TestCase):
     @is_pt_tf_cross_test
     def test_bert2bert_summarization(self):
 
-        from transformers import EncoderDecoderModel
+        from transformersDev import EncoderDecoderModel
 
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
@@ -713,7 +713,7 @@ class TFGPT2EncoderDecoderModelTest(TFEncoderDecoderMixin, unittest.TestCase):
     @is_pt_tf_cross_test
     def test_bert2gpt2_summarization(self):
 
-        from transformers import EncoderDecoderModel
+        from transformersDev import EncoderDecoderModel
 
         tokenizer_in = AutoTokenizer.from_pretrained("bert-base-cased")
         tokenizer_out = AutoTokenizer.from_pretrained("../gpt2")

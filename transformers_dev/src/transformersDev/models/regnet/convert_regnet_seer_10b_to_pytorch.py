@@ -33,9 +33,9 @@ from torch import Tensor
 
 from classy_vision.models.regnet import RegNet, RegNetParams
 from huggingface_hub import cached_download, hf_hub_url
-from transformers import AutoFeatureExtractor, RegNetConfig, RegNetForImageClassification, RegNetModel
-from transformers.modeling_utils import PreTrainedModel
-from transformers.utils import logging
+from transformersDev import AutoFeatureExtractor, RegNetConfig, RegNetForImageClassification, RegNetModel
+from transformersDev.modeling_utils import PreTrainedModel
+from transformersDev.utils import logging
 from vissl.models.model_helpers import get_trunk_forward_outputs
 
 

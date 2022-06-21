@@ -17,9 +17,9 @@
 import tempfile
 import unittest
 
-import transformers
-from transformers import XGLMConfig, XGLMTokenizer, is_flax_available, is_torch_available
-from transformers.testing_utils import is_pt_flax_cross_test, require_flax, require_sentencepiece, slow
+import transformersDev
+from transformersDev import XGLMConfig, XGLMTokenizer, is_flax_available, is_torch_available
+from transformersDev.testing_utils import is_pt_flax_cross_test, require_flax, require_sentencepiece, slow
 
 from ...generation.test_generation_flax_utils import FlaxGenerationTesterMixin
 from ...test_modeling_flax_common import FlaxModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -30,11 +30,11 @@ if is_flax_available():
 
     import jax
     import jax.numpy as jnp
-    from transformers.modeling_flax_pytorch_utils import (
+    from transformersDev.modeling_flax_pytorch_utils import (
         convert_pytorch_state_dict_to_flax,
         load_flax_weights_in_pytorch_model,
     )
-    from transformers.models.xglm.modeling_flax_xglm import FlaxXGLMForCausalLM, FlaxXGLMModel
+    from transformersDev.models.xglm.modeling_flax_xglm import FlaxXGLMForCausalLM, FlaxXGLMModel
 
 
 if is_torch_available():

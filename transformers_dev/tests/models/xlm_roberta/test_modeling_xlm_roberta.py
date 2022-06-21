@@ -16,14 +16,14 @@
 
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow
+from transformersDev import is_torch_available
+from transformersDev.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow
 
 
 if is_torch_available():
     import torch
 
-    from transformers import XLMRobertaModel
+    from transformersDev import XLMRobertaModel
 
 
 @require_sentencepiece

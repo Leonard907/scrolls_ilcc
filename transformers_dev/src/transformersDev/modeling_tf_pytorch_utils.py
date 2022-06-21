@@ -304,7 +304,7 @@ def load_tf2_checkpoint_in_pytorch_model(pt_model, tf_checkpoint_path, tf_inputs
         )
         raise
 
-    import transformers
+    import transformersDev
 
     from .modeling_tf_utils import load_tf_weights
 

@@ -25,7 +25,7 @@ import numpy as np
 import torch
 from torch import Tensor, nn
 
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 from ...activations import ACT2FN
 from ...modeling_outputs import BaseModelOutputWithCrossAttentions
@@ -127,7 +127,7 @@ class MaskFormerSwinBaseModelOutput(ModelOutput):
 
 
 @dataclass
-# Copied from transformers.models.detr.modeling_detr.DetrDecoderOutput
+# Copied from transformersDev.models.detr.modeling_detr.DetrDecoderOutput
 class DetrDecoderOutput(BaseModelOutputWithCrossAttentions):
     """
     Base class for outputs of the DETR decoder. This class adds one attribute to BaseModelOutputWithCrossAttentions,
@@ -471,14 +471,14 @@ def pair_wise_sigmoid_focal_loss(inputs: Tensor, labels: Tensor, alpha: float = 
     return loss / height_and_width
 
 
-# Copied from transformers.models.vit.modeling_vit.to_2tuple
+# Copied from transformersDev.models.vit.modeling_vit.to_2tuple
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
     return (x, x)
 
 
-# Copied from transformers.models.swin.modeling_swin.window_partition
+# Copied from transformersDev.models.swin.modeling_swin.window_partition
 def window_partition(input_feature, window_size):
     """
     Partitions the given input into windows.
@@ -491,7 +491,7 @@ def window_partition(input_feature, window_size):
     return windows
 
 
-# Copied from transformers.models.swin.modeling_swin.window_reverse
+# Copied from transformersDev.models.swin.modeling_swin.window_reverse
 def window_reverse(windows, window_size, height, width):
     """
     Merges windows to produce higher resolution features.
@@ -502,7 +502,7 @@ def window_reverse(windows, window_size, height, width):
     return windows
 
 
-# Copied from transformers.models.swin.modeling_swin.drop_path
+# Copied from transformersDev.models.swin.modeling_swin.drop_path
 def drop_path(input, drop_prob=0.0, training=False, scale_by_keep=True):
     """
     Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).
@@ -645,7 +645,7 @@ class MaskFormerSwinPatchMerging(nn.Module):
         return input_feature
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinDropPath with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinDropPath with Swin->MaskFormerSwin
 class MaskFormerSwinDropPath(nn.Module):
     """Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks)."""
 
@@ -658,7 +658,7 @@ class MaskFormerSwinDropPath(nn.Module):
         return drop_path(input, self.drop_prob, self.training, self.scale_by_keep)
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinSelfAttention with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinSelfAttention with Swin->MaskFormerSwin
 class MaskFormerSwinSelfAttention(nn.Module):
     def __init__(self, config, dim, num_heads):
         super().__init__()
@@ -757,7 +757,7 @@ class MaskFormerSwinSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinSelfOutput with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinSelfOutput with Swin->MaskFormerSwin
 class MaskFormerSwinSelfOutput(nn.Module):
     def __init__(self, config, dim):
         super().__init__()
@@ -771,7 +771,7 @@ class MaskFormerSwinSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinAttention with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinAttention with Swin->MaskFormerSwin
 class MaskFormerSwinAttention(nn.Module):
     def __init__(self, config, dim, num_heads):
         super().__init__()
@@ -810,7 +810,7 @@ class MaskFormerSwinAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinIntermediate with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinIntermediate with Swin->MaskFormerSwin
 class MaskFormerSwinIntermediate(nn.Module):
     def __init__(self, config, dim):
         super().__init__()
@@ -826,7 +826,7 @@ class MaskFormerSwinIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.swin.modeling_swin.SwinOutput with Swin->MaskFormerSwin
+# Copied from transformersDev.models.swin.modeling_swin.SwinOutput with Swin->MaskFormerSwin
 class MaskFormerSwinOutput(nn.Module):
     def __init__(self, config, dim):
         super().__init__()
@@ -1171,7 +1171,7 @@ class MaskFormerSwinModel(nn.Module, ModuleUtilsMixin):
         )
 
 
-# Copied from transformers.models.detr.modeling_detr.DetrAttention
+# Copied from transformersDev.models.detr.modeling_detr.DetrAttention
 class DetrAttention(nn.Module):
     """
     Multi-headed attention from 'Attention Is All You Need' paper.
@@ -1302,7 +1302,7 @@ class DetrAttention(nn.Module):
         return attn_output, attn_weights_reshaped
 
 
-# Copied from transformers.models.detr.modeling_detr.DetrDecoderLayer
+# Copied from transformersDev.models.detr.modeling_detr.DetrDecoderLayer
 class DetrDecoderLayer(nn.Module):
     def __init__(self, config: DetrConfig):
         super().__init__()
@@ -1408,7 +1408,7 @@ class DetrDecoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.detr.modeling_detr._expand_mask
+# Copied from transformersDev.models.detr.modeling_detr._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -2520,7 +2520,7 @@ class MaskFormerForInstanceSegmentation(MaskFormerPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import MaskFormerFeatureExtractor, MaskFormerForInstanceSegmentation
+        >>> from transformersDev import MaskFormerFeatureExtractor, MaskFormerForInstanceSegmentation
         >>> from PIL import Image
         >>> import requests
 

@@ -19,9 +19,9 @@ import inspect
 import math
 import unittest
 
-from transformers import VanConfig
-from transformers.testing_utils import require_scipy, require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property, is_scipy_available, is_torch_available, is_vision_available
+from transformersDev import VanConfig
+from transformersDev.testing_utils import require_scipy, require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property, is_scipy_available, is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor, ids_tensor
@@ -34,14 +34,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import VanForImageClassification, VanModel
-    from transformers.models.van.modeling_van import VAN_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev import VanForImageClassification, VanModel
+    from transformersDev.models.van.modeling_van import VAN_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoFeatureExtractor
+    from transformersDev import AutoFeatureExtractor
 
 
 class VanModelTester:

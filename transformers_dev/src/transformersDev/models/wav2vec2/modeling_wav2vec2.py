@@ -484,7 +484,7 @@ class Wav2Vec2FeatureProjection(nn.Module):
         return hidden_states, norm_hidden_states
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->Wav2Vec2
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->Wav2Vec2
 class Wav2Vec2Attention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -1413,8 +1413,8 @@ class Wav2Vec2ForPreTraining(Wav2Vec2PreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import AutoFeatureExtractor, Wav2Vec2ForPreTraining
-        >>> from transformers.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices
+        >>> from transformersDev import AutoFeatureExtractor, Wav2Vec2ForPreTraining
+        >>> from transformersDev.models.wav2vec2.modeling_wav2vec2 import _compute_mask_indices
         >>> from datasets import load_dataset
 
         >>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")

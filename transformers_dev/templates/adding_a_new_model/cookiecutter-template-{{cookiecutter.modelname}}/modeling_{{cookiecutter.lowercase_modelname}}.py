@@ -139,7 +139,7 @@ def load_tf_weights_in_{{cookiecutter.lowercase_modelname}}(model, config, tf_ch
     return model
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEmbeddings with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertEmbeddings with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Embeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings."""
 
@@ -201,7 +201,7 @@ class {{cookiecutter.camelcase_modelname}}Embeddings(nn.Module):
         return embeddings
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}SelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -327,7 +327,7 @@ class {{cookiecutter.camelcase_modelname}}SelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}SelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -342,7 +342,7 @@ class {{cookiecutter.camelcase_modelname}}SelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertAttention with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Attention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -392,7 +392,7 @@ class {{cookiecutter.camelcase_modelname}}Attention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Intermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -408,7 +408,7 @@ class {{cookiecutter.camelcase_modelname}}Intermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Output(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -423,7 +423,7 @@ class {{cookiecutter.camelcase_modelname}}Output(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLayer with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertLayer with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Layer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -507,7 +507,7 @@ class {{cookiecutter.camelcase_modelname}}Layer(nn.Module):
         return layer_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertEncoder with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertEncoder with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}Encoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -605,7 +605,7 @@ class {{cookiecutter.camelcase_modelname}}Encoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}PredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -623,7 +623,7 @@ class {{cookiecutter.camelcase_modelname}}PredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}LMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -644,7 +644,7 @@ class {{cookiecutter.camelcase_modelname}}LMPredictionHead(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOnlyMLMHead with Bert->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bert.modeling_bert.BertOnlyMLMHead with Bert->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}OnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1113,7 +1113,7 @@ class {{cookiecutter.camelcase_modelname}}ForCausalLM({{cookiecutter.camelcase_m
         Example:
 
         ```python
-        >>> from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForCausalLM, {{cookiecutter.camelcase_modelname}}Config
+        >>> from transformersDev import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForCausalLM, {{cookiecutter.camelcase_modelname}}Config
         >>> import torch
 
         >>> tokenizer = {{cookiecutter.camelcase_modelname}}Tokenizer.from_pretrained('{{cookiecutter.checkpoint_identifier}}')
@@ -1994,7 +1994,7 @@ class {{cookiecutter.camelcase_modelname}}DecoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_bart.BartClassificationHead with Bart->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bart.modeling_bart.BartClassificationHead with Bart->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}ClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
 
@@ -2061,7 +2061,7 @@ class {{cookiecutter.camelcase_modelname}}PreTrainedModel(PreTrainedModel):
     Summarization example:
 
     ```python
-    >>> from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForConditionalGeneration
+    >>> from transformersDev import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForConditionalGeneration
 
     >>> model = {{cookiecutter.camelcase_modelname}}ForConditionalGeneration.from_pretrained('{{cookiecutter.checkpoint_identifier}}')
     >>> tokenizer = {{cookiecutter.camelcase_modelname}}Tokenizer.from_pretrained('{{cookiecutter.checkpoint_identifier}}')
@@ -2397,7 +2397,7 @@ class {{cookiecutter.camelcase_modelname}}Decoder({{cookiecutter.camelcase_model
     def set_input_embeddings(self, value):
         self.embed_tokens = value
 
-    # Copied from transformers.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
+    # Copied from transformersDev.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
     def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
         # create causal mask
         # [bsz, seq_len] -> [bsz, 1, tgt_seq_len, src_seq_len]
@@ -2814,7 +2814,7 @@ class {{cookiecutter.camelcase_modelname}}ForConditionalGeneration({{cookiecutte
         Conditional generation example:
 
         ```python
-        >>> from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForConditionalGeneration
+        >>> from transformersDev import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForConditionalGeneration
         >>> tokenizer = {{cookiecutter.camelcase_modelname}}Tokenizer.from_pretrained('{{cookiecutter.checkpoint_identifier}}')
         >>> TXT = "My friends are <mask> but they eat too many carbs."
 
@@ -3146,7 +3146,7 @@ class {{cookiecutter.camelcase_modelname}}ForQuestionAnswering({{cookiecutter.ca
             encoder_attentions=outputs.encoder_attentions,
         )
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderWrapper with Bart->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderWrapper with Bart->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}DecoderWrapper({{cookiecutter.camelcase_modelname}}PreTrainedModel):
     """
     This wrapper class is a helper class to correctly load pretrained checkpoints when the causal language model is
@@ -3161,7 +3161,7 @@ class {{cookiecutter.camelcase_modelname}}DecoderWrapper({{cookiecutter.camelcas
         return self.decoder(*args, **kwargs)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartForCausalLM with Bart->{{cookiecutter.camelcase_modelname}}
+# Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM with Bart->{{cookiecutter.camelcase_modelname}}
 class {{cookiecutter.camelcase_modelname}}ForCausalLM({{cookiecutter.camelcase_modelname}}PreTrainedModel):
     def __init__(self, config):
         config = copy.deepcopy(config)
@@ -3276,7 +3276,7 @@ class {{cookiecutter.camelcase_modelname}}ForCausalLM({{cookiecutter.camelcase_m
         Example:
 
         ```python
-        >>> from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForCausalLM
+        >>> from transformersDev import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}ForCausalLM
 
         >>> tokenizer = {{cookiecutter.camelcase_modelname}}Tokenizer.from_pretrained('facebook/bart-large')
         >>> model = {{cookiecutter.camelcase_modelname}}ForCausalLM.from_pretrained('facebook/bart-large', add_cross_attention=False)

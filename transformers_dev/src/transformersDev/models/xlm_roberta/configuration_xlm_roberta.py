@@ -52,7 +52,7 @@ class XLMRobertaConfig(RobertaConfig):
     model_type = "xlm-roberta"
 
 
-# Copied from transformers.models.roberta.configuration_roberta.RobertaOnnxConfig with Roberta->XLMRoberta
+# Copied from transformersDev.models.roberta.configuration_roberta.RobertaOnnxConfig with Roberta->XLMRoberta
 class XLMRobertaOnnxConfig(OnnxConfig):
     @property
     def inputs(self) -> Mapping[str, Mapping[int, str]]:

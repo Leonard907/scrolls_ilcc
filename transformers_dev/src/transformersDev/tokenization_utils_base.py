@@ -3461,7 +3461,7 @@ class PreTrainedTokenizerBase(SpecialTokensMixin, PushToHubMixin):
         if not isinstance(auto_class, str):
             auto_class = auto_class.__name__
 
-        import transformers.models.auto as auto_module
+        import transformersDev.models.auto as auto_module
 
         if not hasattr(auto_module, auto_class):
             raise ValueError(f"{auto_class} is not a valid auto class.")
@@ -3590,7 +3590,7 @@ For a more complete example, see the implementation of `prepare_seq2seq_batch`.
 
 def get_fast_tokenizer_file(tokenization_files: List[str]) -> str:
     """
-    Get the tokenization file to use for this version of transformers.
+    Get the tokenization file to use for this version of transformersDev.
 
     Args:
         tokenization_files (`List[str]`): The list of available configuration files.

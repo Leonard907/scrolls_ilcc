@@ -29,10 +29,10 @@ from torch.utils.data import DataLoader
 import pycuda.autoinit  # noqa: F401
 import pycuda.driver as cuda
 import tensorrt as trt
-import transformers
+import transformersDev
 from accelerate import Accelerator
-from transformers import AutoTokenizer, EvalPrediction, default_data_collator, set_seed
-from transformers.trainer_pt_utils import nested_concat, nested_truncate
+from transformersDev import AutoTokenizer, EvalPrediction, default_data_collator, set_seed
+from transformersDev.trainer_pt_utils import nested_concat, nested_truncate
 from utils_qa import postprocess_qa_predictions
 
 
@@ -253,10 +253,10 @@ logging.basicConfig(
 logger.setLevel(logging.INFO if accelerator.is_local_main_process else logging.ERROR)
 if accelerator.is_local_main_process:
     datasets.utils.logging.set_verbosity_warning()
-    transformers.utils.logging.set_verbosity_info()
+    transformersDev.utils.logging.set_verbosity_info()
 else:
     datasets.utils.logging.set_verbosity_error()
-    transformers.utils.logging.set_verbosity_error()
+    transformersDev.utils.logging.set_verbosity_error()
 
 # If passed along, set the training seed now.
 if args.seed is not None:

@@ -107,7 +107,7 @@ class UniSpeechForPreTrainingOutput(ModelOutput):
     attentions: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
 def _compute_mask_indices(
     shape: Tuple[int, int],
     mask_prob: float,
@@ -227,7 +227,7 @@ def _compute_mask_indices(
     return spec_aug_mask
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2NoLayerNormConvLayer with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2NoLayerNormConvLayer with Wav2Vec2->UniSpeech
 class UniSpeechNoLayerNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -249,7 +249,7 @@ class UniSpeechNoLayerNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2LayerNormConvLayer with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2LayerNormConvLayer with Wav2Vec2->UniSpeech
 class UniSpeechLayerNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -277,7 +277,7 @@ class UniSpeechLayerNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2GroupNormConvLayer with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2GroupNormConvLayer with Wav2Vec2->UniSpeech
 class UniSpeechGroupNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -302,7 +302,7 @@ class UniSpeechGroupNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PositionalConvEmbedding with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PositionalConvEmbedding with Wav2Vec2->UniSpeech
 class UniSpeechPositionalConvEmbedding(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -338,7 +338,7 @@ class UniSpeechPositionalConvEmbedding(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->UniSpeech
 class UniSpeechSamePadLayer(nn.Module):
     def __init__(self, num_conv_pos_embeddings):
         super().__init__()
@@ -350,7 +350,7 @@ class UniSpeechSamePadLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder with Wav2Vec2->UniSpeech
 class UniSpeechFeatureEncoder(nn.Module):
     """Construct the features from raw audio waveform"""
 
@@ -416,7 +416,7 @@ class UniSpeechFeatureExtractor(UniSpeechFeatureEncoder):
         )
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureProjection with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureProjection with Wav2Vec2->UniSpeech
 class UniSpeechFeatureProjection(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -432,7 +432,7 @@ class UniSpeechFeatureProjection(nn.Module):
         return hidden_states, norm_hidden_states
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->UniSpeech
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->UniSpeech
 class UniSpeechAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -580,7 +580,7 @@ class UniSpeechAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeedForward with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeedForward with Wav2Vec2->UniSpeech
 class UniSpeechFeedForward(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -605,7 +605,7 @@ class UniSpeechFeedForward(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayer with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayer with Wav2Vec2->UniSpeech
 class UniSpeechEncoderLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -640,7 +640,7 @@ class UniSpeechEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayerStableLayerNorm with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayerStableLayerNorm with Wav2Vec2->UniSpeech
 class UniSpeechEncoderLayerStableLayerNorm(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -673,7 +673,7 @@ class UniSpeechEncoderLayerStableLayerNorm(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Encoder with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Encoder with Wav2Vec2->UniSpeech
 class UniSpeechEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -760,7 +760,7 @@ class UniSpeechEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderStableLayerNorm with Wav2Vec2->UniSpeech
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderStableLayerNorm with Wav2Vec2->UniSpeech
 class UniSpeechEncoderStableLayerNorm(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1080,7 +1080,7 @@ class UniSpeechModel(UniSpeechPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Model._mask_hidden_states
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Model._mask_hidden_states
     def _mask_hidden_states(
         self,
         hidden_states: torch.FloatTensor,
@@ -1272,8 +1272,8 @@ class UniSpeechForPreTraining(UniSpeechPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import Wav2Vec2FeatureExtractor, UniSpeechForPreTraining
-        >>> from transformers.models.unispeech.modeling_unispeech import _compute_mask_indices
+        >>> from transformersDev import Wav2Vec2FeatureExtractor, UniSpeechForPreTraining
+        >>> from transformersDev.models.unispeech.modeling_unispeech import _compute_mask_indices
 
         >>> feature_extractor = Wav2Vec2FeatureExtractor.from_pretrained(
         ...     "hf-internal-testing/tiny-random-unispeech-sat"
@@ -1337,7 +1337,7 @@ class UniSpeechForPreTraining(UniSpeechPreTrainedModel):
     """UniSpeech Model with a `language modeling` head on top for Connectionist Temporal Classification (CTC).""",
     UNISPEECH_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->UniSpeech, wav2vec2->unispeech, WAV_2_VEC_2->UNISPEECH
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->UniSpeech, wav2vec2->unispeech, WAV_2_VEC_2->UNISPEECH
 class UniSpeechForCTC(UniSpeechPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1468,7 +1468,7 @@ class UniSpeechForCTC(UniSpeechPreTrainedModel):
     """,
     UNISPEECH_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->UniSpeech, wav2vec2->unispeech, WAV_2_VEC_2->UNISPEECH
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->UniSpeech, wav2vec2->unispeech, WAV_2_VEC_2->UNISPEECH
 class UniSpeechForSequenceClassification(UniSpeechPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)

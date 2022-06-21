@@ -750,7 +750,7 @@ FLAX_BEIT_MODEL_DOCSTRING = """
     Examples:
 
     ```python
-    >>> from transformers import BeitFeatureExtractor, FlaxBeitModel
+    >>> from transformersDev import BeitFeatureExtractor, FlaxBeitModel
     >>> from PIL import Image
     >>> import requests
 
@@ -837,7 +837,7 @@ FLAX_BEIT_MLM_DOCSTRING = """
     Examples:
 
     ```python
-    >>> from transformers import BeitFeatureExtractor, BeitForMaskedImageModeling
+    >>> from transformersDev import BeitFeatureExtractor, BeitForMaskedImageModeling
     >>> from PIL import Image
     >>> import requests
 
@@ -921,7 +921,7 @@ FLAX_BEIT_CLASSIF_DOCSTRING = """
     Example:
 
     ```python
-    >>> from transformers import BeitFeatureExtractor, FlaxBeitForImageClassification
+    >>> from transformersDev import BeitFeatureExtractor, FlaxBeitForImageClassification
     >>> from PIL import Image
     >>> import requests
 

@@ -22,9 +22,9 @@ from unittest.mock import patch
 import numpy as np
 from datasets import Dataset
 
-from transformers.models.realm.configuration_realm import RealmConfig
-from transformers.models.realm.retrieval_realm import _REALM_BLOCK_RECORDS_FILENAME, RealmRetriever
-from transformers.models.realm.tokenization_realm import VOCAB_FILES_NAMES, RealmTokenizer
+from transformersDev.models.realm.configuration_realm import RealmConfig
+from transformersDev.models.realm.retrieval_realm import _REALM_BLOCK_RECORDS_FILENAME, RealmRetriever
+from transformersDev.models.realm.tokenization_realm import VOCAB_FILES_NAMES, RealmTokenizer
 
 
 class RealmRetrieverTest(TestCase):

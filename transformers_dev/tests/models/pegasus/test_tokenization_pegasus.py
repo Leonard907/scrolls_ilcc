@@ -14,9 +14,9 @@
 
 import unittest
 
-from transformers import PegasusTokenizer, PegasusTokenizerFast
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, require_torch, slow
-from transformers.utils import cached_property
+from transformersDev import PegasusTokenizer, PegasusTokenizerFast
+from transformersDev.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, require_torch, slow
+from transformersDev.utils import cached_property
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

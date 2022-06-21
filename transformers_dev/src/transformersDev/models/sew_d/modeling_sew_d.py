@@ -25,7 +25,7 @@ import torch.utils.checkpoint
 from torch import nn
 from torch.nn import CrossEntropyLoss, LayerNorm
 
-from transformers.deepspeed import is_deepspeed_zero3_enabled
+from transformersDev.deepspeed import is_deepspeed_zero3_enabled
 
 from ...activations import ACT2FN
 from ...modeling_outputs import BaseModelOutput, CausalLMOutput, SequenceClassifierOutput
@@ -72,7 +72,7 @@ SEW_D_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
 def _compute_mask_indices(
     shape: Tuple[int, int],
     mask_prob: float,
@@ -192,7 +192,7 @@ def _compute_mask_indices(
     return spec_aug_mask
 
 
-# Copied from transformers.models.deberta_v2.modeling_deberta_v2.make_log_bucket_position
+# Copied from transformersDev.models.deberta_v2.modeling_deberta_v2.make_log_bucket_position
 def make_log_bucket_position(relative_pos, bucket_size, max_position):
     sign = np.sign(relative_pos)
     mid = bucket_size // 2
@@ -202,7 +202,7 @@ def make_log_bucket_position(relative_pos, bucket_size, max_position):
     return bucket_pos
 
 
-# Copied from transformers.models.deberta_v2.modeling_deberta_v2.build_relative_position
+# Copied from transformersDev.models.deberta_v2.modeling_deberta_v2.build_relative_position
 def build_relative_position(query_size, key_size, bucket_size=-1, max_position=-1):
     """
     Build relative position according to the query and key
@@ -233,24 +233,24 @@ def build_relative_position(query_size, key_size, bucket_size=-1, max_position=-
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.c2p_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.c2p_dynamic_expand
 def c2p_dynamic_expand(c2p_pos, query_layer, relative_pos):
     return c2p_pos.expand([query_layer.size(0), query_layer.size(1), query_layer.size(2), relative_pos.size(-1)])
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.p2c_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.p2c_dynamic_expand
 def p2c_dynamic_expand(c2p_pos, query_layer, key_layer):
     return c2p_pos.expand([query_layer.size(0), query_layer.size(1), key_layer.size(-2), key_layer.size(-2)])
 
 
 @torch.jit.script
-# Copied from transformers.models.deberta.modeling_deberta.pos_dynamic_expand
+# Copied from transformersDev.models.deberta.modeling_deberta.pos_dynamic_expand
 def pos_dynamic_expand(pos_index, p2c_att, key_layer):
     return pos_index.expand(p2c_att.size()[:2] + (pos_index.size(-2), key_layer.size(-2)))
 
 
-# Copied from transformers.models.deberta.modeling_deberta.get_mask
+# Copied from transformersDev.models.deberta.modeling_deberta.get_mask
 def get_mask(input, local_context):
     if not isinstance(local_context, DropoutContext):
         dropout = local_context
@@ -270,7 +270,7 @@ def get_mask(input, local_context):
     return mask, dropout
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2NoLayerNormConvLayer with Wav2Vec2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2NoLayerNormConvLayer with Wav2Vec2->SEWD
 class SEWDNoLayerNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -292,7 +292,7 @@ class SEWDNoLayerNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2LayerNormConvLayer with Wav2Vec2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2LayerNormConvLayer with Wav2Vec2->SEWD
 class SEWDLayerNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -320,7 +320,7 @@ class SEWDLayerNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2GroupNormConvLayer with Wav2Vec2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2GroupNormConvLayer with Wav2Vec2->SEWD
 class SEWDGroupNormConvLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -345,7 +345,7 @@ class SEWDGroupNormConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.sew.modeling_sew.SEWPositionalConvEmbedding with SEW->SEWD
+# Copied from transformersDev.models.sew.modeling_sew.SEWPositionalConvEmbedding with SEW->SEWD
 class SEWDPositionalConvEmbedding(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -379,7 +379,7 @@ class SEWDPositionalConvEmbedding(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->SEW
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->SEW
 class SEWDSamePadLayer(nn.Module):
     def __init__(self, num_conv_pos_embeddings):
         super().__init__()
@@ -391,7 +391,7 @@ class SEWDSamePadLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.sew.modeling_sew.SEWUpsampling with SEW->SEWD
+# Copied from transformersDev.models.sew.modeling_sew.SEWUpsampling with SEW->SEWD
 class SEWDUpsampling(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -414,7 +414,7 @@ class SEWDUpsampling(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder with Wav2Vec2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder with Wav2Vec2->SEWD
 class SEWDFeatureEncoder(nn.Module):
     """Construct the features from raw audio waveform"""
 
@@ -477,7 +477,7 @@ class SEWDFeatureExtractor(SEWDFeatureEncoder):
         )
 
 
-# Copied from transformers.models.deberta.modeling_deberta.ContextPooler
+# Copied from transformersDev.models.deberta.modeling_deberta.ContextPooler
 class ContextPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -500,7 +500,7 @@ class ContextPooler(nn.Module):
         return self.config.hidden_size
 
 
-# Copied from transformers.models.deberta.modeling_deberta.XSoftmax with deberta->deberta_v2
+# Copied from transformersDev.models.deberta.modeling_deberta.XSoftmax with deberta->deberta_v2
 class XSoftmax(torch.autograd.Function):
     """
     Masked Softmax which is optimized for saving memory
@@ -515,7 +515,7 @@ class XSoftmax(torch.autograd.Function):
 
     ```python
     >>> import torch
-    >>> from transformers.models.deberta_v2.modeling_deberta_v2 import XSoftmax
+    >>> from transformersDev.models.deberta_v2.modeling_deberta_v2 import XSoftmax
 
     >>> # Make a tensor
     >>> x = torch.randn([4, 20, 100])
@@ -562,7 +562,7 @@ class XSoftmax(torch.autograd.Function):
         return masked_fill(g, output, r_mask, g.op("Constant", value_t=torch.tensor(0, dtype=torch.uint8)))
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DropoutContext
+# Copied from transformersDev.models.deberta.modeling_deberta.DropoutContext
 class DropoutContext(object):
     def __init__(self):
         self.dropout = 0
@@ -571,7 +571,7 @@ class DropoutContext(object):
         self.reuse_mask = True
 
 
-# Copied from transformers.models.deberta.modeling_deberta.XDropout
+# Copied from transformersDev.models.deberta.modeling_deberta.XDropout
 class XDropout(torch.autograd.Function):
     """Optimized dropout function to save computation and memory by using mask operation instead of multiplication."""
 
@@ -594,7 +594,7 @@ class XDropout(torch.autograd.Function):
             return grad_output, None
 
 
-# Copied from transformers.models.deberta.modeling_deberta.StableDropout
+# Copied from transformersDev.models.deberta.modeling_deberta.StableDropout
 class StableDropout(nn.Module):
     """
     Optimized dropout module for stabilizing the training
@@ -644,7 +644,7 @@ class StableDropout(nn.Module):
             return self.drop_prob
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaSelfOutput with DebertaV2->SEWD, DebertaLayerNorm->LayerNorm, hidden_dropout_prob->activation_dropout
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaSelfOutput with DebertaV2->SEWD, DebertaLayerNorm->LayerNorm, hidden_dropout_prob->activation_dropout
 class SEWDSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -659,7 +659,7 @@ class SEWDSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta_v2.modeling_deberta_v2.DisentangledSelfAttention with attention_probs_dropout_prob->attention_dropout, hidden_dropout_prob->activation_dropout
+# Copied from transformersDev.models.deberta_v2.modeling_deberta_v2.DisentangledSelfAttention with attention_probs_dropout_prob->attention_dropout, hidden_dropout_prob->activation_dropout
 class DisentangledSelfAttention(nn.Module):
     """
     Disentangled self-attention module
@@ -876,7 +876,7 @@ class DisentangledSelfAttention(nn.Module):
         return score
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaAttention with Deberta->SEWD
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaAttention with Deberta->SEWD
 class SEWDAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -913,7 +913,7 @@ class SEWDAttention(nn.Module):
             return attention_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->SEWD
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->SEWD
 class SEWDIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -929,7 +929,7 @@ class SEWDIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaOutput with DebertaLayerNorm->LayerNorm, hidden_dropout_prob->activation_dropout
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaOutput with DebertaLayerNorm->LayerNorm, hidden_dropout_prob->activation_dropout
 class SEWDOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -945,7 +945,7 @@ class SEWDOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.deberta.modeling_deberta.DebertaLayer with Deberta->SEWD
+# Copied from transformersDev.models.deberta.modeling_deberta.DebertaLayer with Deberta->SEWD
 class SEWDLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -980,7 +980,7 @@ class SEWDLayer(nn.Module):
             return layer_output
 
 
-# Copied from transformers.models.deberta_v2.modeling_deberta_v2.ConvLayer
+# Copied from transformersDev.models.deberta_v2.modeling_deberta_v2.ConvLayer
 class ConvLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1017,7 +1017,7 @@ class ConvLayer(nn.Module):
         return output_states
 
 
-# Copied from transformers.models.deberta_v2.modeling_deberta_v2.DebertaV2Encoder with DebertaV2->SEWD
+# Copied from transformersDev.models.deberta_v2.modeling_deberta_v2.DebertaV2Encoder with DebertaV2->SEWD
 class SEWDTransformerEncoder(nn.Module):
     """Modified BertEncoder with relative position bias support"""
 
@@ -1348,7 +1348,7 @@ SEWD_INPUTS_DOCSTRING = r"""
     "The bare SEW-D Model transformer outputting raw hidden-states without any specific head on top.",
     SEWD_START_DOCSTRING,
 )
-# Copied from transformers.models.sew.modeling_sew.SEWModel with SEW->SEWD, layer_norm_eps->feature_layer_norm_eps
+# Copied from transformersDev.models.sew.modeling_sew.SEWModel with SEW->SEWD, layer_norm_eps->feature_layer_norm_eps
 class SEWDModel(SEWDPreTrainedModel):
     def __init__(self, config: SEWDConfig):
         super().__init__(config)
@@ -1369,7 +1369,7 @@ class SEWDModel(SEWDPreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Model._mask_hidden_states
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Model._mask_hidden_states
     def _mask_hidden_states(
         self,
         hidden_states: torch.FloatTensor,
@@ -1478,7 +1478,7 @@ class SEWDModel(SEWDPreTrainedModel):
     """SEW-D Model with a `language modeling` head on top for Connectionist Temporal Classification (CTC).""",
     SEWD_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->SEWD, wav2vec2->sew_d, WAV_2_VEC_2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->SEWD, wav2vec2->sew_d, WAV_2_VEC_2->SEWD
 class SEWDForCTC(SEWDPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1609,7 +1609,7 @@ class SEWDForCTC(SEWDPreTrainedModel):
     """,
     SEWD_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->SEWD, wav2vec2->sew_d, WAV_2_VEC_2->SEWD
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->SEWD, wav2vec2->sew_d, WAV_2_VEC_2->SEWD
 class SEWDForSequenceClassification(SEWDPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)

@@ -45,7 +45,7 @@ CLIP_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -712,7 +712,7 @@ class CLIPTextModel(CLIPPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import CLIPTokenizer, CLIPTextModel
+        >>> from transformersDev import CLIPTokenizer, CLIPTextModel
 
         >>> model = CLIPTextModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -821,7 +821,7 @@ class CLIPVisionModel(CLIPPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, CLIPVisionModel
+        >>> from transformersDev import CLIPProcessor, CLIPVisionModel
 
         >>> model = CLIPVisionModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -897,7 +897,7 @@ class CLIPModel(CLIPPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import CLIPTokenizer, CLIPModel
+        >>> from transformersDev import CLIPTokenizer, CLIPModel
 
         >>> model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -944,7 +944,7 @@ class CLIPModel(CLIPPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, CLIPModel
+        >>> from transformersDev import CLIPProcessor, CLIPModel
 
         >>> model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -996,7 +996,7 @@ class CLIPModel(CLIPPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, CLIPModel
+        >>> from transformersDev import CLIPProcessor, CLIPModel
 
         >>> model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")

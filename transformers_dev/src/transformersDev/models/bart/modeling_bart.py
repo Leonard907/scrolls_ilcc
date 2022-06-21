@@ -553,7 +553,7 @@ BART_GENERATION_EXAMPLE = r"""
     Summarization example:
 
     ```python
-    >>> from transformers import BartTokenizer, BartForConditionalGeneration
+    >>> from transformersDev import BartTokenizer, BartForConditionalGeneration
 
     >>> model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn")
     >>> tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
@@ -574,7 +574,7 @@ BART_GENERATION_EXAMPLE = r"""
     Mask filling example:
 
     ```python
-    >>> from transformers import BartTokenizer, BartForConditionalGeneration
+    >>> from transformersDev import BartTokenizer, BartForConditionalGeneration
 
     >>> tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
     >>> model = BartForConditionalGeneration.from_pretrained("facebook/bart-base")
@@ -1815,7 +1815,7 @@ class BartForCausalLM(BartPretrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BartTokenizer, BartForCausalLM
+        >>> from transformersDev import BartTokenizer, BartForCausalLM
 
         >>> tokenizer = BartTokenizer.from_pretrained("facebook/bart-base")
         >>> model = BartForCausalLM.from_pretrained("facebook/bart-base", add_cross_attention=False)

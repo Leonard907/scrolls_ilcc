@@ -33,12 +33,12 @@ from datasets import load_dataset, load_metric
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
+import transformersDev
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import set_seed
 from huggingface_hub import Repository
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -50,8 +50,8 @@ from transformers import (
     default_data_collator,
     get_scheduler,
 )
-from transformers.utils import check_min_version, get_full_repo_name, send_example_telemetry
-from transformers.utils.versions import require_version
+from transformersDev.utils import check_min_version, get_full_repo_name, send_example_telemetry
+from transformersDev.utils.versions import require_version
 from utils_qa import postprocess_qa_predictions
 
 
@@ -348,10 +348,10 @@ def main():
     logger.info(accelerator.state, main_process_only=False)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

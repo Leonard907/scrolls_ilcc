@@ -58,7 +58,7 @@ MARIAN_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bart.modeling_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_bart.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start_token_id: int):
     """
     Shift input ids one token to the right.
@@ -75,7 +75,7 @@ def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -91,7 +91,7 @@ def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_
     return mask[None, None, :, :].expand(bsz, 1, tgt_len, tgt_len + past_key_values_length)
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -140,7 +140,7 @@ class MarianSinusoidalPositionalEmbedding(nn.Embedding):
         return super().forward(positions)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->Marian
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->Marian
 class MarianAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -288,7 +288,7 @@ class MarianAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.bart.modeling_bart.BartEncoderLayer with Bart->Marian
+# Copied from transformersDev.models.bart.modeling_bart.BartEncoderLayer with Bart->Marian
 class MarianEncoderLayer(nn.Module):
     def __init__(self, config: MarianConfig):
         super().__init__()
@@ -357,7 +357,7 @@ class MarianEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderLayer with Bart->Marian
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderLayer with Bart->Marian
 class MarianDecoderLayer(nn.Module):
     def __init__(self, config: MarianConfig):
         super().__init__()
@@ -532,7 +532,7 @@ MARIAN_GENERATION_EXAMPLE = r"""
     Examples:
 
     ```python
-    >>> from transformers import MarianTokenizer, MarianMTModel
+    >>> from transformersDev import MarianTokenizer, MarianMTModel
 
     >>> src = "fr"  # source language
     >>> trg = "en"  # target language
@@ -848,7 +848,7 @@ class MarianDecoder(MarianPreTrainedModel):
     def set_input_embeddings(self, value):
         self.embed_tokens = value
 
-    # Copied from transformers.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
+    # Copied from transformersDev.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
     def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
         # create causal mask
         # [bsz, seq_len] -> [bsz, 1, tgt_seq_len, src_seq_len]
@@ -1192,7 +1192,7 @@ class MarianModel(MarianPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import MarianTokenizer, MarianModel
+        >>> from transformersDev import MarianTokenizer, MarianModel
 
         >>> tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-de")
         >>> model = MarianModel.from_pretrained("Helsinki-NLP/opus-mt-en-de")
@@ -1521,7 +1521,7 @@ class MarianMTModel(MarianPreTrainedModel):
         return reordered_past
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderWrapper with Bart->Marian
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderWrapper with Bart->Marian
 class MarianDecoderWrapper(MarianPreTrainedModel):
     """
     This wrapper class is a helper class to correctly load pretrained checkpoints when the causal language model is
@@ -1536,7 +1536,7 @@ class MarianDecoderWrapper(MarianPreTrainedModel):
         return self.decoder(*args, **kwargs)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartForCausalLM with Bart->Marian, facebook/bart-base->Helsinki-NLP/opus-mt-fr-en
+# Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM with Bart->Marian, facebook/bart-base->Helsinki-NLP/opus-mt-fr-en
 class MarianForCausalLM(MarianPreTrainedModel):
     def __init__(self, config):
         config = copy.deepcopy(config)
@@ -1656,7 +1656,7 @@ class MarianForCausalLM(MarianPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import MarianTokenizer, MarianForCausalLM
+        >>> from transformersDev import MarianTokenizer, MarianForCausalLM
 
         >>> tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-fr-en")
         >>> model = MarianForCausalLM.from_pretrained("Helsinki-NLP/opus-mt-fr-en", add_cross_attention=False)

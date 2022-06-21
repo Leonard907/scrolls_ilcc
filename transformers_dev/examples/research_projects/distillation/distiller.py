@@ -29,7 +29,7 @@ from tqdm import tqdm
 
 from grouped_batch_sampler import GroupedBatchSampler, create_lengths_groups
 from lm_seqs_dataset import LmSeqsDataset
-from transformers import get_linear_schedule_with_warmup
+from transformersDev import get_linear_schedule_with_warmup
 from utils import logger
 
 

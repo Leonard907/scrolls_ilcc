@@ -25,8 +25,8 @@ import torch
 
 import timm
 from huggingface_hub import hf_hub_download
-from transformers import LevitConfig, LevitFeatureExtractor, LevitForImageClassificationWithTeacher
-from transformers.utils import logging
+from transformersDev import LevitConfig, LevitFeatureExtractor, LevitForImageClassificationWithTeacher
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

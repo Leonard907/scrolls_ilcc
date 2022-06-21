@@ -7,7 +7,7 @@ from PIL import Image
 import requests
 import timm
 from huggingface_hub import hf_hub_download
-from transformers import AutoFeatureExtractor, SwinConfig, SwinForImageClassification
+from transformersDev import AutoFeatureExtractor, SwinConfig, SwinForImageClassification
 
 
 def get_swin_config(swin_name):

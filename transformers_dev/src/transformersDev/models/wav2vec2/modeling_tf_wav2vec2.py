@@ -753,7 +753,7 @@ class TFWav2Vec2FeatureProjection(tf.keras.layers.Layer):
         return hidden_states, norm_hidden_states
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartAttention with TFBart->TFWav2Vec2
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartAttention with TFBart->TFWav2Vec2
 class TFWav2Vec2Attention(tf.keras.layers.Layer):
     """Multi-headed attention from "Attention Is All You Need"""
 
@@ -1477,7 +1477,7 @@ class TFWav2Vec2Model(TFWav2Vec2PreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import Wav2Vec2Processor, TFWav2Vec2Model
+        >>> from transformersDev import Wav2Vec2Processor, TFWav2Vec2Model
         >>> from datasets import load_dataset
         >>> import soundfile as sf
 
@@ -1607,7 +1607,7 @@ class TFWav2Vec2ForCTC(TFWav2Vec2PreTrainedModel):
 
         ```python
         >>> import tensorflow as tf
-        >>> from transformers import Wav2Vec2Processor, TFWav2Vec2ForCTC
+        >>> from transformersDev import Wav2Vec2Processor, TFWav2Vec2ForCTC
         >>> from datasets import load_dataset
         >>> import soundfile as sf
 

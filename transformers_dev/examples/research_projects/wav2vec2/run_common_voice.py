@@ -14,8 +14,8 @@ import torchaudio
 from packaging import version
 from torch import nn
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     HfArgumentParser,
     Trainer,
     TrainingArguments,
@@ -26,7 +26,7 @@ from transformers import (
     is_apex_available,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint, is_main_process
+from transformersDev.trainer_utils import get_last_checkpoint, is_main_process
 
 
 if is_apex_available():
@@ -298,7 +298,7 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed before initializing model.

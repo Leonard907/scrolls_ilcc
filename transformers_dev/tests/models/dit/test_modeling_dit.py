@@ -15,17 +15,17 @@
 
 import unittest
 
-from transformers import is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev import is_torch_available, is_vision_available
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
 
 
 if is_torch_available():
     import torch
 
-    from transformers import AutoModelForImageClassification
+    from transformersDev import AutoModelForImageClassification
 
 if is_vision_available():
-    from transformers import AutoFeatureExtractor
+    from transformersDev import AutoFeatureExtractor
 
 
 @require_torch

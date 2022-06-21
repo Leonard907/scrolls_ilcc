@@ -87,7 +87,7 @@ class XSoftmax(torch.autograd.Function):
 
     ```python
     >>> import torch
-    >>> from transformers.models.deberta.modeling_deberta import XSoftmax
+    >>> from transformersDev.models.deberta.modeling_deberta import XSoftmax
 
     >>> # Make a tensor
     >>> x = torch.randn([4, 20, 100])
@@ -302,7 +302,7 @@ class DebertaAttention(nn.Module):
             return attention_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->Deberta
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->Deberta
 class DebertaIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1069,7 +1069,7 @@ class DebertaForMaskedLM(DebertaPreTrainedModel):
         )
 
 
-# copied from transformers.models.bert.BertPredictionHeadTransform with bert -> deberta
+# copied from transformersDev.models.bert.BertPredictionHeadTransform with bert -> deberta
 class DebertaPredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1087,7 +1087,7 @@ class DebertaPredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# copied from transformers.models.bert.BertLMPredictionHead with bert -> deberta
+# copied from transformersDev.models.bert.BertLMPredictionHead with bert -> deberta
 class DebertaLMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -1108,7 +1108,7 @@ class DebertaLMPredictionHead(nn.Module):
         return hidden_states
 
 
-# copied from transformers.models.bert.BertOnlyMLMHead with bert -> deberta
+# copied from transformersDev.models.bert.BertOnlyMLMHead with bert -> deberta
 class DebertaOnlyMLMHead(nn.Module):
     def __init__(self, config):
         super().__init__()

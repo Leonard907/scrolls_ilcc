@@ -38,13 +38,13 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import optax
-import transformers
+import transformersDev
 from flax import jax_utils
 from flax.jax_utils import unreplicate
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
 from huggingface_hub import Repository
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING,
     AutoConfig,
@@ -53,7 +53,7 @@ from transformers import (
     is_tensorboard_available,
     set_seed,
 )
-from transformers.utils import get_full_repo_name, send_example_telemetry
+from transformersDev.utils import get_full_repo_name, send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -280,9 +280,9 @@ def main():
     # Setup logging, we only want one process per machine to log things on the screen.
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     else:
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     logger.info(f"Training/evaluation parameters {training_args}")

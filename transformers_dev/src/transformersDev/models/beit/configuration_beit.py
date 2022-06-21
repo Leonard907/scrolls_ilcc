@@ -104,7 +104,7 @@ class BeitConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import BeitModel, BeitConfig
+    >>> from transformersDev import BeitModel, BeitConfig
 
     >>> # Initializing a BEiT beit-base-patch16-224-pt22k style configuration
     >>> configuration = BeitConfig()
@@ -185,7 +185,7 @@ class BeitConfig(PretrainedConfig):
         self.semantic_loss_ignore_index = semantic_loss_ignore_index
 
 
-# Copied from transformers.models.vit.configuration_vit.ViTOnnxConfig
+# Copied from transformersDev.models.vit.configuration_vit.ViTOnnxConfig
 class BeitOnnxConfig(OnnxConfig):
 
     torch_onnx_minimum_version = version.parse("1.11")

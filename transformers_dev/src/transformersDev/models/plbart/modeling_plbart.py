@@ -67,7 +67,7 @@ PLBART_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.mbart.modeling_mbart.shift_tokens_right
+# Copied from transformersDev.models.mbart.modeling_mbart.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int):
     """
     Shift input ids one token to the right, and wrap the last non pad token (the <LID> token) Note that MBart does not
@@ -88,7 +88,7 @@ def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int):
     return prev_output_tokens
 
 
-# Copied from transformers.models.bart.modeling_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -104,7 +104,7 @@ def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_
     return mask[None, None, :, :].expand(bsz, 1, tgt_len, tgt_len + past_key_values_length)
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -119,7 +119,7 @@ def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] 
     return inverted_mask.masked_fill(inverted_mask.to(torch.bool), torch.finfo(dtype).min)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartLearnedPositionalEmbedding with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartLearnedPositionalEmbedding with Bart->PLBart
 class PLBartLearnedPositionalEmbedding(nn.Embedding):
     """
     This module learns positional embeddings up to a fixed maximum size.
@@ -140,7 +140,7 @@ class PLBartLearnedPositionalEmbedding(nn.Embedding):
         return super().forward(positions + self.offset)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->PLBart
 class PLBartAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -288,7 +288,7 @@ class PLBartAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.bart.modeling_bart.BartEncoderLayer with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartEncoderLayer with Bart->PLBart
 class PLBartEncoderLayer(nn.Module):
     def __init__(self, config: PLBartConfig):
         super().__init__()
@@ -357,7 +357,7 @@ class PLBartEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderLayer with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderLayer with Bart->PLBart
 class PLBartDecoderLayer(nn.Module):
     def __init__(self, config: PLBartConfig):
         super().__init__()
@@ -475,7 +475,7 @@ class PLBartDecoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_bart.BartClassificationHead with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartClassificationHead with Bart->PLBart
 class PLBartClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
 
@@ -541,7 +541,7 @@ PLBART_GENERATION_EXAMPLE = r"""
     Mask-filling example:
 
     ```python
-    >>> from transformers import PLBartTokenizer, PLBartForConditionalGeneration
+    >>> from transformersDev import PLBartTokenizer, PLBartForConditionalGeneration
 
     >>> model = PLBartForConditionalGeneration.from_pretrained("uclanlp/plbart-base")
     >>> tokenizer = PLBartTokenizer.from_pretrained("uclanlp/plbart-base")
@@ -659,7 +659,7 @@ PLBART_INPUTS_DOCSTRING = r"""
 """
 
 
-# Copied from transformers.models.bart.modeling_bart.BartEncoder with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartEncoder with Bart->PLBart
 class PLBartEncoder(PLBartPreTrainedModel):
     """
     Transformer encoder consisting of *config.encoder_layers* self attention layers. Each layer is a
@@ -836,7 +836,7 @@ class PLBartEncoder(PLBartPreTrainedModel):
         )
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoder with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoder with Bart->PLBart
 class PLBartDecoder(PLBartPreTrainedModel):
     """
     Transformer decoder consisting of *config.decoder_layers* layers. Each layer is a [`PLBartDecoderLayer`]
@@ -1422,7 +1422,7 @@ class PLBartForSequenceClassification(PLBartPreTrainedModel):
         expected_output=_SEQ_CLASS_EXPECTED_OUTPUT,
         expected_loss=_SEQ_CLASS_EXPECTED_LOSS,
     )
-    # Copied from transformers.models.bart.modeling_bart.BartForSequenceClassification.forward
+    # Copied from transformersDev.models.bart.modeling_bart.BartForSequenceClassification.forward
     def forward(
         self,
         input_ids: torch.LongTensor = None,
@@ -1521,7 +1521,7 @@ class PLBartForSequenceClassification(PLBartPreTrainedModel):
         )
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderWrapper with Bart->PLBart
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderWrapper with Bart->PLBart
 class PLBartDecoderWrapper(PLBartPreTrainedModel):
     """
     This wrapper class is a helper class to correctly load pretrained checkpoints when the causal language model is
@@ -1536,7 +1536,7 @@ class PLBartDecoderWrapper(PLBartPreTrainedModel):
         return self.decoder(*args, **kwargs)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartForCausalLM with Bart->PLBart, facebook/bart-base->uclanlp/plbart-base
+# Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM with Bart->PLBart, facebook/bart-base->uclanlp/plbart-base
 class PLBartForCausalLM(PLBartPreTrainedModel):
     def __init__(self, config):
         config = copy.deepcopy(config)
@@ -1656,7 +1656,7 @@ class PLBartForCausalLM(PLBartPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import PLBartTokenizer, PLBartForCausalLM
+        >>> from transformersDev import PLBartTokenizer, PLBartForCausalLM
 
         >>> tokenizer = PLBartTokenizer.from_pretrained("uclanlp/plbart-base")
         >>> model = PLBartForCausalLM.from_pretrained("uclanlp/plbart-base", add_cross_attention=False)

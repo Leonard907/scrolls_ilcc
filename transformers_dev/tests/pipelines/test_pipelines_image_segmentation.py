@@ -18,7 +18,7 @@ import unittest
 import datasets
 from datasets import load_dataset
 
-from transformers import (
+from transformersDev import (
     MODEL_FOR_IMAGE_SEGMENTATION_MAPPING,
     MODEL_FOR_INSTANCE_SEGMENTATION_MAPPING,
     MODEL_FOR_SEMANTIC_SEGMENTATION_MAPPING,
@@ -31,7 +31,7 @@ from transformers import (
     is_vision_available,
     pipeline,
 )
-from transformers.testing_utils import (
+from transformersDev.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_tf,

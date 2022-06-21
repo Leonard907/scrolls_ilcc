@@ -301,7 +301,7 @@ class RagPreTrainedModel(PreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RagModel
+        >>> from transformersDev import RagModel
 
         >>> # initialize a RAG from two pretrained models.
         >>> model = RagModel.from_pretrained_question_encoder_generator(
@@ -560,7 +560,7 @@ class RagModel(RagPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RagTokenizer, RagRetriever, RagModel
+        >>> from transformersDev import RagTokenizer, RagRetriever, RagModel
         >>> import torch
 
         >>> tokenizer = RagTokenizer.from_pretrained("facebook/rag-token-base")
@@ -807,7 +807,7 @@ class RagSequenceForGeneration(RagPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RagTokenizer, RagRetriever, RagSequenceForGeneration
+        >>> from transformersDev import RagTokenizer, RagRetriever, RagSequenceForGeneration
         >>> import torch
 
         >>> tokenizer = RagTokenizer.from_pretrained("facebook/rag-sequence-nq")
@@ -1276,7 +1276,7 @@ class RagTokenForGeneration(RagPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RagTokenizer, RagRetriever, RagTokenForGeneration
+        >>> from transformersDev import RagTokenizer, RagRetriever, RagTokenForGeneration
         >>> import torch
 
         >>> tokenizer = RagTokenizer.from_pretrained("facebook/rag-token-nq")

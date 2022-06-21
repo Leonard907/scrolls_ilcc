@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import is_tf_available
-from transformers.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
+from transformersDev import is_tf_available
+from transformersDev.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_attention_mask
@@ -26,7 +26,7 @@ from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_at
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import (
+    from transformersDev import (
         LongformerConfig,
         TFLongformerForMaskedLM,
         TFLongformerForMultipleChoice,
@@ -36,7 +36,7 @@ if is_tf_available():
         TFLongformerModel,
         TFLongformerSelfAttention,
     )
-    from transformers.tf_utils import shape_list
+    from transformersDev.tf_utils import shape_list
 
 
 class TFLongformerModelTester:

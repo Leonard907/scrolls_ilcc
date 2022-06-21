@@ -18,8 +18,8 @@ import unittest
 
 import numpy as np
 
-from transformers.file_utils import is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_vision
+from transformersDev.file_utils import is_torch_available, is_vision_available
+from transformersDev.testing_utils import require_torch, require_vision
 
 from ...test_feature_extraction_common import FeatureExtractionSavingTestMixin, prepare_image_inputs
 
@@ -30,7 +30,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DPTFeatureExtractor
+    from transformersDev import DPTFeatureExtractor
 
 
 class DPTFeatureExtractionTester(unittest.TestCase):

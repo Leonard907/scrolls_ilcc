@@ -29,11 +29,11 @@ from datasets import Dataset
 
 from huggingface_hub import delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import is_tf_available, is_torch_available
-from transformers.configuration_utils import PretrainedConfig
-from transformers.models.auto import get_values
-from transformers.testing_utils import tooslow  # noqa: F401
-from transformers.testing_utils import (
+from transformersDev import is_tf_available, is_torch_available
+from transformersDev.configuration_utils import PretrainedConfig
+from transformersDev.models.auto import get_values
+from transformersDev.testing_utils import tooslow  # noqa: F401
+from transformersDev.testing_utils import (
     PASS,
     USER,
     CaptureLogger,
@@ -45,8 +45,8 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import logging
-from transformers.utils.generic import ModelOutput
+from transformersDev.utils import logging
+from transformersDev.utils.generic import ModelOutput
 
 
 logger = logging.get_logger(__name__)
@@ -56,7 +56,7 @@ if is_tf_available():
     import numpy as np
     import tensorflow as tf
 
-    from transformers import (
+    from transformersDev import (
         TF_MODEL_FOR_CAUSAL_LM_MAPPING,
         TF_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING,
         TF_MODEL_FOR_MASKED_LM_MAPPING,
@@ -75,7 +75,7 @@ if is_tf_available():
         TFSharedEmbeddings,
         tf_top_k_top_p_filtering,
     )
-    from transformers.generation_tf_utils import (
+    from transformersDev.generation_tf_utils import (
         TFBeamSampleDecoderOnlyOutput,
         TFBeamSampleEncoderDecoderOutput,
         TFBeamSearchDecoderOnlyOutput,
@@ -85,8 +85,8 @@ if is_tf_available():
         TFSampleDecoderOnlyOutput,
         TFSampleEncoderDecoderOutput,
     )
-    from transformers.modeling_tf_utils import unpack_inputs
-    from transformers.tf_utils import stable_softmax
+    from transformersDev.modeling_tf_utils import unpack_inputs
+    from transformersDev.tf_utils import stable_softmax
 
     if _tf_gpu_memory_limit is not None:
         gpus = tf.config.list_physical_devices("GPU")
@@ -561,7 +561,7 @@ class TFModelTesterMixin:
 
     @is_pt_tf_cross_test
     def test_pt_tf_model_equivalence(self):
-        import transformers
+        import transformersDev
 
         for model_class in self.all_model_classes:
 
@@ -596,8 +596,8 @@ class TFModelTesterMixin:
                 tf_inputs_dict_with_labels = None
 
             # Check we can load pt model in tf and vice-versa with model => model functions
-            tf_model = transformers.load_pytorch_model_in_tf2_model(tf_model, pt_model, tf_inputs=tf_inputs_dict)
-            pt_model = transformers.load_tf2_model_in_pytorch_model(pt_model, tf_model)
+            tf_model = transformersDev.load_pytorch_model_in_tf2_model(tf_model, pt_model, tf_inputs=tf_inputs_dict)
+            pt_model = transformersDev.load_tf2_model_in_pytorch_model(pt_model, tf_model)
 
             # Original test: check without `labels`
             self.check_pt_tf_models(tf_model, pt_model, tf_inputs_dict)
@@ -609,11 +609,11 @@ class TFModelTesterMixin:
             with tempfile.TemporaryDirectory() as tmpdirname:
                 pt_checkpoint_path = os.path.join(tmpdirname, "pt_model.bin")
                 torch.save(pt_model.state_dict(), pt_checkpoint_path)
-                tf_model = transformers.load_pytorch_checkpoint_in_tf2_model(tf_model, pt_checkpoint_path)
+                tf_model = transformersDev.load_pytorch_checkpoint_in_tf2_model(tf_model, pt_checkpoint_path)
 
                 tf_checkpoint_path = os.path.join(tmpdirname, "tf_model.h5")
                 tf_model.save_weights(tf_checkpoint_path)
-                pt_model = transformers.load_tf2_checkpoint_in_pytorch_model(pt_model, tf_checkpoint_path)
+                pt_model = transformersDev.load_tf2_checkpoint_in_pytorch_model(pt_model, tf_checkpoint_path)
 
             # Original test: check without `labels`
             self.check_pt_tf_models(tf_model, pt_model, tf_inputs_dict)

@@ -14,15 +14,15 @@
 
 import unittest
 
-from transformers import (
+from transformersDev import (
     MODEL_FOR_QUESTION_ANSWERING_MAPPING,
     TF_MODEL_FOR_QUESTION_ANSWERING_MAPPING,
     LxmertConfig,
     QuestionAnsweringPipeline,
 )
-from transformers.data.processors.squad import SquadExample
-from transformers.pipelines import QuestionAnsweringArgumentHandler, pipeline
-from transformers.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch, slow
+from transformersDev.data.processors.squad import SquadExample
+from transformersDev.pipelines import QuestionAnsweringArgumentHandler, pipeline
+from transformersDev.testing_utils import is_pipeline_test, nested_simplify, require_tf, require_torch, slow
 
 from .test_pipelines_common import ANY, PipelineTestCaseMeta
 

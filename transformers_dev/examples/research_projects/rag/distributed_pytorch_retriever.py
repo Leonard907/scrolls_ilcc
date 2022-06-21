@@ -7,7 +7,7 @@ import psutil
 import torch
 import torch.distributed as dist
 
-from transformers import RagRetriever
+from transformersDev import RagRetriever
 
 
 logger = logging.getLogger(__name__)

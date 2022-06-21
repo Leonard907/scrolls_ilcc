@@ -20,8 +20,8 @@ import unittest
 import numpy as np
 from datasets import load_dataset
 
-from transformers import Wav2Vec2ConformerConfig, is_torch_available
-from transformers.testing_utils import is_pt_flax_cross_test, require_torch, slow, torch_device
+from transformersDev import Wav2Vec2ConformerConfig, is_torch_available
+from transformersDev.testing_utils import is_pt_flax_cross_test, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -36,7 +36,7 @@ from ...test_modeling_common import (
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         Wav2Vec2ConformerForAudioFrameClassification,
         Wav2Vec2ConformerForCTC,
         Wav2Vec2ConformerForPreTraining,
@@ -46,7 +46,7 @@ if is_torch_available():
         Wav2Vec2FeatureExtractor,
         Wav2Vec2Processor,
     )
-    from transformers.models.wav2vec2_conformer.modeling_wav2vec2_conformer import (
+    from transformersDev.models.wav2vec2_conformer.modeling_wav2vec2_conformer import (
         Wav2Vec2ConformerGumbelVectorQuantizer,
         _compute_mask_indices,
         _sample_negative_indices,

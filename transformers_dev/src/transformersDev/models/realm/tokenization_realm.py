@@ -254,7 +254,7 @@ class RealmTokenizer(PreTrainedTokenizer):
         Example:
 
         ```python
-        >>> from transformers import RealmTokenizer
+        >>> from transformersDev import RealmTokenizer
 
         >>> # batch_size = 2, num_candidates = 2
         >>> text = [["Hello world!", "Nice to meet you!"], ["The cute cat.", "The adorable dog."]]

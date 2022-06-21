@@ -26,7 +26,7 @@ from ...utils import logging
 
 
 if TYPE_CHECKING:
-    from transformers.pipelines.conversational import Conversation
+    from transformersDev.pipelines.conversational import Conversation
 
 
 logger = logging.get_logger(__name__)
@@ -65,7 +65,7 @@ class BloomTokenizerFast(PreTrainedTokenizerFast):
     be encoded differently whether it is at the beginning of the sentence (without space) or not:
 
     ```
-    >>> from transformers import BloomTokenizerFast
+    >>> from transformersDev import BloomTokenizerFast
     >>> tokenizer = BloomTokenizerFast.from_pretrained("bigscience/bloom")
     >>> tokenizer("Hello world")['input_ids']
     [15496, 995]

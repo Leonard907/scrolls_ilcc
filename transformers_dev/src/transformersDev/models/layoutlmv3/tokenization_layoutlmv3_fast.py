@@ -222,7 +222,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
         self.only_label_first_subword = only_label_first_subword
 
     @add_end_docstrings(LAYOUTLMV3_ENCODE_KWARGS_DOCSTRING, LAYOUTLMV3_ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.__call__
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.__call__
     def __call__(
         self,
         text: Union[TextInput, PreTokenizedInput, List[TextInput], List[PreTokenizedInput]],
@@ -371,7 +371,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
             )
 
     @add_end_docstrings(LAYOUTLMV3_ENCODE_KWARGS_DOCSTRING, LAYOUTLMV3_ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.batch_encode_plus
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.batch_encode_plus
     def batch_encode_plus(
         self,
         batch_text_or_text_pairs: Union[
@@ -431,7 +431,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
             **kwargs,
         )
 
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.tokenize
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.tokenize
     def tokenize(self, text: str, pair: Optional[str] = None, add_special_tokens: bool = False, **kwargs) -> List[str]:
         batched_input = [(text, pair)] if pair else [text]
         encodings = self._tokenizer.encode_batch(
@@ -441,7 +441,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
         return encodings[0].tokens
 
     @add_end_docstrings(LAYOUTLMV3_ENCODE_KWARGS_DOCSTRING, LAYOUTLMV3_ENCODE_PLUS_ADDITIONAL_KWARGS_DOCSTRING)
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.encode_plus
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.encode_plus
     def encode_plus(
         self,
         text: Union[TextInput, PreTokenizedInput],
@@ -508,7 +508,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
             **kwargs,
         )
 
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._batch_encode_plus with LayoutLMv2->LayoutLMv3
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._batch_encode_plus with LayoutLMv2->LayoutLMv3
     def _batch_encode_plus(
         self,
         batch_text_or_text_pairs: Union[
@@ -666,7 +666,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
 
         return BatchEncoding(sanitized_tokens, sanitized_encodings, tensor_type=return_tensors)
 
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._encode_plus
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._encode_plus
     def _encode_plus(
         self,
         text: Union[TextInput, PreTokenizedInput],
@@ -734,7 +734,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
 
         return batched_output
 
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._pad
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast._pad
     def _pad(
         self,
         encoded_inputs: Union[Dict[str, EncodedInput], BatchEncoding],
@@ -819,7 +819,7 @@ class LayoutLMv3TokenizerFast(PreTrainedTokenizerFast):
 
         return encoded_inputs
 
-    # Copied from transformers.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.save_vocabulary
+    # Copied from transformersDev.models.layoutlmv2.tokenization_layoutlmv2_fast.LayoutLMv2TokenizerFast.save_vocabulary
     def save_vocabulary(self, save_directory: str, filename_prefix: Optional[str] = None) -> Tuple[str]:
         files = self._tokenizer.model.save(save_directory, name=filename_prefix)
         return tuple(files)

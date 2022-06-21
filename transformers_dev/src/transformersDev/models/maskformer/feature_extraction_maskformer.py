@@ -30,7 +30,7 @@ if is_torch_available():
     from torch.nn.functional import interpolate
 
     if TYPE_CHECKING:
-        from transformers.models.maskformer.modeling_maskformer import MaskFormerForInstanceSegmentationOutput
+        from transformersDev.models.maskformer.modeling_maskformer import MaskFormerForInstanceSegmentationOutput
 
 logger = logging.get_logger(__name__)
 

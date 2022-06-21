@@ -81,7 +81,7 @@ DATA2VEC_AUDIO_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2._compute_mask_indices
 def _compute_mask_indices(
     shape: Tuple[int, int],
     mask_prob: float,
@@ -228,7 +228,7 @@ class Data2VecAudioConvLayer(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2SamePadLayer with Wav2Vec2->Data2VecAudio
 class Data2VecAudioPadLayer(nn.Module):
     def __init__(self, num_conv_pos_embeddings):
         super().__init__()
@@ -293,13 +293,13 @@ class Data2VecAudioFeatureEncoder(nn.Module):
         self.gradient_checkpointing = False
         self._requires_grad = True
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder._freeze_parameters
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder._freeze_parameters
     def _freeze_parameters(self):
         for param in self.parameters():
             param.requires_grad = False
         self._requires_grad = False
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder.forward
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureEncoder.forward
     def forward(self, input_values):
         hidden_states = input_values[:, None]
 
@@ -326,7 +326,7 @@ class Data2VecAudioFeatureEncoder(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureProjection with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeatureProjection with Wav2Vec2->Data2VecAudio
 class Data2VecAudioFeatureProjection(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -342,7 +342,7 @@ class Data2VecAudioFeatureProjection(nn.Module):
         return hidden_states, norm_hidden_states
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->Data2VecAudio
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->Data2VecAudio
 class Data2VecAudioAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -490,7 +490,7 @@ class Data2VecAudioAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeedForward with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2FeedForward with Wav2Vec2->Data2VecAudio
 class Data2VecAudioFeedForward(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -515,7 +515,7 @@ class Data2VecAudioFeedForward(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayer with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2EncoderLayer with Wav2Vec2->Data2VecAudio
 class Data2VecAudioEncoderLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -550,7 +550,7 @@ class Data2VecAudioEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Encoder with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Encoder with Wav2Vec2->Data2VecAudio
 class Data2VecAudioEncoder(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -637,7 +637,7 @@ class Data2VecAudioEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Adapter with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2Adapter with Wav2Vec2->Data2VecAudio
 class Data2VecAudioAdapter(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -669,7 +669,7 @@ class Data2VecAudioAdapter(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2AdapterLayer with Wav2Vec2->Data2VecAudio
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2AdapterLayer with Wav2Vec2->Data2VecAudio
 class Data2VecAudioAdapterLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -725,7 +725,7 @@ class Data2VecAudioPreTrainedModel(PreTrainedModel):
                 k = math.sqrt(module.groups / (module.in_channels * module.kernel_size[0]))
                 nn.init.uniform_(module.bias, a=-k, b=k)
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PreTrainedModel._get_feat_extract_output_lengths with
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PreTrainedModel._get_feat_extract_output_lengths with
     def _get_feat_extract_output_lengths(
         self, input_lengths: Union[torch.LongTensor, int], add_adapter: Optional[bool] = None
     ):
@@ -749,7 +749,7 @@ class Data2VecAudioPreTrainedModel(PreTrainedModel):
 
         return input_lengths
 
-    # Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PreTrainedModel._get_feature_vector_attention_mask
+    # Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2PreTrainedModel._get_feature_vector_attention_mask
     def _get_feature_vector_attention_mask(
         self, feature_vector_length: int, attention_mask: torch.LongTensor, add_adapter=None
     ):
@@ -973,7 +973,7 @@ class Data2VecAudioModel(Data2VecAudioPreTrainedModel):
     """Data2VecAudio Model with a `language modeling` head on top for Connectionist Temporal Classification (CTC).""",
     DATA2VEC_AUDIO_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
 class Data2VecAudioForCTC(Data2VecAudioPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1104,7 +1104,7 @@ class Data2VecAudioForCTC(Data2VecAudioPreTrainedModel):
     """,
     DATA2VEC_AUDIO_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForSequenceClassification with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
 class Data2VecAudioForSequenceClassification(Data2VecAudioPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1228,7 +1228,7 @@ class Data2VecAudioForSequenceClassification(Data2VecAudioPreTrainedModel):
     """,
     DATA2VEC_AUDIO_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForAudioFrameClassification with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForAudioFrameClassification with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
 class Data2VecAudioForAudioFrameClassification(Data2VecAudioPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
@@ -1337,7 +1337,7 @@ class Data2VecAudioForAudioFrameClassification(Data2VecAudioPreTrainedModel):
         )
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.AMSoftmaxLoss
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.AMSoftmaxLoss
 class AMSoftmaxLoss(nn.Module):
     def __init__(self, input_dim, num_labels, scale=30.0, margin=0.4):
         super(AMSoftmaxLoss, self).__init__()
@@ -1361,7 +1361,7 @@ class AMSoftmaxLoss(nn.Module):
         return loss
 
 
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.TDNNLayer
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.TDNNLayer
 class TDNNLayer(nn.Module):
     def __init__(self, config, layer_id=0):
         super().__init__()
@@ -1394,7 +1394,7 @@ class TDNNLayer(nn.Module):
     """,
     DATA2VEC_AUDIO_START_DOCSTRING,
 )
-# Copied from transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForXVector with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
+# Copied from transformersDev.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForXVector with Wav2Vec2->Data2VecAudio, wav2vec2->data2vec_audio, WAV_2_VEC_2->DATA2VEC_AUDIO
 class Data2VecAudioForXVector(Data2VecAudioPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)

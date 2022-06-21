@@ -58,7 +58,7 @@ class LongformerConfig(RobertaConfig):
     Example:
 
     ```python
-    >>> from transformers import LongformerConfig, LongformerModel
+    >>> from transformersDev import LongformerConfig, LongformerModel
 
     >>> # Initializing a Longformer configuration
     >>> configuration = LongformerConfig()

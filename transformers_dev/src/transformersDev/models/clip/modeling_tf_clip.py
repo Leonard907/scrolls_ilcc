@@ -58,7 +58,7 @@ TF_CLIP_PRETRAINED_MODEL_ARCHIVE_LIST = [
 LARGE_NEGATIVE = -1e8
 
 
-# Copied from transformers.models.bart.modeling_tf_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_tf_bart._expand_mask
 def _expand_mask(mask: tf.Tensor, tgt_len: Optional[int] = None, past_key_values_length: int = 0):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -292,7 +292,7 @@ class TFCLIPAttention(tf.keras.layers.Layer):
             units=self.embed_dim, kernel_initializer=get_initializer(out_proj_std), name="out_proj"
         )
 
-    # copied from transformers.models.bert.modeling_tf_bert.TFBertSelfAttention.transpose_for_scores
+    # copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfAttention.transpose_for_scores
     def transpose_for_scores(self, tensor: tf.Tensor, batch_size: int) -> tf.Tensor:
         # Reshape from [batch_size, seq_length, all_head_size] to [batch_size, seq_length, num_attention_heads, attention_head_size]
         tensor = tf.reshape(tensor=tensor, shape=(batch_size, -1, self.num_attention_heads, self.attention_head_size))
@@ -1064,7 +1064,7 @@ class TFCLIPTextModel(TFCLIPPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import CLIPTokenizer, TFCLIPTextModel
+        >>> from transformersDev import CLIPTokenizer, TFCLIPTextModel
 
         >>> model = TFCLIPTextModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -1172,7 +1172,7 @@ class TFCLIPVisionModel(TFCLIPPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, TFCLIPVisionModel
+        >>> from transformersDev import CLIPProcessor, TFCLIPVisionModel
 
         >>> model = TFCLIPVisionModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -1276,7 +1276,7 @@ class TFCLIPModel(TFCLIPPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import CLIPTokenizer, TFCLIPModel
+        >>> from transformersDev import CLIPTokenizer, TFCLIPModel
 
         >>> model = TFCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -1316,7 +1316,7 @@ class TFCLIPModel(TFCLIPPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, TFCLIPModel
+        >>> from transformersDev import CLIPProcessor, TFCLIPModel
 
         >>> model = TFCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -1362,7 +1362,7 @@ class TFCLIPModel(TFCLIPPreTrainedModel):
         >>> import tensorflow as tf
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, TFCLIPModel
+        >>> from transformersDev import CLIPProcessor, TFCLIPModel
 
         >>> model = TFCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")

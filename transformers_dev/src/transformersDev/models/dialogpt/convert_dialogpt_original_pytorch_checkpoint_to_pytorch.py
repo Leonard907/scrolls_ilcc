@@ -17,7 +17,7 @@ import os
 
 import torch
 
-from transformers.utils import WEIGHTS_NAME
+from transformersDev.utils import WEIGHTS_NAME
 
 
 DIALOGPT_MODELS = ["small", "medium", "large"]

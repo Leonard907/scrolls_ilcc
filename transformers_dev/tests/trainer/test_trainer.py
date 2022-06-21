@@ -33,7 +33,7 @@ import numpy as np
 from huggingface_hub import Repository, delete_repo, login
 from parameterized import parameterized
 from requests.exceptions import HTTPError
-from transformers import (
+from transformersDev import (
     AutoTokenizer,
     IntervalStrategy,
     PretrainedConfig,
@@ -41,7 +41,7 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.testing_utils import (
+from transformersDev.testing_utils import (
     ENDPOINT_STAGING,
     PASS,
     USER,
@@ -67,10 +67,10 @@ from transformers.testing_utils import (
     require_wandb,
     slow,
 )
-from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
-from transformers.training_args import OptimizerNames
-from transformers.utils import WEIGHTS_INDEX_NAME, WEIGHTS_NAME, is_apex_available, is_bitsandbytes_available
-from transformers.utils.hp_naming import TrialShortNamer
+from transformersDev.trainer_utils import PREFIX_CHECKPOINT_DIR
+from transformersDev.training_args import OptimizerNames
+from transformersDev.utils import WEIGHTS_INDEX_NAME, WEIGHTS_NAME, is_apex_available, is_bitsandbytes_available
+from transformersDev.utils.hp_naming import TrialShortNamer
 
 
 if is_torch_available():
@@ -78,8 +78,8 @@ if is_torch_available():
     from torch import nn
     from torch.utils.data import IterableDataset
 
-    import transformers.optimization
-    from transformers import (
+    import transformersDev.optimization
+    from transformersDev import (
         AutoModelForSequenceClassification,
         EarlyStoppingCallback,
         GlueDataset,
@@ -91,7 +91,7 @@ if is_torch_available():
         Trainer,
         TrainerState,
     )
-    from transformers.modeling_utils import unwrap_model
+    from transformersDev.modeling_utils import unwrap_model
 
 
 PATH_SAMPLE_TEXT = f"{get_tests_dir()}/fixtures/sample_text.txt"
@@ -538,7 +538,7 @@ class TrainerIntegrationPrerunTest(TestCasePlus, TrainerIntegrationCommon):
     def test_adafactor_lr_none(self):
         # test the special case where lr=None, since Trainer can't not have lr_scheduler
 
-        from transformers.optimization import Adafactor, AdafactorSchedule
+        from transformersDev.optimization import Adafactor, AdafactorSchedule
 
         train_dataset = RegressionDataset()
         args = TrainingArguments("./regression")
@@ -2257,12 +2257,12 @@ if is_torch_available():
     optim_test_params = [
         (
             OptimizerNames.ADAMW_HF,
-            transformers.optimization.AdamW,
+            transformersDev.optimization.AdamW,
             default_adam_kwargs,
         ),
         (
             OptimizerNames.ADAMW_HF.value,
-            transformers.optimization.AdamW,
+            transformersDev.optimization.AdamW,
             default_adam_kwargs,
         ),
         (
@@ -2272,7 +2272,7 @@ if is_torch_available():
         ),
         (
             OptimizerNames.ADAFACTOR,
-            transformers.optimization.Adafactor,
+            transformersDev.optimization.Adafactor,
             {
                 "scale_parameter": False,
                 "relative_step": False,

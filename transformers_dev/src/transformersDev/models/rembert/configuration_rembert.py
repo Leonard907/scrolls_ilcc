@@ -80,7 +80,7 @@ class RemBertConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import RemBertModel, RemBertConfig
+    >>> from transformersDev import RemBertModel, RemBertConfig
 
     >>> # Initializing a RemBERT rembert style configuration
     >>> configuration = RemBertConfig()

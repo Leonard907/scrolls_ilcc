@@ -26,8 +26,8 @@ import numpy as np
 import tensorflow as tf
 from datasets import load_dataset, load_metric
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoTokenizer,
     DataCollatorWithPadding,
@@ -38,8 +38,8 @@ from transformers import (
     TFTrainingArguments,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint, is_main_process
-from transformers.utils import check_min_version, send_example_telemetry
+from transformersDev.trainer_utils import get_last_checkpoint, is_main_process
+from transformersDev.utils import check_min_version, send_example_telemetry
 
 
 # region Helper functions
@@ -240,9 +240,9 @@ def main():
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        transformersDev.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.enable_default_handler()
+        transformersDev.utils.logging.enable_explicit_format()
     logger.info(f"Training/evaluation parameters {training_args}")
     # endregion
 

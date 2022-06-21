@@ -61,7 +61,7 @@ class ResNetConfig(PretrainedConfig):
 
     Example:
     ```python
-    >>> from transformers import ResNetConfig, ResNetModel
+    >>> from transformersDev import ResNetConfig, ResNetModel
 
     >>> # Initializing a ResNet resnet-50 style configuration
     >>> configuration = ResNetConfig()

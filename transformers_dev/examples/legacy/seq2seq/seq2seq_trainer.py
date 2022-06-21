@@ -18,10 +18,10 @@ import torch
 from torch import nn
 from torch.utils.data import DistributedSampler, RandomSampler
 
-from transformers import PreTrainedModel, Trainer, logging
-from transformers.integrations import is_fairscale_available
-from transformers.models.fsmt.configuration_fsmt import FSMTConfig
-from transformers.optimization import (
+from transformersDev import PreTrainedModel, Trainer, logging
+from transformersDev.integrations import is_fairscale_available
+from transformersDev.models.fsmt.configuration_fsmt import FSMTConfig
+from transformersDev.optimization import (
     Adafactor,
     AdamW,
     get_constant_schedule,
@@ -31,9 +31,9 @@ from transformers.optimization import (
     get_linear_schedule_with_warmup,
     get_polynomial_decay_schedule_with_warmup,
 )
-from transformers.trainer_pt_utils import get_tpu_sampler
-from transformers.training_args import ParallelMode
-from transformers.utils import is_torch_tpu_available
+from transformersDev.trainer_pt_utils import get_tpu_sampler
+from transformersDev.training_args import ParallelMode
+from transformersDev.utils import is_torch_tpu_available
 
 
 if is_fairscale_available():

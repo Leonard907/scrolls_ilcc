@@ -23,7 +23,7 @@ from shutil import copyfile
 
 from huggingface_hub import Repository, delete_repo, login
 from requests.exceptions import HTTPError
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     FEATURE_EXTRACTOR_MAPPING,
     PROCESSOR_MAPPING,
@@ -36,9 +36,9 @@ from transformers import (
     Wav2Vec2FeatureExtractor,
     Wav2Vec2Processor,
 )
-from transformers.testing_utils import PASS, USER, get_tests_dir, is_staging_test
-from transformers.tokenization_utils import TOKENIZER_CONFIG_FILE
-from transformers.utils import FEATURE_EXTRACTOR_NAME, is_tokenizers_available
+from transformersDev.testing_utils import PASS, USER, get_tests_dir, is_staging_test
+from transformersDev.tokenization_utils import TOKENIZER_CONFIG_FILE
+from transformersDev.utils import FEATURE_EXTRACTOR_NAME, is_tokenizers_available
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent.parent / "utils"))

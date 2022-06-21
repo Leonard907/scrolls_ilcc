@@ -6,8 +6,8 @@ from unittest.mock import patch
 import pytest
 
 from parameterized import parameterized
-from transformers import AutoConfig, PreTrainedTokenizerBase, is_tf_available, is_torch_available
-from transformers.onnx import (
+from transformersDev import AutoConfig, PreTrainedTokenizerBase, is_tf_available, is_torch_available
+from transformersDev.onnx import (
     EXTERNAL_DATA_FORMAT_SIZE_LIMIT,
     OnnxConfig,
     OnnxConfigWithPast,
@@ -15,16 +15,16 @@ from transformers.onnx import (
     export,
     validate_model_outputs,
 )
-from transformers.onnx.utils import (
+from transformersDev.onnx.utils import (
     compute_effective_axis_dimension,
     compute_serialized_parameters_size,
     get_preprocessor,
 )
-from transformers.testing_utils import require_onnx, require_rjieba, require_tf, require_torch, require_vision, slow
+from transformersDev.testing_utils import require_onnx, require_rjieba, require_tf, require_torch, require_vision, slow
 
 
 if is_torch_available() or is_tf_available():
-    from transformers.onnx.features import FeaturesManager
+    from transformersDev.onnx.features import FeaturesManager
 
 
 @require_onnx
@@ -260,7 +260,7 @@ class OnnxExportTestCaseV2(TestCase):
     """
 
     def _onnx_export(self, test_name, name, model_name, feature, onnx_config_class_constructor, device="cpu"):
-        from transformers.onnx import export
+        from transformersDev.onnx import export
 
         model_class = FeaturesManager.get_model_class_for_feature(feature)
         config = AutoConfig.from_pretrained(model_name)
@@ -268,7 +268,7 @@ class OnnxExportTestCaseV2(TestCase):
         onnx_config = onnx_config_class_constructor(model.config)
 
         if is_torch_available():
-            from transformers.utils import torch_version
+            from transformersDev.utils import torch_version
 
             if torch_version < onnx_config.torch_onnx_minimum_version:
                 pytest.skip(

@@ -30,7 +30,7 @@ from ..auto.modeling_auto import AutoModel, AutoModelForCausalLM
 from .configuration_vision_encoder_decoder import VisionEncoderDecoderConfig
 
 
-# Copied from transformers.models.encoder_decoder.modeling_encoder_decoder.shift_tokens_right
+# Copied from transformersDev.models.encoder_decoder.modeling_encoder_decoder.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start_token_id: int):
     """
     Shift input ids one token to the right.
@@ -302,7 +302,7 @@ class VisionEncoderDecoderModel(PreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import VisionEncoderDecoderModel
+        >>> from transformersDev import VisionEncoderDecoderModel
 
         >>> # initialize a vit-bert from a pretrained ViT and a pretrained BERT model. Note that the cross-attention layers will be randomly initialized
         >>> model = VisionEncoderDecoderModel.from_encoder_decoder_pretrained(
@@ -421,7 +421,7 @@ class VisionEncoderDecoderModel(PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import TrOCRProcessor, VisionEncoderDecoderModel
+        >>> from transformersDev import TrOCRProcessor, VisionEncoderDecoderModel
         >>> import requests
         >>> from PIL import Image
         >>> import torch

@@ -11,9 +11,9 @@ import torch
 
 from distillation import SummarizationDistiller, distill_main
 from finetune import SummarizationModule, main
-from transformers import MarianMTModel
-from transformers.file_utils import cached_path
-from transformers.testing_utils import TestCasePlus, require_torch_gpu, slow
+from transformersDev import MarianMTModel
+from transformersDev.file_utils import cached_path
+from transformersDev.testing_utils import TestCasePlus, require_torch_gpu, slow
 from utils import load_json
 
 

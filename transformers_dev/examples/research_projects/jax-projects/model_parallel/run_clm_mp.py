@@ -35,13 +35,13 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import optax
-import transformers
+import transformersDev
 from flax.core.frozen_dict import freeze, unfreeze
 from flax.training.common_utils import onehot, stack_forest
 from jax.experimental.maps import mesh
 from jax.experimental.pjit import pjit
 from partitions import set_partitions
-from transformers import (
+from transformersDev import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_CAUSAL_LM_MAPPING,
     AutoConfig,
@@ -51,7 +51,7 @@ from transformers import (
     TrainingArguments,
     is_tensorboard_available,
 )
-from transformers.testing_utils import CaptureLogger
+from transformersDev.testing_utils import CaptureLogger
 
 
 logger = logging.getLogger(__name__)
@@ -260,10 +260,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        transformersDev.utils.logging.set_verbosity_error()
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     logger.info(f"Training/evaluation parameters {training_args}")
@@ -336,7 +336,7 @@ def main():
     text_column_name = "text" if "text" in column_names else column_names[0]
 
     # since this will be pickled to avoid _LazyModule error in Hasher force logger loading before tokenize_function
-    tok_logger = transformers.utils.logging.get_logger("transformers.tokenization_utils_base")
+    tok_logger = transformersDev.utils.logging.get_logger("transformers.tokenization_utils_base")
 
     def tokenize_function(examples):
         with CaptureLogger(tok_logger) as cl:

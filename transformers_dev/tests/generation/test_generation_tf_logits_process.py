@@ -19,14 +19,14 @@ import unittest
 import numpy as np
 
 from parameterized import parameterized
-from transformers import is_tf_available
-from transformers.testing_utils import require_tf
+from transformersDev import is_tf_available
+from transformersDev.testing_utils import require_tf
 
 
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers.generation_tf_logits_process import (
+    from transformersDev.generation_tf_logits_process import (
         TFForcedBOSTokenLogitsProcessor,
         TFForcedEOSTokenLogitsProcessor,
         TFLogitsProcessorList,

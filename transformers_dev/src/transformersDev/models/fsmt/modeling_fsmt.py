@@ -200,7 +200,7 @@ FSMT_GENERATION_EXAMPLE = r"""
     Translation example::
 
     ```python
-    >>> from transformers import FSMTTokenizer, FSMTForConditionalGeneration
+    >>> from transformersDev import FSMTTokenizer, FSMTForConditionalGeneration
 
     >>> mname = "facebook/wmt19-ru-en"
     >>> model = FSMTForConditionalGeneration.from_pretrained(mname)

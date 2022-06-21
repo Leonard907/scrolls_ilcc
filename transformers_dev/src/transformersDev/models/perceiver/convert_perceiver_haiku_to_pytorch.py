@@ -27,7 +27,7 @@ from PIL import Image
 import haiku as hk
 import requests
 from huggingface_hub import hf_hub_download
-from transformers import (
+from transformersDev import (
     PerceiverConfig,
     PerceiverFeatureExtractor,
     PerceiverForImageClassificationConvProcessing,
@@ -38,7 +38,7 @@ from transformers import (
     PerceiverForOpticalFlow,
     PerceiverTokenizer,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

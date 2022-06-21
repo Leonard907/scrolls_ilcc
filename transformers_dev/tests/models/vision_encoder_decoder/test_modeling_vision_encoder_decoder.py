@@ -20,8 +20,8 @@ import unittest
 from datasets import load_dataset
 from packaging import version
 
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property, is_torch_available, is_vision_available
 
 from ...test_modeling_common import floats_tensor, ids_tensor, random_attention_mask
 from ..bart.test_modeling_bart import BartModelTester
@@ -36,7 +36,7 @@ if is_torch_available():
     import numpy as np
     import torch
 
-    from transformers import (
+    from transformersDev import (
         AutoTokenizer,
         BartForCausalLM,
         BertLMHeadModel,
@@ -47,15 +47,15 @@ if is_torch_available():
         VisionEncoderDecoderModel,
         ViTModel,
     )
-    from transformers.modeling_outputs import BaseModelOutput
-    from transformers.models.vit.modeling_vit import to_2tuple
+    from transformersDev.modeling_outputs import BaseModelOutput
+    from transformersDev.models.vit.modeling_vit import to_2tuple
 
 
 if is_vision_available():
     import PIL
     from PIL import Image
 
-    from transformers import TrOCRProcessor, ViTFeatureExtractor
+    from transformersDev import TrOCRProcessor, ViTFeatureExtractor
 
 
 @require_torch

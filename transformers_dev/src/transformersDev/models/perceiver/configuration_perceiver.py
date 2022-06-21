@@ -104,7 +104,7 @@ class PerceiverConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import PerceiverModel, PerceiverConfig
+    >>> from transformersDev import PerceiverModel, PerceiverConfig
 
     >>> # Initializing a Perceiver deepmind/language-perceiver style configuration
     >>> configuration = PerceiverConfig()

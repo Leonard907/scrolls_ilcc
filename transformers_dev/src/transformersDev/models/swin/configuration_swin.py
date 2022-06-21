@@ -81,7 +81,7 @@ class SwinConfig(PretrainedConfig):
         Example:
 
     ```python
-    >>> from transformers import SwinModel, SwinConfig
+    >>> from transformersDev import SwinModel, SwinConfig
 
     >>> # Initializing a Swin microsoft/swin-tiny-patch4-window7-224 style configuration
     >>> configuration = SwinConfig()

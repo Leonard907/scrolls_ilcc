@@ -142,7 +142,7 @@ class TapasConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import TapasModel, TapasConfig
+    >>> from transformersDev import TapasModel, TapasConfig
 
     >>> # Initializing a default (SQA) Tapas configuration
     >>> configuration = TapasConfig()

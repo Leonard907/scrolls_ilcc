@@ -18,9 +18,9 @@ import json
 import os
 import unittest
 
-from transformers.models.fsmt.tokenization_fsmt import VOCAB_FILES_NAMES, FSMTTokenizer
-from transformers.testing_utils import slow
-from transformers.utils import cached_property
+from transformersDev.models.fsmt.tokenization_fsmt import VOCAB_FILES_NAMES, FSMTTokenizer
+from transformersDev.testing_utils import slow
+from transformersDev.utils import cached_property
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

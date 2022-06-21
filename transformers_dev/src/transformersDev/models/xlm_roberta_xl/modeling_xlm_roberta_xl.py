@@ -129,7 +129,7 @@ class XLMRobertaXLEmbeddings(nn.Module):
         embeddings = self.dropout(embeddings)
         return embeddings
 
-    # Copied from transformers.models.roberta.modeling_roberta.RobertaEmbeddings.create_position_ids_from_inputs_embeds
+    # Copied from transformersDev.models.roberta.modeling_roberta.RobertaEmbeddings.create_position_ids_from_inputs_embeds
     def create_position_ids_from_inputs_embeds(self, inputs_embeds):
         """
         We are provided embeddings directly. We cannot infer which are padded so just generate sequential position ids.
@@ -148,7 +148,7 @@ class XLMRobertaXLEmbeddings(nn.Module):
         return position_ids.unsqueeze(0).expand(input_shape)
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->XLMRobertaXL
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfAttention with Bert->XLMRobertaXL
 class XLMRobertaXLSelfAttention(nn.Module):
     def __init__(self, config, position_embedding_type=None):
         super().__init__()
@@ -340,7 +340,7 @@ class XLMRobertaXLAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate
 class XLMRobertaXLIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -555,7 +555,7 @@ class XLMRobertaXLEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler
 class XLMRobertaXLPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -580,7 +580,7 @@ class XLMRobertaXLPreTrainedModel(PreTrainedModel):
     config_class = XLMRobertaXLConfig
     base_model_prefix = "roberta"
 
-    # Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+    # Copied from transformersDev.models.bert.modeling_bert.BertPreTrainedModel._init_weights
     def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, nn.Linear):
@@ -679,7 +679,7 @@ class XLMRobertaXLModel(XLMRobertaXLPreTrainedModel):
 
     _keys_to_ignore_on_load_missing = [r"position_ids"]
 
-    # Copied from transformers.models.bert.modeling_bert.BertModel.__init__ with Bert->XLMRobertaXL
+    # Copied from transformersDev.models.bert.modeling_bert.BertModel.__init__ with Bert->XLMRobertaXL
     def __init__(self, config, add_pooling_layer=True):
         super().__init__(config)
         self.config = config
@@ -713,7 +713,7 @@ class XLMRobertaXLModel(XLMRobertaXLPreTrainedModel):
         output_type=BaseModelOutputWithPoolingAndCrossAttentions,
         config_class=_CONFIG_FOR_DOC,
     )
-    # Copied from transformers.models.bert.modeling_bert.BertModel.forward
+    # Copied from transformersDev.models.bert.modeling_bert.BertModel.forward
     def forward(
         self,
         input_ids: Optional[torch.Tensor] = None,
@@ -920,7 +920,7 @@ class XLMRobertaXLForCausalLM(XLMRobertaXLPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import RobertaTokenizer, RobertaForCausalLM, RobertaConfig
+        >>> from transformersDev import RobertaTokenizer, RobertaForCausalLM, RobertaConfig
         >>> import torch
 
         >>> tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
@@ -1527,7 +1527,7 @@ class XLMRobertaXLForQuestionAnswering(XLMRobertaXLPreTrainedModel):
         )
 
 
-# Copied from transformers.models.roberta.modeling_roberta.create_position_ids_from_input_ids
+# Copied from transformersDev.models.roberta.modeling_roberta.create_position_ids_from_input_ids
 def create_position_ids_from_input_ids(input_ids, padding_idx, past_key_values_length=0):
     """
     Replace non-padding symbols with their position numbers. Position numbers begin at padding_idx+1. Padding symbols

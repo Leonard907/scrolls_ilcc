@@ -2360,7 +2360,7 @@ class ReformerForMaskedLM(ReformerPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import ReformerTokenizer, ReformerForMaskedLM
+        >>> from transformersDev import ReformerTokenizer, ReformerForMaskedLM
 
         >>> tokenizer = ReformerTokenizer.from_pretrained("hf-internal-testing/tiny-random-reformer")
         >>> model = ReformerForMaskedLM.from_pretrained("hf-internal-testing/tiny-random-reformer")
@@ -2475,7 +2475,7 @@ class ReformerForSequenceClassification(ReformerPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import ReformerTokenizer, ReformerForSequenceClassification
+        >>> from transformersDev import ReformerTokenizer, ReformerForSequenceClassification
 
         >>> tokenizer = ReformerTokenizer.from_pretrained("hf-internal-testing/tiny-random-reformer")
         >>> model = ReformerForSequenceClassification.from_pretrained("hf-internal-testing/tiny-random-reformer")
@@ -2507,7 +2507,7 @@ class ReformerForSequenceClassification(ReformerPreTrainedModel):
 
         ```python
         >>> import torch
-        >>> from transformers import ReformerTokenizer, ReformerForSequenceClassification
+        >>> from transformersDev import ReformerTokenizer, ReformerForSequenceClassification
 
         >>> tokenizer = ReformerTokenizer.from_pretrained("hf-internal-testing/tiny-random-reformer")
         >>> model = ReformerForSequenceClassification.from_pretrained(

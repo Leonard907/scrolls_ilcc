@@ -5,8 +5,8 @@ from typing import List, Tuple, Union
 import fire
 from torch import nn
 
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, PreTrainedModel
-from transformers.utils import logging
+from transformersDev import AutoModelForSeq2SeqLM, AutoTokenizer, PreTrainedModel
+from transformersDev.utils import logging
 
 
 logger = logging.get_logger(__name__)

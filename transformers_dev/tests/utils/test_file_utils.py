@@ -20,12 +20,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import transformers
+import transformersDev
 
-# Try to import everything from transformers to ensure every object can be loaded.
-from transformers import *  # noqa F406
-from transformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER
-from transformers.utils import (
+# Try to import everything from transformersDev to ensure every object can be loaded.
+from transformersDev import *  # noqa F406
+from transformersDev.testing_utils import DUMMY_UNKNOWN_IDENTIFIER
+from transformersDev.utils import (
     CONFIG_NAME,
     FLAX_WEIGHTS_NAME,
     TF2_WEIGHTS_NAME,
@@ -80,7 +80,7 @@ def context_fr():
 class TestImportMechanisms(unittest.TestCase):
     def test_module_spec_available(self):
         # If the spec is missing, importlib would not be able to import the module dynamically.
-        assert transformers.__spec__ is not None
+        assert transformersDev.__spec__ is not None
         assert importlib.util.find_spec("transformers") is not None
 
 
@@ -194,14 +194,14 @@ class GenericUtilTests(unittest.TestCase):
 
     def test_find_labels(self):
         if is_torch_available():
-            from transformers import BertForPreTraining, BertForQuestionAnswering, BertForSequenceClassification
+            from transformersDev import BertForPreTraining, BertForQuestionAnswering, BertForSequenceClassification
 
             self.assertEqual(find_labels(BertForSequenceClassification), ["labels"])
             self.assertEqual(find_labels(BertForPreTraining), ["labels", "next_sentence_label"])
             self.assertEqual(find_labels(BertForQuestionAnswering), ["start_positions", "end_positions"])
 
         if is_tf_available():
-            from transformers import TFBertForPreTraining, TFBertForQuestionAnswering, TFBertForSequenceClassification
+            from transformersDev import TFBertForPreTraining, TFBertForQuestionAnswering, TFBertForSequenceClassification
 
             self.assertEqual(find_labels(TFBertForSequenceClassification), ["labels"])
             self.assertEqual(find_labels(TFBertForPreTraining), ["labels", "next_sentence_label"])
@@ -209,7 +209,7 @@ class GenericUtilTests(unittest.TestCase):
 
         if is_flax_available():
             # Flax models don't have labels
-            from transformers import (
+            from transformersDev import (
                 FlaxBertForPreTraining,
                 FlaxBertForQuestionAnswering,
                 FlaxBertForSequenceClassification,

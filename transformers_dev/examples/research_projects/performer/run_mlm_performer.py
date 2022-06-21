@@ -40,7 +40,7 @@ from flax.training import common_utils
 from flax.training.common_utils import get_metrics
 from jax.nn import log_softmax
 from modeling_flax_performer import FlaxPerformerForMaskedLM
-from transformers import (
+from transformersDev import (
     MODEL_FOR_MASKED_LM_MAPPING,
     AutoTokenizer,
     BertConfig,
@@ -195,7 +195,7 @@ class DataTrainingArguments:
                 assert extension in ["csv", "json", "txt"], "`validation_file` should be a csv, a json or a txt file."
 
 
-# Adapted from transformers/data/data_collator.py
+# Adapted from transformersDev/data/data_collator.py
 # Letting here for now, let's discuss where it should live
 @dataclass
 class FlaxDataCollatorForLanguageModeling:

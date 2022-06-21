@@ -779,7 +779,7 @@ class BeitForMaskedImageModeling(BeitPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import BeitFeatureExtractor, BeitForMaskedImageModeling
+        >>> from transformersDev import BeitFeatureExtractor, BeitForMaskedImageModeling
         >>> import torch
         >>> from PIL import Image
         >>> import requests
@@ -1213,7 +1213,7 @@ class BeitForSemanticSegmentation(BeitPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoFeatureExtractor, BeitForSemanticSegmentation
+        >>> from transformersDev import AutoFeatureExtractor, BeitForSemanticSegmentation
         >>> from PIL import Image
         >>> import requests
 

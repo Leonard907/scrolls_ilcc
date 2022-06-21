@@ -98,7 +98,7 @@ class DPTConfig(PretrainedConfig):
     Example:
 
     ```python
-    >>> from transformers import DPTModel, DPTConfig
+    >>> from transformersDev import DPTModel, DPTConfig
 
     >>> # Initializing a DPT dpt-large style configuration
     >>> configuration = DPTConfig()

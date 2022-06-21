@@ -173,7 +173,7 @@ class TFRobertaEmbeddings(tf.keras.layers.Layer):
         return final_embeddings
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertPooler with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPooler with Bert->Roberta
 class TFRobertaPooler(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -194,7 +194,7 @@ class TFRobertaPooler(tf.keras.layers.Layer):
         return pooled_output
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertSelfAttention with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfAttention with Bert->Roberta
 class TFRobertaSelfAttention(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -312,7 +312,7 @@ class TFRobertaSelfAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertSelfOutput with Bert->Roberta
 class TFRobertaSelfOutput(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -331,7 +331,7 @@ class TFRobertaSelfOutput(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertAttention with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertAttention with Bert->Roberta
 class TFRobertaAttention(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -372,7 +372,7 @@ class TFRobertaAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertIntermediate with Bert->Roberta
 class TFRobertaIntermediate(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -393,7 +393,7 @@ class TFRobertaIntermediate(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertOutput with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertOutput with Bert->Roberta
 class TFRobertaOutput(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -412,7 +412,7 @@ class TFRobertaOutput(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertLayer with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLayer with Bert->Roberta
 class TFRobertaLayer(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -499,7 +499,7 @@ class TFRobertaLayer(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertEncoder with Bert->Roberta
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertEncoder with Bert->Roberta
 class TFRobertaEncoder(tf.keras.layers.Layer):
     def __init__(self, config: RobertaConfig, **kwargs):
         super().__init__(**kwargs)
@@ -589,16 +589,16 @@ class TFRobertaMainLayer(tf.keras.layers.Layer):
         # The embeddings must be the last declaration in order to follow the weights order
         self.embeddings = TFRobertaEmbeddings(config, name="embeddings")
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer.get_input_embeddings
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer.get_input_embeddings
     def get_input_embeddings(self) -> tf.keras.layers.Layer:
         return self.embeddings
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer.set_input_embeddings
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer.set_input_embeddings
     def set_input_embeddings(self, value: tf.Variable):
         self.embeddings.weight = value
         self.embeddings.vocab_size = shape_list(value)[0]
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer._prune_heads
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer._prune_heads
     def _prune_heads(self, heads_to_prune):
         """
         Prunes heads of the model. heads_to_prune: dict of {layer_num: list of heads to prune in this layer} See base
@@ -607,7 +607,7 @@ class TFRobertaMainLayer(tf.keras.layers.Layer):
         raise NotImplementedError
 
     @unpack_inputs
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertMainLayer.call
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMainLayer.call
     def call(
         self,
         input_ids: Optional[TFModelInputType] = None,
@@ -777,7 +777,7 @@ class TFRobertaPreTrainedModel(TFPreTrainedModel):
     base_model_prefix = "roberta"
 
     @property
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertPreTrainedModel.dummy_inputs
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPreTrainedModel.dummy_inputs
     def dummy_inputs(self):
         """
         Dummy inputs to build the network.
@@ -975,7 +975,7 @@ class TFRobertaModel(TFRobertaPreTrainedModel):
 
         return outputs
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertModel.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertModel.serving_output
     def serving_output(
         self, output: TFBaseModelOutputWithPoolingAndCrossAttentions
     ) -> TFBaseModelOutputWithPoolingAndCrossAttentions:
@@ -1127,7 +1127,7 @@ class TFRobertaForMaskedLM(TFRobertaPreTrainedModel, TFMaskedLanguageModelingLos
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMaskedLM.serving_output
     def serving_output(self, output: TFMaskedLMOutput) -> TFMaskedLMOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1155,7 +1155,7 @@ class TFRobertaForCausalLM(TFRobertaPreTrainedModel, TFCausalLanguageModelingLos
         warnings.warn("The method get_prefix_bias_name is deprecated. Please use `get_bias` instead.", FutureWarning)
         return self.name + "/" + self.lm_head.name
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertLMHeadModel.prepare_inputs_for_generation
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLMHeadModel.prepare_inputs_for_generation
     def prepare_inputs_for_generation(self, input_ids, past=None, attention_mask=None, **model_kwargs):
         input_shape = input_ids.shape
         # if model is used as a decoder in encoder-decoder model, the decoder attention mask is created on the fly
@@ -1257,7 +1257,7 @@ class TFRobertaForCausalLM(TFRobertaPreTrainedModel, TFCausalLanguageModelingLos
             cross_attentions=outputs.cross_attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertLMHeadModel.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLMHeadModel.serving_output
     def serving_output(self, output: TFCausalLMOutputWithCrossAttentions) -> TFCausalLMOutputWithCrossAttentions:
         output_cache = self.config.use_cache and self.config.is_decoder
         pkv = tf.convert_to_tensor(output.past_key_values) if output_cache else None
@@ -1272,7 +1272,7 @@ class TFRobertaForCausalLM(TFRobertaPreTrainedModel, TFCausalLanguageModelingLos
         )
 
     @staticmethod
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertLMHeadModel._reorder_cache
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLMHeadModel._reorder_cache
     def _reorder_cache(past, beam_idx):
         reordered_past = ()
         for layer_past in past:
@@ -1384,7 +1384,7 @@ class TFRobertaForSequenceClassification(TFRobertaPreTrainedModel, TFSequenceCla
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForSequenceClassification.serving_output
     def serving_output(self, output: TFSequenceClassifierOutput) -> TFSequenceClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1505,7 +1505,7 @@ class TFRobertaForMultipleChoice(TFRobertaPreTrainedModel, TFMultipleChoiceLoss)
 
         return self.serving_output(output)
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForMultipleChoice.serving_output
     def serving_output(self, output: TFMultipleChoiceModelOutput) -> TFMultipleChoiceModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1596,7 +1596,7 @@ class TFRobertaForTokenClassification(TFRobertaPreTrainedModel, TFTokenClassific
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForTokenClassification.serving_output
     def serving_output(self, output: TFTokenClassifierOutput) -> TFTokenClassifierOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -1696,7 +1696,7 @@ class TFRobertaForQuestionAnswering(TFRobertaPreTrainedModel, TFQuestionAnswerin
             attentions=outputs.attentions,
         )
 
-    # Copied from transformers.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
+    # Copied from transformersDev.models.bert.modeling_tf_bert.TFBertForQuestionAnswering.serving_output
     def serving_output(self, output: TFQuestionAnsweringModelOutput) -> TFQuestionAnsweringModelOutput:
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None

@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import PegasusConfig, PegasusTokenizer, is_flax_available
-from transformers.testing_utils import require_flax, slow
+from transformersDev import PegasusConfig, PegasusTokenizer, is_flax_available
+from transformersDev.testing_utils import require_flax, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_flax_common import FlaxModelTesterMixin, ids_tensor
@@ -34,7 +34,7 @@ if is_flax_available():
 
     import jax
     import jax.numpy as jnp
-    from transformers import FlaxPegasusForConditionalGeneration, FlaxPegasusModel
+    from transformersDev import FlaxPegasusForConditionalGeneration, FlaxPegasusModel
 
 
 @require_flax

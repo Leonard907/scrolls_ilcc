@@ -15,7 +15,7 @@
 import subprocess
 import sys
 
-from transformers.testing_utils import TestCasePlus, require_torch
+from transformersDev.testing_utils import TestCasePlus, require_torch
 
 
 class OfflineTests(TestCasePlus):
@@ -30,7 +30,7 @@ class OfflineTests(TestCasePlus):
 
         # this must be loaded before socket.socket is monkey-patched
         load = """
-from transformers import BertConfig, BertModel, BertTokenizer
+from transformersDev import BertConfig, BertModel, BertTokenizer
         """
 
         run = """

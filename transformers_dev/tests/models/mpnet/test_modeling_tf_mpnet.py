@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import MPNetConfig, is_tf_available
-from transformers.testing_utils import require_tf, slow
+from transformersDev import MPNetConfig, is_tf_available
+from transformersDev.testing_utils import require_tf, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_attention_mask
@@ -26,7 +26,7 @@ from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_at
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers.models.mpnet.modeling_tf_mpnet import (
+    from transformersDev.models.mpnet.modeling_tf_mpnet import (
         TFMPNetForMaskedLM,
         TFMPNetForMultipleChoice,
         TFMPNetForQuestionAnswering,

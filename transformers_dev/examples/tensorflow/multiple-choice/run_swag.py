@@ -30,8 +30,8 @@ import datasets
 import tensorflow as tf
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     CONFIG_NAME,
     TF2_WEIGHTS_NAME,
     AutoConfig,
@@ -43,8 +43,8 @@ from transformers import (
     create_optimizer,
     set_seed,
 )
-from transformers.tokenization_utils_base import PreTrainedTokenizerBase
-from transformers.utils import PaddingStrategy, check_min_version, send_example_telemetry
+from transformersDev.tokenization_utils_base import PreTrainedTokenizerBase
+from transformersDev.utils import PaddingStrategy, check_min_version, send_example_telemetry
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -263,9 +263,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    transformersDev.utils.logging.set_verbosity(log_level)
+    transformersDev.utils.logging.enable_default_handler()
+    transformersDev.utils.logging.enable_explicit_format()
     # endregion
 
     # region Checkpoints

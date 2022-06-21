@@ -18,9 +18,9 @@
 import inspect
 import unittest
 
-from transformers import ViTConfig
-from transformers.testing_utils import require_tf, require_vision, slow
-from transformers.utils import cached_property, is_tf_available, is_vision_available
+from transformersDev import ViTConfig
+from transformersDev.testing_utils import require_tf, require_vision, slow
+from transformersDev.utils import cached_property, is_tf_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_tensor
@@ -29,13 +29,13 @@ from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_te
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import TFViTForImageClassification, TFViTModel
+    from transformersDev import TFViTForImageClassification, TFViTModel
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ViTFeatureExtractor
+    from transformersDev import ViTFeatureExtractor
 
 
 class TFViTModelTester:

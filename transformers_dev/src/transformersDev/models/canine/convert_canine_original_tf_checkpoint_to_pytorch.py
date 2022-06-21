@@ -17,8 +17,8 @@
 
 import argparse
 
-from transformers import CanineConfig, CanineModel, CanineTokenizer, load_tf_weights_in_canine
-from transformers.utils import logging
+from transformersDev import CanineConfig, CanineModel, CanineTokenizer, load_tf_weights_in_canine
+from transformersDev.utils import logging
 
 
 logging.set_verbosity_info()

@@ -215,7 +215,7 @@ class OnnxConfig(ABC):
             `bool`: Whether the installed version of PyTorch is compatible with the model.
         """
         if is_torch_available():
-            from transformers.utils import torch_version
+            from transformersDev.utils import torch_version
 
             return torch_version >= self.torch_onnx_minimum_version
         else:

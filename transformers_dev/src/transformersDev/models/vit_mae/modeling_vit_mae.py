@@ -135,7 +135,7 @@ class ViTMAEForPreTrainingOutput(ModelOutput):
     attentions: Optional[Tuple[torch.FloatTensor]] = None
 
 
-# copied from transformers.models.vit.modeling_vit.to_2tuple ViT->ViTMAE
+# copied from transformersDev.models.vit.modeling_vit.to_2tuple ViT->ViTMAE
 def to_2tuple(x):
     if isinstance(x, collections.abc.Iterable):
         return x
@@ -320,7 +320,7 @@ class PatchEmbeddings(nn.Module):
         return x
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfAttention ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfAttention ViT->ViTMAE
 class ViTMAESelfAttention(nn.Module):
     def __init__(self, config: ViTMAEConfig) -> None:
         super().__init__()
@@ -381,7 +381,7 @@ class ViTMAESelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTSelfOutput with ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTSelfOutput with ViT->ViTMAE
 class ViTMAESelfOutput(nn.Module):
     """
     The residual connection is defined in ViTMAELayer instead of here (as is the case with other models), due to the
@@ -401,7 +401,7 @@ class ViTMAESelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTAttention with ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTAttention with ViT->ViTMAE
 class ViTMAEAttention(nn.Module):
     def __init__(self, config: ViTMAEConfig) -> None:
         super().__init__()
@@ -441,7 +441,7 @@ class ViTMAEAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTIntermediate ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTIntermediate ViT->ViTMAE
 class ViTMAEIntermediate(nn.Module):
     def __init__(self, config: ViTMAEConfig) -> None:
         super().__init__()
@@ -459,7 +459,7 @@ class ViTMAEIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTOutput ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTOutput ViT->ViTMAE
 class ViTMAEOutput(nn.Module):
     def __init__(self, config: ViTMAEConfig) -> None:
         super().__init__()
@@ -475,7 +475,7 @@ class ViTMAEOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTLayer with ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTLayer with ViT->ViTMAE
 class ViTMAELayer(nn.Module):
     """This corresponds to the Block class in the timm implementation."""
 
@@ -518,7 +518,7 @@ class ViTMAELayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.vit.modeling_vit.ViTEncoder with ViT->ViTMAE
+# Copied from transformersDev.models.vit.modeling_vit.ViTEncoder with ViT->ViTMAE
 class ViTMAEEncoder(nn.Module):
     def __init__(self, config: ViTMAEConfig) -> None:
         super().__init__()
@@ -587,7 +587,7 @@ class ViTMAEPreTrainedModel(PreTrainedModel):
     main_input_name = "pixel_values"
     supports_gradient_checkpointing = True
 
-    # Copied from transformers.models.vit.modeling_vit.ViTPreTrainedModel._init_weights
+    # Copied from transformersDev.models.vit.modeling_vit.ViTPreTrainedModel._init_weights
     def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, (nn.Linear, nn.Conv2d)):
@@ -684,7 +684,7 @@ class ViTMAEModel(ViTMAEPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoFeatureExtractor, ViTMAEModel
+        >>> from transformersDev import AutoFeatureExtractor, ViTMAEModel
         >>> from PIL import Image
         >>> import requests
 
@@ -927,7 +927,7 @@ class ViTMAEForPreTraining(ViTMAEPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoFeatureExtractor, ViTMAEForPreTraining
+        >>> from transformersDev import AutoFeatureExtractor, ViTMAEForPreTraining
         >>> from PIL import Image
         >>> import requests
 

@@ -65,7 +65,7 @@ DATA2VEC_VISION_PRETRAINED_MODEL_ARCHIVE_LIST = [
 
 
 @dataclass
-# Copied from transformers.models.beit.modeling_beit.BeitModelOutputWithPooling with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitModelOutputWithPooling with Beit->Data2VecVision
 class Data2VecVisionModelOutputWithPooling(BaseModelOutputWithPooling):
     """
     Class for outputs of [`Data2VecVisionModel`].
@@ -101,7 +101,7 @@ def to_2tuple(x):
 
 
 # Based on https://github.com/rwightman/pytorch-image-models/blob/a2727c1bf78ba0d7b5727f5f95e37fb7f8866b1f/timm/models/layers/drop.py
-# Copied from transformers.models.beit.modeling_beit.drop_path
+# Copied from transformersDev.models.beit.modeling_beit.drop_path
 def drop_path(x: torch.Tensor, drop_prob: float = 0.0, training: bool = False) -> torch.Tensor:
     """
     Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).
@@ -122,7 +122,7 @@ def drop_path(x: torch.Tensor, drop_prob: float = 0.0, training: bool = False) -
     return output
 
 
-# Copied from transformers.models.beit.modeling_beit.DropPath
+# Copied from transformersDev.models.beit.modeling_beit.DropPath
 class DropPath(nn.Module):
     """Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks)."""
 
@@ -139,7 +139,7 @@ class DropPath(nn.Module):
 
 # Based on timm implementation, which can be found here:
 # https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py
-# Copied from transformers.models.beit.modeling_beit.BeitEmbeddings with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitEmbeddings with Beit->Data2VecVision
 class Data2VecVisionEmbeddings(nn.Module):
     """
     Construct the CLS token, position and patch embeddings. Optionally, also the mask token.
@@ -189,7 +189,7 @@ class Data2VecVisionEmbeddings(nn.Module):
 
 # Based on timm implementation, which can be found here:
 # https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py
-# Copied from transformers.models.beit.modeling_beit.PatchEmbeddings
+# Copied from transformersDev.models.beit.modeling_beit.PatchEmbeddings
 class PatchEmbeddings(nn.Module):
     """
     Image to Patch Embedding.
@@ -222,7 +222,7 @@ class PatchEmbeddings(nn.Module):
         return x
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitSelfAttention with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitSelfAttention with Beit->Data2VecVision
 class Data2VecVisionSelfAttention(nn.Module):
     def __init__(self, config: Data2VecVisionConfig, window_size: Optional[tuple] = None) -> None:
         super().__init__()
@@ -300,7 +300,7 @@ class Data2VecVisionSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitSelfOutput with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitSelfOutput with Beit->Data2VecVision
 class Data2VecVisionSelfOutput(nn.Module):
     """
     The residual connection is defined in Data2VecVisionLayer instead of here (as is the case with other models), due
@@ -319,7 +319,7 @@ class Data2VecVisionSelfOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitAttention with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitAttention with Beit->Data2VecVision
 class Data2VecVisionAttention(nn.Module):
     def __init__(self, config: Data2VecVisionConfig, window_size: Optional[tuple] = None) -> None:
         super().__init__()
@@ -360,7 +360,7 @@ class Data2VecVisionAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitIntermediate with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitIntermediate with Beit->Data2VecVision
 class Data2VecVisionIntermediate(nn.Module):
     def __init__(self, config: Data2VecVisionConfig) -> None:
         super().__init__()
@@ -377,7 +377,7 @@ class Data2VecVisionIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitOutput with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitOutput with Beit->Data2VecVision
 class Data2VecVisionOutput(nn.Module):
     def __init__(self, config: Data2VecVisionConfig) -> None:
         super().__init__()
@@ -391,7 +391,7 @@ class Data2VecVisionOutput(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitLayer with Beit->Data2VecVision,BEiT->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitLayer with Beit->Data2VecVision,BEiT->Data2VecVision
 class Data2VecVisionLayer(nn.Module):
     """This corresponds to the Block class in the timm implementation."""
 
@@ -455,7 +455,7 @@ class Data2VecVisionLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitRelativePositionBias with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitRelativePositionBias with Beit->Data2VecVision
 class Data2VecVisionRelativePositionBias(nn.Module):
     def __init__(self, config: Data2VecVisionConfig, window_size: tuple) -> None:
         super().__init__()
@@ -494,7 +494,7 @@ class Data2VecVisionRelativePositionBias(nn.Module):
         return relative_position_bias.permute(2, 0, 1).contiguous()  # nH, Wh*Ww, Wh*Ww
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitEncoder with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitEncoder with Beit->Data2VecVision
 class Data2VecVisionEncoder(nn.Module):
     def __init__(self, config: Data2VecVisionConfig, window_size: Optional[tuple] = None) -> None:
         super().__init__()
@@ -571,7 +571,7 @@ class Data2VecVisionEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitPreTrainedModel with Beit->Data2VecVision,beit->data2vec_vision
+# Copied from transformersDev.models.beit.modeling_beit.BeitPreTrainedModel with Beit->Data2VecVision,beit->data2vec_vision
 class Data2VecVisionPreTrainedModel(PreTrainedModel):
     """
     An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
@@ -642,7 +642,7 @@ DATA2VEC_VISION_INPUTS_DOCSTRING = r"""
     "The bare Data2VecVision Model transformer outputting raw hidden-states without any specific head on top.",
     DATA2VEC_VISION_START_DOCSTRING,
 )
-# Copied from transformers.models.beit.modeling_beit.BeitModel with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,True->False
+# Copied from transformersDev.models.beit.modeling_beit.BeitModel with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,True->False
 class Data2VecVisionModel(Data2VecVisionPreTrainedModel):
     def __init__(self, config: Data2VecVisionConfig, add_pooling_layer: bool = False) -> None:
         super().__init__(config)
@@ -729,7 +729,7 @@ class Data2VecVisionModel(Data2VecVisionPreTrainedModel):
         )
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitPooler with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitPooler with Beit->Data2VecVision
 class Data2VecVisionPooler(nn.Module):
     def __init__(self, config: Data2VecVisionConfig) -> None:
         super().__init__()
@@ -756,7 +756,7 @@ class Data2VecVisionPooler(nn.Module):
     """,
     DATA2VEC_VISION_START_DOCSTRING,
 )
-# Copied from transformers.models.beit.modeling_beit.BeitForImageClassification with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,beit->data2vec_vision
+# Copied from transformersDev.models.beit.modeling_beit.BeitForImageClassification with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,beit->data2vec_vision
 class Data2VecVisionForImageClassification(Data2VecVisionPreTrainedModel):
     def __init__(self, config: Data2VecVisionConfig) -> None:
         super().__init__(config)
@@ -840,7 +840,7 @@ class Data2VecVisionForImageClassification(Data2VecVisionPreTrainedModel):
         )
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitConvModule with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitConvModule with Beit->Data2VecVision
 class Data2VecVisionConvModule(nn.Module):
     """
     A convolutional block that bundles conv/norm/activation layers. This block simplifies the usage of convolution
@@ -878,7 +878,7 @@ class Data2VecVisionConvModule(nn.Module):
         return output
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitPyramidPoolingModule with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitPyramidPoolingModule with Beit->Data2VecVision
 class Data2VecVisionPyramidPoolingModule(nn.ModuleList):
     """
     Pyramid Pooling Module (PPM) used in PSPNet.
@@ -918,7 +918,7 @@ class Data2VecVisionPyramidPoolingModule(nn.ModuleList):
         return ppm_outs
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitUperHead with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitUperHead with Beit->Data2VecVision
 class Data2VecVisionUperHead(nn.Module):
     """
     Unified Perceptual Parsing for Scene Understanding. This head is the implementation of
@@ -1004,7 +1004,7 @@ class Data2VecVisionUperHead(nn.Module):
         return output
 
 
-# Copied from transformers.models.beit.modeling_beit.BeitFCNHead with Beit->Data2VecVision
+# Copied from transformersDev.models.beit.modeling_beit.BeitFCNHead with Beit->Data2VecVision
 class Data2VecVisionFCNHead(nn.Module):
     """
     Fully Convolution Networks for Semantic Segmentation. This head is implemented of
@@ -1074,7 +1074,7 @@ class Data2VecVisionFCNHead(nn.Module):
     """,
     DATA2VEC_VISION_START_DOCSTRING,
 )
-# Copied from transformers.models.beit.modeling_beit.BeitForSemanticSegmentation with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,microsoft/beit-base-finetuned-ade-640-640->facebook/data2vec-vision-base,beit->data2vec_vision
+# Copied from transformersDev.models.beit.modeling_beit.BeitForSemanticSegmentation with BEIT->DATA2VEC_VISION,Beit->Data2VecVision,microsoft/beit-base-finetuned-ade-640-640->facebook/data2vec-vision-base,beit->data2vec_vision
 class Data2VecVisionForSemanticSegmentation(Data2VecVisionPreTrainedModel):
     def __init__(self, config: Data2VecVisionConfig) -> None:
         super().__init__(config)
@@ -1140,7 +1140,7 @@ class Data2VecVisionForSemanticSegmentation(Data2VecVisionPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import AutoFeatureExtractor, Data2VecVisionForSemanticSegmentation
+        >>> from transformersDev import AutoFeatureExtractor, Data2VecVisionForSemanticSegmentation
         >>> from PIL import Image
         >>> import requests
 

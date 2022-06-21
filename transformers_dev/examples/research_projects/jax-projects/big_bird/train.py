@@ -7,7 +7,7 @@ import jax
 import wandb
 from bigbird_flax import Args, DataCollator, FlaxBigBirdForNaturalQuestions, Trainer, build_tx, train_step, val_step
 from flax import jax_utils
-from transformers import BigBirdTokenizerFast
+from transformersDev import BigBirdTokenizerFast
 
 
 if __name__ == "__main__":

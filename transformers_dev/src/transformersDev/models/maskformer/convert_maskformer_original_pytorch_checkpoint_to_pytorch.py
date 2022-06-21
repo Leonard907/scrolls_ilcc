@@ -29,15 +29,15 @@ from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog
 from detectron2.projects.deeplab import add_deeplab_config
-from transformers.models.maskformer.feature_extraction_maskformer import MaskFormerFeatureExtractor
-from transformers.models.maskformer.modeling_maskformer import (
+from transformersDev.models.maskformer.feature_extraction_maskformer import MaskFormerFeatureExtractor
+from transformersDev.models.maskformer.modeling_maskformer import (
     MaskFormerConfig,
     MaskFormerForInstanceSegmentation,
     MaskFormerForInstanceSegmentationOutput,
     MaskFormerModel,
     MaskFormerModelOutput,
 )
-from transformers.utils import logging
+from transformersDev.utils import logging
 
 
 StateDict = Dict[str, Tensor]

@@ -61,7 +61,7 @@ _TOKENIZER_FOR_DOC = "BlenderbotSmallTokenizer"
 LARGE_NEGATIVE = -1e8
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_tf_bart.shift_tokens_right
 def shift_tokens_right(input_ids: tf.Tensor, pad_token_id: int, decoder_start_token_id: int):
     pad_token_id = tf.cast(pad_token_id, input_ids.dtype)
     decoder_start_token_id = tf.cast(decoder_start_token_id, input_ids.dtype)
@@ -83,7 +83,7 @@ def shift_tokens_right(input_ids: tf.Tensor, pad_token_id: int, decoder_start_to
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_tf_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_tf_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: tf.TensorShape, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -100,7 +100,7 @@ def _make_causal_mask(input_ids_shape: tf.TensorShape, past_key_values_length: i
     return tf.tile(mask[None, None, :, :], (bsz, 1, 1, 1))
 
 
-# Copied from transformers.models.bart.modeling_tf_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_tf_bart._expand_mask
 def _expand_mask(mask: tf.Tensor, tgt_len: Optional[int] = None, past_key_values_length: int = 0):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -114,7 +114,7 @@ def _expand_mask(mask: tf.Tensor, tgt_len: Optional[int] = None, past_key_values
     return (one_cst - expanded_mask) * LARGE_NEGATIVE
 
 
-# Copied from transformers.models.blenderbot.modeling_tf_blenderbot.TFBlenderbotLearnedPositionalEmbedding with Blenderbot->BlenderbotSmall
+# Copied from transformersDev.models.blenderbot.modeling_tf_blenderbot.TFBlenderbotLearnedPositionalEmbedding with Blenderbot->BlenderbotSmall
 class TFBlenderbotSmallLearnedPositionalEmbedding(TFSharedEmbeddings):
     """
     This module learns positional embeddings up to a fixed maximum size.
@@ -131,7 +131,7 @@ class TFBlenderbotSmallLearnedPositionalEmbedding(TFSharedEmbeddings):
         return super().call(positions)
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartAttention with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartAttention with Bart->BlenderbotSmall
 class TFBlenderbotSmallAttention(tf.keras.layers.Layer):
     """Multi-headed attention from "Attention Is All You Need"""
 
@@ -297,7 +297,7 @@ class TFBlenderbotSmallAttention(tf.keras.layers.Layer):
         return attn_output, attn_weights, past_key_value
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartEncoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartEncoderLayer with Bart->BlenderbotSmall
 class TFBlenderbotSmallEncoderLayer(tf.keras.layers.Layer):
     def __init__(self, config: BlenderbotSmallConfig, **kwargs):
         super().__init__(**kwargs)
@@ -357,7 +357,7 @@ class TFBlenderbotSmallEncoderLayer(tf.keras.layers.Layer):
         return hidden_states, self_attn_weights
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartDecoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartDecoderLayer with Bart->BlenderbotSmall
 class TFBlenderbotSmallDecoderLayer(tf.keras.layers.Layer):
     def __init__(self, config: BlenderbotSmallConfig, **kwargs):
         super().__init__(**kwargs)
@@ -493,7 +493,7 @@ class TFBlenderbotSmallPreTrainedModel(TFPreTrainedModel):
             }
         ]
     )
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartPretrainedModel.serving
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartPretrainedModel.serving
     def serving(self, inputs):
         output = self.call(inputs)
 
@@ -539,7 +539,7 @@ BLENDERBOT_SMALL_START_DOCSTRING = r"""
 BLENDERBOT_SMALL_GENERATION_EXAMPLE = r"""
     Conversation example::
 
-        >>> from transformers import BlenderbotSmallTokenizer, TFBlenderbotSmallForConditionalGeneration >>> mname =
+        >>> from transformersDev import BlenderbotSmallTokenizer, TFBlenderbotSmallForConditionalGeneration >>> mname =
         'facebook/blenderbot_small-90M' >>> model = BlenderbotSmallForConditionalGeneration.from_pretrained(mname) >>>
         tokenizer = BlenderbotSmallTokenizer.from_pretrained(mname)
 
@@ -1188,7 +1188,7 @@ class TFBlenderbotSmallModel(TFBlenderbotSmallPreTrainedModel):
 
         return outputs
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartModel.serving_output
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartModel.serving_output
     def serving_output(self, output):
         pkv = tf.tuple(output.past_key_values)[1] if self.config.use_cache else None
         dec_hs = tf.convert_to_tensor(output.decoder_hidden_states) if self.config.output_hidden_states else None
@@ -1329,7 +1329,7 @@ class TFBlenderbotSmallForConditionalGeneration(TFBlenderbotSmallPreTrainedModel
             encoder_attentions=outputs.encoder_attentions,  # 2 of e out
         )
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.serving_output
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.serving_output
     def serving_output(self, output):
         pkv = tf.tuple(output.past_key_values)[1] if self.config.use_cache else None
         dec_hs = tf.convert_to_tensor(output.decoder_hidden_states) if self.config.output_hidden_states else None
@@ -1349,7 +1349,7 @@ class TFBlenderbotSmallForConditionalGeneration(TFBlenderbotSmallPreTrainedModel
             encoder_attentions=enc_attns,
         )
 
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.prepare_inputs_for_generation
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration.prepare_inputs_for_generation
     def prepare_inputs_for_generation(
         self,
         decoder_input_ids,
@@ -1379,7 +1379,7 @@ class TFBlenderbotSmallForConditionalGeneration(TFBlenderbotSmallPreTrainedModel
         }
 
     @staticmethod
-    # Copied from transformers.models.bart.modeling_tf_bart.TFBartForConditionalGeneration._reorder_cache
+    # Copied from transformersDev.models.bart.modeling_tf_bart.TFBartForConditionalGeneration._reorder_cache
     def _reorder_cache(past, beam_idx):
         reordered_past = ()
         for layer_past in past:

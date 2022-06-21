@@ -846,7 +846,7 @@ class FlaxCLIPPreTrainedModel(FlaxPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import CLIPTokenizer, FlaxCLIPModel
+        >>> from transformersDev import CLIPTokenizer, FlaxCLIPModel
 
         >>> model = FlaxCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -904,7 +904,7 @@ class FlaxCLIPPreTrainedModel(FlaxPreTrainedModel):
         ```python
         >>> from PIL import Image
         >>> import requests
-        >>> from transformers import CLIPProcessor, FlaxCLIPModel
+        >>> from transformersDev import CLIPProcessor, FlaxCLIPModel
 
         >>> model = FlaxCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
         >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -976,7 +976,7 @@ FLAX_CLIP_TEXT_MODEL_DOCSTRING = """
     Example:
 
     ```python
-    >>> from transformers import CLIPTokenizer, FlaxCLIPTextModel
+    >>> from transformersDev import CLIPTokenizer, FlaxCLIPTextModel
 
     >>> model = FlaxCLIPTextModel.from_pretrained("openai/clip-vit-base-patch32")
     >>> tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
@@ -1031,7 +1031,7 @@ FLAX_CLIP_VISION_MODEL_DOCSTRING = """
     ```python
     >>> from PIL import Image
     >>> import requests
-    >>> from transformers import CLIPProcessor, FlaxCLIPVisionModel
+    >>> from transformersDev import CLIPProcessor, FlaxCLIPVisionModel
 
     >>> model = FlaxCLIPVisionModel.from_pretrained("openai/clip-vit-base-patch32")
     >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -1158,7 +1158,7 @@ FLAX_CLIP_MODEL_DOCSTRING = """
     >>> import jax
     >>> from PIL import Image
     >>> import requests
-    >>> from transformers import CLIPProcessor, FlaxCLIPModel
+    >>> from transformersDev import CLIPProcessor, FlaxCLIPModel
 
     >>> model = FlaxCLIPModel.from_pretrained("openai/clip-vit-base-patch32")
     >>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")

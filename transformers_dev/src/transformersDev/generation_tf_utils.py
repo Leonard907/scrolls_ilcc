@@ -1936,7 +1936,7 @@ class TFGenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     TFAutoModelForCausalLM,
         ...     TFLogitsProcessorList,
@@ -2197,7 +2197,7 @@ class TFGenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     TFAutoModelForCausalLM,
         ...     TFLogitsProcessorList,
@@ -2472,7 +2472,7 @@ class TFGenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import (
+        >>> from transformersDev import (
         ...     AutoTokenizer,
         ...     TFAutoModelForSeq2SeqLM,
         ...     TFLogitsProcessorList,

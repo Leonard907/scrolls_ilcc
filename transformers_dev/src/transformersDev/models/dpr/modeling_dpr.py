@@ -469,7 +469,7 @@ class DPRContextEncoder(DPRPretrainedContextEncoder):
         Examples:
 
         ```python
-        >>> from transformers import DPRContextEncoder, DPRContextEncoderTokenizer
+        >>> from transformersDev import DPRContextEncoder, DPRContextEncoderTokenizer
 
         >>> tokenizer = DPRContextEncoderTokenizer.from_pretrained("facebook/dpr-ctx_encoder-single-nq-base")
         >>> model = DPRContextEncoder.from_pretrained("facebook/dpr-ctx_encoder-single-nq-base")
@@ -550,7 +550,7 @@ class DPRQuestionEncoder(DPRPretrainedQuestionEncoder):
         Examples:
 
         ```python
-        >>> from transformers import DPRQuestionEncoder, DPRQuestionEncoderTokenizer
+        >>> from transformersDev import DPRQuestionEncoder, DPRQuestionEncoderTokenizer
 
         >>> tokenizer = DPRQuestionEncoderTokenizer.from_pretrained("facebook/dpr-question_encoder-single-nq-base")
         >>> model = DPRQuestionEncoder.from_pretrained("facebook/dpr-question_encoder-single-nq-base")
@@ -630,7 +630,7 @@ class DPRReader(DPRPretrainedReader):
         Examples:
 
         ```python
-        >>> from transformers import DPRReader, DPRReaderTokenizer
+        >>> from transformersDev import DPRReader, DPRReaderTokenizer
 
         >>> tokenizer = DPRReaderTokenizer.from_pretrained("facebook/dpr-reader-single-nq-base")
         >>> model = DPRReader.from_pretrained("facebook/dpr-reader-single-nq-base")

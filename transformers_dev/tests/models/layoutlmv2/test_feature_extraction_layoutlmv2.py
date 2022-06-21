@@ -18,8 +18,8 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import require_pytesseract, require_torch
-from transformers.utils import is_pytesseract_available, is_torch_available
+from transformersDev.testing_utils import require_pytesseract, require_torch
+from transformersDev.utils import is_pytesseract_available, is_torch_available
 
 from ...test_feature_extraction_common import FeatureExtractionSavingTestMixin, prepare_image_inputs
 
@@ -30,7 +30,7 @@ if is_torch_available():
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv2FeatureExtractor
+    from transformersDev import LayoutLMv2FeatureExtractor
 
 
 class LayoutLMv2FeatureExtractionTester(unittest.TestCase):

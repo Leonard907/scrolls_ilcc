@@ -16,8 +16,8 @@
 
 import unittest
 
-from transformers import XLMRobertaXLConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import XLMRobertaXLConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...generation.test_generation_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -27,7 +27,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         XLMRobertaXLForCausalLM,
         XLMRobertaXLForMaskedLM,
         XLMRobertaXLForMultipleChoice,
@@ -36,7 +36,7 @@ if is_torch_available():
         XLMRobertaXLForTokenClassification,
         XLMRobertaXLModel,
     )
-    from transformers.models.xlm_roberta_xl.modeling_xlm_roberta_xl import (
+    from transformersDev.models.xlm_roberta_xl.modeling_xlm_roberta_xl import (
         XLMRobertaXLEmbeddings,
         create_position_ids_from_input_ids,
     )

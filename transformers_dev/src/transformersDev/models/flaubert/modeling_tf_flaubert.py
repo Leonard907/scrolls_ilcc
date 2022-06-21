@@ -277,7 +277,7 @@ class TFFlaubertModel(TFFlaubertPreTrainedModel):
 
         return outputs
 
-    # Copied from transformers.models.distilbert.modeling_tf_distilbert.TFDistilBertModel.serving_output
+    # Copied from transformersDev.models.distilbert.modeling_tf_distilbert.TFDistilBertModel.serving_output
     def serving_output(self, output):
         hs = tf.convert_to_tensor(output.hidden_states) if self.config.output_hidden_states else None
         attns = tf.convert_to_tensor(output.attentions) if self.config.output_attentions else None
@@ -285,7 +285,7 @@ class TFFlaubertModel(TFFlaubertPreTrainedModel):
         return TFBaseModelOutput(last_hidden_state=output.last_hidden_state, hidden_states=hs, attentions=attns)
 
 
-# Copied from transformers.models.xlm.modeling_tf_xlm.TFXLMMultiHeadAttention with XLM->Flaubert
+# Copied from transformersDev.models.xlm.modeling_tf_xlm.TFXLMMultiHeadAttention with XLM->Flaubert
 class TFFlaubertMultiHeadAttention(tf.keras.layers.Layer):
     NEW_ID = itertools.count()
 
@@ -378,7 +378,7 @@ class TFFlaubertMultiHeadAttention(tf.keras.layers.Layer):
         return outputs
 
 
-# Copied from transformers.models.xlm.modeling_tf_xlm.TFXLMTransformerFFN
+# Copied from transformersDev.models.xlm.modeling_tf_xlm.TFXLMTransformerFFN
 class TFFlaubertTransformerFFN(tf.keras.layers.Layer):
     def __init__(self, in_dim, dim_hidden, out_dim, config, **kwargs):
         super().__init__(**kwargs)
@@ -671,7 +671,7 @@ class TFFlaubertMainLayer(tf.keras.layers.Layer):
         return TFBaseModelOutput(last_hidden_state=tensor, hidden_states=hidden_states, attentions=attentions)
 
 
-# Copied from transformers.models.xlm.modeling_tf_xlm.TFXLMPredLayer
+# Copied from transformersDev.models.xlm.modeling_tf_xlm.TFXLMPredLayer
 class TFFlaubertPredLayer(tf.keras.layers.Layer):
     """
     Prediction layer (cross_entropy or adaptive_softmax).

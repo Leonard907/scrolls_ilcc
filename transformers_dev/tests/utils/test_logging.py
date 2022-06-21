@@ -16,10 +16,10 @@ import os
 import unittest
 from unittest.mock import patch
 
-import transformers.models.bart.tokenization_bart
-from transformers import AutoConfig, logging
-from transformers.testing_utils import CaptureLogger, mockenv, mockenv_context
-from transformers.utils.logging import disable_progress_bar, enable_progress_bar
+import transformersDev.models.bart.tokenization_bart
+from transformersDev import AutoConfig, logging
+from transformersDev.testing_utils import CaptureLogger, mockenv, mockenv_context
+from transformersDev.utils.logging import disable_progress_bar, enable_progress_bar
 
 
 class HfArgumentParserTest(unittest.TestCase):
@@ -76,7 +76,7 @@ class HfArgumentParserTest(unittest.TestCase):
     @mockenv(TRANSFORMERS_VERBOSITY="error")
     def test_env_override(self):
         # reset for the env var to take effect, next time some logger call is made
-        transformers.utils.logging._reset_library_root_logger()
+        transformersDev.utils.logging._reset_library_root_logger()
         # this action activates the env var
         _ = logging.get_logger("transformers.models.bart.tokenization_bart")
 
@@ -92,12 +92,12 @@ class HfArgumentParserTest(unittest.TestCase):
 
         # restore to the original level
         os.environ["TRANSFORMERS_VERBOSITY"] = ""
-        transformers.utils.logging._reset_library_root_logger()
+        transformersDev.utils.logging._reset_library_root_logger()
 
     @mockenv(TRANSFORMERS_VERBOSITY="super-error")
     def test_env_invalid_override(self):
         # reset for the env var to take effect, next time some logger call is made
-        transformers.utils.logging._reset_library_root_logger()
+        transformersDev.utils.logging._reset_library_root_logger()
         logger = logging.logging.getLogger()
         with CaptureLogger(logger) as cl:
             # this action activates the env var

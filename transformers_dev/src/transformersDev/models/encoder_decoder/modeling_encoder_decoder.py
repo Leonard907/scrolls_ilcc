@@ -336,7 +336,7 @@ class EncoderDecoderModel(PreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import EncoderDecoderModel
+        >>> from transformersDev import EncoderDecoderModel
 
         >>> # initialize a bert2bert from two pretrained BERT models. Note that the cross-attention layers will be randomly initialized
         >>> model = EncoderDecoderModel.from_encoder_decoder_pretrained("bert-base-uncased", "bert-base-uncased")
@@ -452,7 +452,7 @@ class EncoderDecoderModel(PreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import EncoderDecoderModel, BertTokenizer
+        >>> from transformersDev import EncoderDecoderModel, BertTokenizer
         >>> import torch
 
         >>> tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")

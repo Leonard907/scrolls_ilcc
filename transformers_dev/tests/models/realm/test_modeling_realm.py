@@ -19,8 +19,8 @@ import unittest
 
 import numpy as np
 
-from transformers import RealmConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import RealmConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -29,7 +29,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         RealmEmbedder,
         RealmForOpenQA,
         RealmKnowledgeAugEncoder,
@@ -478,7 +478,7 @@ class RealmModelIntegrationTest(unittest.TestCase):
 
     @slow
     def test_inference_open_qa(self):
-        from transformers.models.realm.retrieval_realm import RealmRetriever
+        from transformersDev.models.realm.retrieval_realm import RealmRetriever
 
         config = RealmConfig()
 

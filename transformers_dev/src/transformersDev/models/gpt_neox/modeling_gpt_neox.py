@@ -573,7 +573,7 @@ class GPTNeoXForCausalLM(GPTNeoXPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import GPTNeoXTokenizer, GPTNeoXForCausalLM, GPTNeoXConfig
+        >>> from transformersDev import GPTNeoXTokenizer, GPTNeoXForCausalLM, GPTNeoXConfig
         >>> import torch
 
         >>> tokenizer = GPTNeoXTokenizer.from_pretrained("gpt-neox-20b")

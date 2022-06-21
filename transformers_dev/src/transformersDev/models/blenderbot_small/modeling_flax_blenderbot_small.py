@@ -218,7 +218,7 @@ BLENDERBOT_SMALL_DECODE_INPUTS_DOCSTRING = r"""
 """
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_flax_bart.shift_tokens_right
 def shift_tokens_right(input_ids: jnp.ndarray, pad_token_id: int, decoder_start_token_id: int) -> jnp.ndarray:
     """
     Shift input ids one token to the right.
@@ -231,7 +231,7 @@ def shift_tokens_right(input_ids: jnp.ndarray, pad_token_id: int, decoder_start_
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartAttention with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartAttention with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallAttention(nn.Module):
     config: BlenderbotSmallConfig
     embed_dim: int
@@ -399,7 +399,7 @@ class FlaxBlenderbotSmallAttention(nn.Module):
         return attn_output, attn_weights
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartEncoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartEncoderLayer with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallEncoderLayer(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32
@@ -457,7 +457,7 @@ class FlaxBlenderbotSmallEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartEncoderLayerCollection with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartEncoderLayerCollection with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallEncoderLayerCollection(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -512,7 +512,7 @@ class FlaxBlenderbotSmallEncoderLayerCollection(nn.Module):
         )
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartDecoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartDecoderLayer with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallDecoderLayer(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32
@@ -601,7 +601,7 @@ class FlaxBlenderbotSmallDecoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartDecoderLayerCollection with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartDecoderLayerCollection with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallDecoderLayerCollection(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -805,7 +805,7 @@ class FlaxBlenderbotSmallDecoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartModule with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartModule with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallModule(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -989,7 +989,7 @@ class FlaxBlenderbotSmallPreTrainedModel(FlaxPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
+        >>> from transformersDev import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
 
         >>> model = FlaxBlenderbotSmallForConditionalGeneration.from_pretrained("facebook/blenderbot_small-90M")
         >>> tokenizer = BlenderbotSmallTokenizer.from_pretrained("facebook/blenderbot_small-90M")
@@ -1058,7 +1058,7 @@ class FlaxBlenderbotSmallPreTrainedModel(FlaxPreTrainedModel):
 
         ```python
         >>> import jax.numpy as jnp
-        >>> from transformers import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
+        >>> from transformersDev import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
 
         >>> model = FlaxBlenderbotSmallForConditionalGeneration.from_pretrained("facebook/blenderbot_small-90M")
         >>> tokenizer = BlenderbotSmallTokenizer.from_pretrained("facebook/blenderbot_small-90M")
@@ -1223,7 +1223,7 @@ append_call_sample_docstring(
 )
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.FlaxBartForConditionalGenerationModule with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_flax_bart.FlaxBartForConditionalGenerationModule with Bart->BlenderbotSmall
 class FlaxBlenderbotSmallForConditionalGenerationModule(nn.Module):
     config: BlenderbotSmallConfig
     dtype: jnp.dtype = jnp.float32
@@ -1328,7 +1328,7 @@ class FlaxBlenderbotSmallForConditionalGeneration(FlaxBlenderbotSmallPreTrainedM
 
         ```python
         >>> import jax.numpy as jnp
-        >>> from transformers import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
+        >>> from transformersDev import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
 
         >>> model = FlaxBlenderbotSmallForConditionalGeneration.from_pretrained("facebook/blenderbot_small-90M")
         >>> tokenizer = BlenderbotSmallTokenizer.from_pretrained("facebook/blenderbot_small-90M")
@@ -1483,7 +1483,7 @@ FLAX_BLENDERBOT_SMALL_CONDITIONAL_GENERATION_DOCSTRING = """
 
     Summarization example:
 
-        >>> from transformers import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
+        >>> from transformersDev import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration
 
         >>> model = FlaxBlenderbotSmallForConditionalGeneration.from_pretrained('facebook/blenderbot_small-90M') >>>
         tokenizer = BlenderbotSmallTokenizer.from_pretrained('facebook/blenderbot_small-90M')
@@ -1496,7 +1496,7 @@ FLAX_BLENDERBOT_SMALL_CONDITIONAL_GENERATION_DOCSTRING = """
 
     Mask filling example:
 
-        >>> from transformers import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration >>>
+        >>> from transformersDev import BlenderbotSmallTokenizer, FlaxBlenderbotSmallForConditionalGeneration >>>
         tokenizer = BlenderbotSmallTokenizer.from_pretrained('facebook/blenderbot_small-90M') >>> TXT = "My friends are
         <mask> but they eat too many carbs."
 

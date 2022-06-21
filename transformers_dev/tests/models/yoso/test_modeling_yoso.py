@@ -17,8 +17,8 @@
 
 import unittest
 
-from transformers import YosoConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from transformersDev import YosoConfig, is_torch_available
+from transformersDev.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -27,7 +27,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor,
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from transformersDev import (
         YosoForMaskedLM,
         YosoForMultipleChoice,
         YosoForQuestionAnswering,
@@ -35,7 +35,7 @@ if is_torch_available():
         YosoForTokenClassification,
         YosoModel,
     )
-    from transformers.models.yoso.modeling_yoso import YOSO_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev.models.yoso.modeling_yoso import YOSO_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 class YosoModelTester:

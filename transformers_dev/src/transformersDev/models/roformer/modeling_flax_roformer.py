@@ -128,7 +128,7 @@ ROFORMER_INPUTS_DOCSTRING = r"""
 """
 
 
-# Copied from transformers.models.marian.modeling_flax_marian.create_sinusoidal_positions
+# Copied from transformersDev.models.marian.modeling_flax_marian.create_sinusoidal_positions
 def create_sinusoidal_positions(n_pos, dim):
     position_enc = np.array([[pos / np.power(10000, 2 * (j // 2) / dim) for j in range(dim)] for pos in range(n_pos)])
     sentinel = dim // 2 + dim % 2
@@ -291,7 +291,7 @@ class FlaxRoFormerSelfAttention(nn.Module):
         return query_layer, key_layer
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertSelfOutput with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertSelfOutput with Bert->RoFormer
 class FlaxRoFormerSelfOutput(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -351,7 +351,7 @@ class FlaxRoFormerAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertIntermediate with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertIntermediate with Bert->RoFormer
 class FlaxRoFormerIntermediate(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -370,7 +370,7 @@ class FlaxRoFormerIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertOutput with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertOutput with Bert->RoFormer
 class FlaxRoFormerOutput(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32  # the dtype of the computation
@@ -525,7 +525,7 @@ class FlaxRoFormerEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertPredictionHeadTransform with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertPredictionHeadTransform with Bert->RoFormer
 class FlaxRoFormerPredictionHeadTransform(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32
@@ -541,7 +541,7 @@ class FlaxRoFormerPredictionHeadTransform(nn.Module):
         return self.LayerNorm(hidden_states)
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertLMPredictionHead with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertLMPredictionHead with Bert->RoFormer
 class FlaxRoFormerLMPredictionHead(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32
@@ -565,7 +565,7 @@ class FlaxRoFormerLMPredictionHead(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_flax_bert.FlaxBertOnlyMLMHead with Bert->RoFormer
+# Copied from transformersDev.models.bert.modeling_flax_bert.FlaxBertOnlyMLMHead with Bert->RoFormer
 class FlaxRoFormerOnlyMLMHead(nn.Module):
     config: RoFormerConfig
     dtype: jnp.dtype = jnp.float32

@@ -29,8 +29,8 @@ import numpy as np
 import torch
 from datasets import DatasetDict, load_dataset, load_metric
 
-import transformers
-from transformers import (
+import transformersDev
+from transformersDev import (
     AutoConfig,
     AutoFeatureExtractor,
     AutoModelForAudioClassification,
@@ -44,9 +44,9 @@ from transformers import (
     Trainer,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint, is_main_process
-from transformers.utils import check_min_version
-from transformers.utils.versions import require_version
+from transformersDev.trainer_utils import get_last_checkpoint, is_main_process
+from transformersDev.utils import check_min_version
+from transformersDev.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -462,7 +462,7 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
+        transformersDev.utils.logging.set_verbosity_info()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed before initializing model.

@@ -246,7 +246,7 @@ class FlaxGenerationMixin:
         Examples:
 
         ```python
-        >>> from transformers import AutoTokenizer, FlaxAutoModelForCausalLM
+        >>> from transformersDev import AutoTokenizer, FlaxAutoModelForCausalLM
 
         >>> tokenizer = AutoTokenizer.from_pretrained("distilgpt2")
         >>> model = FlaxAutoModelForCausalLM.from_pretrained("distilgpt2")

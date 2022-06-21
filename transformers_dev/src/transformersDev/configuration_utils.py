@@ -902,7 +902,7 @@ class PretrainedConfig(PushToHubMixin):
         if not isinstance(auto_class, str):
             auto_class = auto_class.__name__
 
-        import transformers.models.auto as auto_module
+        import transformersDev.models.auto as auto_module
 
         if not hasattr(auto_module, auto_class):
             raise ValueError(f"{auto_class} is not a valid auto class.")
@@ -912,7 +912,7 @@ class PretrainedConfig(PushToHubMixin):
 
 def get_configuration_file(configuration_files: List[str]) -> str:
     """
-    Get the configuration file to use for this version of transformers.
+    Get the configuration file to use for this version of transformersDev.
 
     Args:
         configuration_files (`List[str]`): The list of available configuration files.

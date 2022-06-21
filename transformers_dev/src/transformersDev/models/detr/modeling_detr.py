@@ -1226,7 +1226,7 @@ class DetrModel(DetrPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import DetrFeatureExtractor, DetrModel
+        >>> from transformersDev import DetrFeatureExtractor, DetrModel
         >>> from PIL import Image
         >>> import requests
 
@@ -1384,7 +1384,7 @@ class DetrForObjectDetection(DetrPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import DetrFeatureExtractor, DetrForObjectDetection
+        >>> from transformersDev import DetrFeatureExtractor, DetrForObjectDetection
         >>> from PIL import Image
         >>> import requests
 
@@ -1540,7 +1540,7 @@ class DetrForSegmentation(DetrPreTrainedModel):
         Examples:
 
         ```python
-        >>> from transformers import DetrFeatureExtractor, DetrForSegmentation
+        >>> from transformersDev import DetrFeatureExtractor, DetrForSegmentation
         >>> from PIL import Image
         >>> import requests
 

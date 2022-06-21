@@ -14,7 +14,7 @@
 
 import unittest
 
-from transformers import (
+from transformersDev import (
     MODEL_FOR_CAUSAL_LM_MAPPING,
     MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING,
     TF_MODEL_FOR_CAUSAL_LM_MAPPING,
@@ -29,7 +29,7 @@ from transformers import (
     TFAutoModelForCausalLM,
     pipeline,
 )
-from transformers.testing_utils import is_pipeline_test, require_tf, require_torch, slow, torch_device
+from transformersDev.testing_utils import is_pipeline_test, require_tf, require_torch, slow, torch_device
 
 from .test_pipelines_common import ANY, PipelineTestCaseMeta
 

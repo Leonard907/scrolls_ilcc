@@ -55,8 +55,8 @@ To create the package for pypi.
    pip install -i https://testpypi.python.org/pypi transformers
 
    Check you can run the following commands:
-   python -c "from transformers import pipeline; classifier = pipeline('text-classification'); print(classifier('What a nice release'))"
-   python -c "from transformers import *"
+   python -c "from transformersDev import pipeline; classifier = pipeline('text-classification'); print(classifier('What a nice release'))"
+   python -c "from transformersDev import *"
 
 9. Upload the final version to actual pypi:
    twine upload dist/* -r pypi
@@ -76,7 +76,7 @@ from pathlib import Path
 from setuptools import find_packages, setup
 
 
-# Remove stale transformers.egg-info directory to avoid https://github.com/pypa/pip/issues/5466
+# Remove stale transformersDev.egg-info directory to avoid https://github.com/pypa/pip/issues/5466
 stale_egg_info = Path(__file__).parent / "transformers.egg-info"
 if stale_egg_info.exists():
     print(
@@ -180,7 +180,7 @@ deps = {b: a for a, b in (re.findall(r"^(([^!=<>~]+)(?:[!=<>~].*)?$)", x)[0] for
 # since we save this data in src/transformers/dependency_versions_table.py it can be easily accessed from
 # anywhere. If you need to quickly access the data from this table in a shell, you can do so easily with:
 #
-# python -c 'import sys; from transformers.dependency_versions_table import deps; \
+# python -c 'import sys; from transformersDev.dependency_versions_table import deps; \
 # print(" ".join([ deps[x] for x in sys.argv[1:]]))' tokenizers datasets
 #
 # Just pass the desired package names to that script as it's shown with 2 packages above.
@@ -189,7 +189,7 @@ deps = {b: a for a, b in (re.findall(r"^(([^!=<>~]+)(?:[!=<>~].*)?$)", x)[0] for
 #
 # You can then feed this for example to `pip`:
 #
-# pip install -U $(python -c 'import sys; from transformers.dependency_versions_table import deps; \
+# pip install -U $(python -c 'import sys; from transformersDev.dependency_versions_table import deps; \
 # print(" ".join([ deps[x] for x in sys.argv[1:]]))' tokenizers datasets)
 #
 

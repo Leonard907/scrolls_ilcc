@@ -262,7 +262,7 @@ class VisualBertSelfAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertSelfOutput with Bert->VisualBert
 class VisualBertSelfOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -320,7 +320,7 @@ class VisualBertAttention(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bert.modeling_bert.BertIntermediate with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertIntermediate with Bert->VisualBert
 class VisualBertIntermediate(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -336,7 +336,7 @@ class VisualBertIntermediate(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertOutput with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertOutput with Bert->VisualBert
 class VisualBertOutput(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -454,7 +454,7 @@ class VisualBertEncoder(nn.Module):
         )
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPooler with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPooler with Bert->VisualBert
 class VisualBertPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -470,7 +470,7 @@ class VisualBertPooler(nn.Module):
         return pooled_output
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPredictionHeadTransform with Bert->VisualBert
 class VisualBertPredictionHeadTransform(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -488,7 +488,7 @@ class VisualBertPredictionHeadTransform(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertLMPredictionHead with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertLMPredictionHead with Bert->VisualBert
 class VisualBertLMPredictionHead(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -509,7 +509,7 @@ class VisualBertLMPredictionHead(nn.Module):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_bert.BertPreTrainingHeads with Bert->VisualBert
+# Copied from transformersDev.models.bert.modeling_bert.BertPreTrainingHeads with Bert->VisualBert
 class VisualBertPreTrainingHeads(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -739,7 +739,7 @@ class VisualBertModel(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image.
-        from transformers import BertTokenizer, VisualBertModel
+        from transformersDev import BertTokenizer, VisualBertModel
         import torch
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
@@ -924,7 +924,7 @@ class VisualBertForPreTraining(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image in the batch.
-        from transformers import BertTokenizer, VisualBertForPreTraining
+        from transformersDev import BertTokenizer, VisualBertForPreTraining
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
         model = VisualBertForPreTraining.from_pretrained("uclanlp/visualbert-vqa-coco-pre")
@@ -1063,7 +1063,7 @@ class VisualBertForMultipleChoice(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image in the batch.
-        from transformers import BertTokenizer, VisualBertForMultipleChoice
+        from transformersDev import BertTokenizer, VisualBertForMultipleChoice
         import torch
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
@@ -1214,7 +1214,7 @@ class VisualBertForQuestionAnswering(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image in the batch.
-        from transformers import BertTokenizer, VisualBertForQuestionAnswering
+        from transformersDev import BertTokenizer, VisualBertForQuestionAnswering
         import torch
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
@@ -1340,7 +1340,7 @@ class VisualBertForVisualReasoning(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image in the batch.
-        from transformers import BertTokenizer, VisualBertForVisualReasoning
+        from transformersDev import BertTokenizer, VisualBertForVisualReasoning
         import torch
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
@@ -1504,7 +1504,7 @@ class VisualBertForRegionToPhraseAlignment(VisualBertPreTrainedModel):
 
         ```python
         # Assumption: *get_visual_embeddings(image)* gets the visual embeddings of the image in the batch.
-        from transformers import BertTokenizer, VisualBertForRegionToPhraseAlignment
+        from transformersDev import BertTokenizer, VisualBertForRegionToPhraseAlignment
         import torch
 
         tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")

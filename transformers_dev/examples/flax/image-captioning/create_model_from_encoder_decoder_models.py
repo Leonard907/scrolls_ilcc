@@ -22,7 +22,7 @@ The cross-attention will be randomly initialized.
 from dataclasses import dataclass, field
 from typing import Optional
 
-from transformers import (
+from transformersDev import (
     AutoConfig,
     AutoFeatureExtractor,
     AutoTokenizer,

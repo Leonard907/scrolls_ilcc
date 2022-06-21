@@ -22,7 +22,7 @@ from typing import Dict, Optional, Tuple
 
 import tensorflow as tf
 
-from transformers.tf_utils import stable_softmax
+from transformersDev.tf_utils import stable_softmax
 
 from ...activations_tf import get_tf_activation
 from ...modeling_tf_utils import TFPreTrainedModel, get_initializer, keras_serializable, shape_list, unpack_inputs
@@ -1001,7 +1001,7 @@ class TFLxmertPooler(tf.keras.layers.Layer):
         return pooled_output
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertPredictionHeadTransform with Bert->Lxmert
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertPredictionHeadTransform with Bert->Lxmert
 class TFLxmertPredictionHeadTransform(tf.keras.layers.Layer):
     def __init__(self, config: LxmertConfig, **kwargs):
         super().__init__(**kwargs)
@@ -1027,7 +1027,7 @@ class TFLxmertPredictionHeadTransform(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertLMPredictionHead with Bert->Lxmert
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertLMPredictionHead with Bert->Lxmert
 class TFLxmertLMPredictionHead(tf.keras.layers.Layer):
     def __init__(self, config: LxmertConfig, input_embeddings: tf.keras.layers.Layer, **kwargs):
         super().__init__(**kwargs)
@@ -1071,7 +1071,7 @@ class TFLxmertLMPredictionHead(tf.keras.layers.Layer):
         return hidden_states
 
 
-# Copied from transformers.models.bert.modeling_tf_bert.TFBertMLMHead with Bert->Lxmert
+# Copied from transformersDev.models.bert.modeling_tf_bert.TFBertMLMHead with Bert->Lxmert
 class TFLxmertMLMHead(tf.keras.layers.Layer):
     def __init__(self, config: LxmertConfig, input_embeddings: tf.keras.layers.Layer, **kwargs):
         super().__init__(**kwargs)

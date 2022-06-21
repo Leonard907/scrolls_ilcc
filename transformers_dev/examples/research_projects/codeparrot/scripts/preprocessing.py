@@ -9,7 +9,7 @@ import numpy as np
 from datasets import load_dataset
 
 from arguments import PreprocessingArguments
-from transformers import AutoTokenizer, HfArgumentParser
+from transformersDev import AutoTokenizer, HfArgumentParser
 
 
 def get_hash(example):

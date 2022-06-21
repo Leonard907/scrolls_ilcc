@@ -60,7 +60,7 @@ BLENDERBOT_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bart.modeling_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_bart.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start_token_id: int):
     """
     Shift input ids one token to the right.
@@ -77,7 +77,7 @@ def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -93,7 +93,7 @@ def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_
     return mask[None, None, :, :].expand(bsz, 1, tgt_len, tgt_len + past_key_values_length)
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -125,7 +125,7 @@ class BlenderbotLearnedPositionalEmbedding(nn.Embedding):
         return super().forward(positions)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->Blenderbot
 class BlenderbotAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -273,7 +273,7 @@ class BlenderbotAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.mbart.modeling_mbart.MBartEncoderLayer with MBart->Blenderbot
+# Copied from transformersDev.models.mbart.modeling_mbart.MBartEncoderLayer with MBart->Blenderbot
 class BlenderbotEncoderLayer(nn.Module):
     def __init__(self, config: BlenderbotConfig):
         super().__init__()
@@ -342,7 +342,7 @@ class BlenderbotEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.mbart.modeling_mbart.MBartDecoderLayer with MBart->Blenderbot
+# Copied from transformersDev.models.mbart.modeling_mbart.MBartDecoderLayer with MBart->Blenderbot
 class BlenderbotDecoderLayer(nn.Module):
     def __init__(self, config: BlenderbotConfig):
         super().__init__()
@@ -512,7 +512,7 @@ BLENDERBOT_GENERATION_EXAMPLE = r"""
     Conversation example:
 
     ```python
-    >>> from transformers import BlenderbotTokenizer, BlenderbotForConditionalGeneration
+    >>> from transformersDev import BlenderbotTokenizer, BlenderbotForConditionalGeneration
 
     >>> mname = "facebook/blenderbot-400M-distill"
     >>> model = BlenderbotForConditionalGeneration.from_pretrained(mname)
@@ -842,7 +842,7 @@ class BlenderbotDecoder(BlenderbotPreTrainedModel):
     def set_input_embeddings(self, value):
         self.embed_tokens = value
 
-    # Copied from transformers.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
+    # Copied from transformersDev.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
     def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
         # create causal mask
         # [bsz, seq_len] -> [bsz, 1, tgt_seq_len, src_seq_len]
@@ -1150,7 +1150,7 @@ class BlenderbotModel(BlenderbotPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotTokenizer, BlenderbotModel
+        >>> from transformersDev import BlenderbotTokenizer, BlenderbotModel
 
         >>> model = BlenderbotModel.from_pretrained("facebook/blenderbot-400M-distill")
         >>> tokenizer = BlenderbotTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
@@ -1401,7 +1401,7 @@ class BlenderbotForConditionalGeneration(BlenderbotPreTrainedModel):
         return reordered_past
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderWrapper with Bart->Blenderbot
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderWrapper with Bart->Blenderbot
 class BlenderbotDecoderWrapper(BlenderbotPreTrainedModel):
     """
     This wrapper class is a helper class to correctly load pretrained checkpoints when the causal language model is
@@ -1416,7 +1416,7 @@ class BlenderbotDecoderWrapper(BlenderbotPreTrainedModel):
         return self.decoder(*args, **kwargs)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartForCausalLM with Bart->Blenderbot, facebook/bart-base->facebook/blenderbot-400M-distill
+# Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM with Bart->Blenderbot, facebook/bart-base->facebook/blenderbot-400M-distill
 class BlenderbotForCausalLM(BlenderbotPreTrainedModel):
     def __init__(self, config):
         config = copy.deepcopy(config)
@@ -1536,7 +1536,7 @@ class BlenderbotForCausalLM(BlenderbotPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotTokenizer, BlenderbotForCausalLM
+        >>> from transformersDev import BlenderbotTokenizer, BlenderbotForCausalLM
 
         >>> tokenizer = BlenderbotTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
         >>> model = BlenderbotForCausalLM.from_pretrained(

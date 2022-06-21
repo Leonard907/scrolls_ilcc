@@ -10,8 +10,8 @@ import pandas as pd
 import torch
 from tqdm import tqdm
 
-from transformers import BartForConditionalGeneration, RagRetriever, RagSequenceForGeneration, RagTokenForGeneration
-from transformers import logging as transformers_logging
+from transformersDev import BartForConditionalGeneration, RagRetriever, RagSequenceForGeneration, RagTokenForGeneration
+from transformersDev import logging as transformers_logging
 
 
 sys.path.append(os.path.join(os.getcwd()))  # noqa: E402 # isort:skip

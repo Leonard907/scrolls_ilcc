@@ -1831,7 +1831,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin, PushToHubMix
         Examples:
 
         ```python
-        >>> from transformers import BertConfig, BertModel
+        >>> from transformersDev import BertConfig, BertModel
 
         >>> # Download model and configuration from huggingface.co and cache.
         >>> model = BertModel.from_pretrained("bert-base-uncased")
@@ -2573,7 +2573,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin, PushToHubMix
         if not isinstance(auto_class, str):
             auto_class = auto_class.__name__
 
-        import transformers.models.auto as auto_module
+        import transformersDev.models.auto as auto_module
 
         if not hasattr(auto_module, auto_class):
             raise ValueError(f"{auto_class} is not a valid auto class.")
@@ -2634,7 +2634,7 @@ class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin, PushToHubMix
         Examples:
 
         ```python
-        from transformers import AutoModel
+        from transformersDev import AutoModel
 
         model = AutoModel.from_pretrained("bert-base-cased")
 

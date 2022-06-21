@@ -23,7 +23,7 @@ import fairseq
 import torch
 from torch import nn
 
-from transformers import (
+from transformersDev import (
     Speech2Text2Config,
     Speech2Text2ForCausalLM,
     Speech2Text2Tokenizer,

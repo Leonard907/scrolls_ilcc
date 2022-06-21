@@ -2037,7 +2037,7 @@ class TapasTokenizer(PreTrainedTokenizer):
     # End of everything related to converting logits to predictions
 
 
-# Copied from transformers.models.bert.tokenization_bert.BasicTokenizer
+# Copied from transformersDev.models.bert.tokenization_bert.BasicTokenizer
 class BasicTokenizer(object):
     """
     Constructs a BasicTokenizer that will run basic tokenization (punctuation splitting, lower casing, etc.).
@@ -2187,7 +2187,7 @@ class BasicTokenizer(object):
         return "".join(output)
 
 
-# Copied from transformers.models.bert.tokenization_bert.WordpieceTokenizer
+# Copied from transformersDev.models.bert.tokenization_bert.WordpieceTokenizer
 class WordpieceTokenizer(object):
     """Runs WordPiece tokenization."""
 

@@ -125,7 +125,7 @@ class LEDLearnedPositionalEmbedding(nn.Embedding):
         return super().forward(positions)
 
 
-# Copied from transformers.models.longformer.modeling_longformer.LongformerSelfAttention with Longformer->LEDEncoder
+# Copied from transformersDev.models.longformer.modeling_longformer.LongformerSelfAttention with Longformer->LEDEncoder
 class LEDEncoderSelfAttention(nn.Module):
     def __init__(self, config, layer_id):
         super().__init__()
@@ -1136,7 +1136,7 @@ class LEDPreTrainedModel(PreTrainedModel):
 
 
 @dataclass
-# Copied from transformers.models.longformer.modeling_longformer.LongformerBaseModelOutput with Longformer->LEDEncoder
+# Copied from transformersDev.models.longformer.modeling_longformer.LongformerBaseModelOutput with Longformer->LEDEncoder
 class LEDEncoderBaseModelOutput(ModelOutput):
     """
     Base class for LEDEncoder's outputs, with potential hidden states, local and global attentions.
@@ -1470,7 +1470,7 @@ LED_GENERATION_EXAMPLE = r"""
 
     ```python
     >>> import torch
-    >>> from transformers import LEDTokenizer, LEDForConditionalGeneration
+    >>> from transformersDev import LEDTokenizer, LEDForConditionalGeneration
 
     >>> model = LEDForConditionalGeneration.from_pretrained("allenai/led-large-16384-arxiv")
     >>> tokenizer = LEDTokenizer.from_pretrained("allenai/led-large-16384-arxiv")
@@ -2372,7 +2372,7 @@ class LEDForConditionalGeneration(LEDPreTrainedModel):
         Conditional generation example:
 
         ```python
-        >>> from transformers import LEDTokenizer, LEDForConditionalGeneration
+        >>> from transformersDev import LEDTokenizer, LEDForConditionalGeneration
 
         >>> tokenizer = LEDTokenizer.from_pretrained("allenai/led-base-16384")
         >>> TXT = "My friends are <mask> but they eat too many carbs."

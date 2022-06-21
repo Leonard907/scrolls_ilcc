@@ -17,8 +17,8 @@ from finetune import SummarizationModule, main
 from huggingface_hub import list_models
 from parameterized import parameterized
 from run_eval import generate_summaries_or_translations
-from transformers import AutoConfig, AutoModelForSeq2SeqLM
-from transformers.testing_utils import CaptureStderr, CaptureStdout, TestCasePlus, require_torch_gpu, slow
+from transformersDev import AutoConfig, AutoModelForSeq2SeqLM
+from transformersDev.testing_utils import CaptureStderr, CaptureStdout, TestCasePlus, require_torch_gpu, slow
 from utils import label_smoothed_nll_loss, lmap, load_json
 
 

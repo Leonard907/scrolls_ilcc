@@ -20,10 +20,10 @@ import jax
 import jax.numpy as jnp
 from configuration_hybrid_clip import HybridCLIPConfig
 from flax.core.frozen_dict import FrozenDict
-from transformers import FLAX_MODEL_MAPPING, FlaxCLIPVisionModel
-from transformers.modeling_flax_utils import FlaxPreTrainedModel
-from transformers.models.clip.modeling_flax_clip import FlaxCLIPOutput
-from transformers.utils import logging
+from transformersDev import FLAX_MODEL_MAPPING, FlaxCLIPVisionModel
+from transformersDev.modeling_flax_utils import FlaxPreTrainedModel
+from transformersDev.models.clip.modeling_flax_clip import FlaxCLIPOutput
+from transformersDev.utils import logging
 
 
 logger = logging.get_logger(__name__)
@@ -350,7 +350,7 @@ class FlaxHybridCLIP(FlaxPreTrainedModel):
 
         Example::
 
-            >>> from transformers import FlaxHybridCLIP
+            >>> from transformersDev import FlaxHybridCLIP
             >>> # initialize a model from pretrained BERT and CLIP models. Note that the projection layers will be randomly initialized.
             >>> # If using CLIP's vision model the vision projection layer will be initialized using pre-trained weights
             >>> model = FlaxHybridCLIP.from_text_vision_pretrained('bert-base-uncased', 'openai/clip-vit-base-patch32')
@@ -380,10 +380,10 @@ class FlaxHybridCLIP(FlaxPreTrainedModel):
             assert (
                 text_model_name_or_path is not None
             ), "If `model` is not defined as an argument, a `text_model_name_or_path` has to be defined"
-            from transformers import FlaxAutoModel
+            from transformersDev import FlaxAutoModel
 
             if "config" not in kwargs_text:
-                from transformers import AutoConfig
+                from transformersDev import AutoConfig
 
                 text_config = AutoConfig.from_pretrained(text_model_name_or_path)
                 kwargs_text["config"] = text_config
@@ -395,10 +395,10 @@ class FlaxHybridCLIP(FlaxPreTrainedModel):
             assert (
                 vision_model_name_or_path is not None
             ), "If `model` is not defined as an argument, a `vision_model_name_or_path` has to be defined"
-            from transformers import FlaxAutoModel
+            from transformersDev import FlaxAutoModel
 
             if "config" not in kwargs_vision:
-                from transformers import AutoConfig
+                from transformersDev import AutoConfig
 
                 vision_config = AutoConfig.from_pretrained(vision_model_name_or_path)
                 kwargs_vision["config"] = vision_config

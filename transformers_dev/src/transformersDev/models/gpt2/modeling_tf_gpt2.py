@@ -1048,7 +1048,7 @@ class TFGPT2DoubleHeadsModel(TFGPT2PreTrainedModel):
 
         ```python
         >>> import tensorflow as tf
-        >>> from transformers import GPT2Tokenizer, TFGPT2DoubleHeadsModel
+        >>> from transformersDev import GPT2Tokenizer, TFGPT2DoubleHeadsModel
 
         >>> tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         >>> model = TFGPT2DoubleHeadsModel.from_pretrained("gpt2")

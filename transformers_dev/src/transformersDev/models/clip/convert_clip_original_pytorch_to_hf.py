@@ -18,7 +18,7 @@ import argparse
 import torch
 
 from clip import load
-from transformers import CLIPConfig, CLIPModel
+from transformersDev import CLIPConfig, CLIPModel
 
 
 def copy_attn_layer(hf_attn_layer, pt_attn_layer):

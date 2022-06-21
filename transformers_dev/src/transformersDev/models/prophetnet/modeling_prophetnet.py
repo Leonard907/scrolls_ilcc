@@ -1308,7 +1308,7 @@ class ProphetNetEncoder(ProphetNetPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ProphetNetTokenizer, ProphetNetEncoder
+        >>> from transformersDev import ProphetNetTokenizer, ProphetNetEncoder
         >>> import torch
 
         >>> tokenizer = ProphetNetTokenizer.from_pretrained("microsoft/prophetnet-large-uncased")
@@ -1485,7 +1485,7 @@ class ProphetNetDecoder(ProphetNetPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ProphetNetTokenizer, ProphetNetDecoder
+        >>> from transformersDev import ProphetNetTokenizer, ProphetNetDecoder
         >>> import torch
 
         >>> tokenizer = ProphetNetTokenizer.from_pretrained("microsoft/prophetnet-large-uncased")
@@ -1826,7 +1826,7 @@ class ProphetNetModel(ProphetNetPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ProphetNetTokenizer, ProphetNetModel
+        >>> from transformersDev import ProphetNetTokenizer, ProphetNetModel
 
         >>> tokenizer = ProphetNetTokenizer.from_pretrained("microsoft/prophetnet-large-uncased")
         >>> model = ProphetNetModel.from_pretrained("microsoft/prophetnet-large-uncased")
@@ -1948,7 +1948,7 @@ class ProphetNetForConditionalGeneration(ProphetNetPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ProphetNetTokenizer, ProphetNetForConditionalGeneration
+        >>> from transformersDev import ProphetNetTokenizer, ProphetNetForConditionalGeneration
 
         >>> tokenizer = ProphetNetTokenizer.from_pretrained("microsoft/prophetnet-large-uncased")
         >>> model = ProphetNetForConditionalGeneration.from_pretrained("microsoft/prophetnet-large-uncased")
@@ -2083,7 +2083,7 @@ class ProphetNetForConditionalGeneration(ProphetNetPreTrainedModel):
         return self._shift_right(labels)
 
     @staticmethod
-    # Copied from transformers.models.bart.modeling_bart.BartForConditionalGeneration._reorder_cache
+    # Copied from transformersDev.models.bart.modeling_bart.BartForConditionalGeneration._reorder_cache
     def _reorder_cache(past, beam_idx):
         reordered_past = ()
         for layer_past in past:
@@ -2194,7 +2194,7 @@ class ProphetNetForCausalLM(ProphetNetPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import ProphetNetTokenizer, ProphetNetForCausalLM
+        >>> from transformersDev import ProphetNetTokenizer, ProphetNetForCausalLM
         >>> import torch
 
         >>> tokenizer = ProphetNetTokenizer.from_pretrained("microsoft/prophetnet-large-uncased")
@@ -2206,7 +2206,7 @@ class ProphetNetForCausalLM(ProphetNetPreTrainedModel):
         >>> logits = outputs.logits
 
         >>> # Model can also be used with EncoderDecoder framework
-        >>> from transformers import BertTokenizer, EncoderDecoderModel, ProphetNetTokenizer
+        >>> from transformersDev import BertTokenizer, EncoderDecoderModel, ProphetNetTokenizer
         >>> import torch
 
         >>> tokenizer_enc = BertTokenizer.from_pretrained("bert-large-uncased")
@@ -2327,7 +2327,7 @@ class ProphetNetForCausalLM(ProphetNetPreTrainedModel):
         }
 
     @staticmethod
-    # Copied from transformers.models.bart.modeling_bart.BartForCausalLM._reorder_cache
+    # Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM._reorder_cache
     def _reorder_cache(past, beam_idx):
         reordered_past = ()
         for layer_past in past:

@@ -57,7 +57,7 @@ BLENDERBOT_SMALL_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 
-# Copied from transformers.models.bart.modeling_bart.shift_tokens_right
+# Copied from transformersDev.models.bart.modeling_bart.shift_tokens_right
 def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start_token_id: int):
     """
     Shift input ids one token to the right.
@@ -74,7 +74,7 @@ def shift_tokens_right(input_ids: torch.Tensor, pad_token_id: int, decoder_start
     return shifted_input_ids
 
 
-# Copied from transformers.models.bart.modeling_bart._make_causal_mask
+# Copied from transformersDev.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_values_length: int = 0):
     """
     Make causal mask used for bi-directional self-attention.
@@ -90,7 +90,7 @@ def _make_causal_mask(input_ids_shape: torch.Size, dtype: torch.dtype, past_key_
     return mask[None, None, :, :].expand(bsz, 1, tgt_len, tgt_len + past_key_values_length)
 
 
-# Copied from transformers.models.bart.modeling_bart._expand_mask
+# Copied from transformersDev.models.bart.modeling_bart._expand_mask
 def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] = None):
     """
     Expands attention_mask from `[bsz, seq_len]` to `[bsz, 1, tgt_seq_len, src_seq_len]`.
@@ -105,7 +105,7 @@ def _expand_mask(mask: torch.Tensor, dtype: torch.dtype, tgt_len: Optional[int] 
     return inverted_mask.masked_fill(inverted_mask.to(torch.bool), torch.finfo(dtype).min)
 
 
-# Copied from transformers.models.blenderbot.modeling_blenderbot.BlenderbotLearnedPositionalEmbedding with Blenderbot->BlenderbotSmall
+# Copied from transformersDev.models.blenderbot.modeling_blenderbot.BlenderbotLearnedPositionalEmbedding with Blenderbot->BlenderbotSmall
 class BlenderbotSmallLearnedPositionalEmbedding(nn.Embedding):
     """
     This module learns positional embeddings up to a fixed maximum size.
@@ -123,7 +123,7 @@ class BlenderbotSmallLearnedPositionalEmbedding(nn.Embedding):
         return super().forward(positions)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartAttention with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_bart.BartAttention with Bart->BlenderbotSmall
 class BlenderbotSmallAttention(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
 
@@ -271,7 +271,7 @@ class BlenderbotSmallAttention(nn.Module):
         return attn_output, attn_weights_reshaped, past_key_value
 
 
-# Copied from transformers.models.bart.modeling_bart.BartEncoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_bart.BartEncoderLayer with Bart->BlenderbotSmall
 class BlenderbotSmallEncoderLayer(nn.Module):
     def __init__(self, config: BlenderbotSmallConfig):
         super().__init__()
@@ -340,7 +340,7 @@ class BlenderbotSmallEncoderLayer(nn.Module):
         return outputs
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderLayer with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderLayer with Bart->BlenderbotSmall
 class BlenderbotSmallDecoderLayer(nn.Module):
     def __init__(self, config: BlenderbotSmallConfig):
         super().__init__()
@@ -510,7 +510,7 @@ BLENDERBOT_SMALL_GENERATION_EXAMPLE = r"""
     Conversation example:
 
     ```python
-    >>> from transformers import BlenderbotSmallTokenizer, BlenderbotSmallForConditionalGeneration
+    >>> from transformersDev import BlenderbotSmallTokenizer, BlenderbotSmallForConditionalGeneration
 
     >>> mname = "facebook/blenderbot_small-90M"
     >>> model = BlenderbotSmallForConditionalGeneration.from_pretrained(mname)
@@ -838,7 +838,7 @@ class BlenderbotSmallDecoder(BlenderbotSmallPreTrainedModel):
     def set_input_embeddings(self, value):
         self.embed_tokens = value
 
-    # Copied from transformers.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
+    # Copied from transformersDev.models.bart.modeling_bart.BartDecoder._prepare_decoder_attention_mask
     def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
         # create causal mask
         # [bsz, seq_len] -> [bsz, 1, tgt_seq_len, src_seq_len]
@@ -1131,7 +1131,7 @@ class BlenderbotSmallModel(BlenderbotSmallPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotSmallTokenizer, BlenderbotSmallModel
+        >>> from transformersDev import BlenderbotSmallTokenizer, BlenderbotSmallModel
 
         >>> model = BlenderbotSmallModel.from_pretrained("facebook/blenderbot_small-90M")
         >>> tokenizer = BlenderbotSmallTokenizer.from_pretrained("facebook/blenderbot_small-90M")
@@ -1368,7 +1368,7 @@ class BlenderbotSmallForConditionalGeneration(BlenderbotSmallPreTrainedModel):
         return reordered_past
 
 
-# Copied from transformers.models.bart.modeling_bart.BartDecoderWrapper with Bart->BlenderbotSmall
+# Copied from transformersDev.models.bart.modeling_bart.BartDecoderWrapper with Bart->BlenderbotSmall
 class BlenderbotSmallDecoderWrapper(BlenderbotSmallPreTrainedModel):
     """
     This wrapper class is a helper class to correctly load pretrained checkpoints when the causal language model is
@@ -1383,7 +1383,7 @@ class BlenderbotSmallDecoderWrapper(BlenderbotSmallPreTrainedModel):
         return self.decoder(*args, **kwargs)
 
 
-# Copied from transformers.models.bart.modeling_bart.BartForCausalLM with Bart->BlenderbotSmall, facebook/bart-base->facebook/blenderbot_small-90M
+# Copied from transformersDev.models.bart.modeling_bart.BartForCausalLM with Bart->BlenderbotSmall, facebook/bart-base->facebook/blenderbot_small-90M
 class BlenderbotSmallForCausalLM(BlenderbotSmallPreTrainedModel):
     def __init__(self, config):
         config = copy.deepcopy(config)
@@ -1503,7 +1503,7 @@ class BlenderbotSmallForCausalLM(BlenderbotSmallPreTrainedModel):
         Example:
 
         ```python
-        >>> from transformers import BlenderbotSmallTokenizer, BlenderbotSmallForCausalLM
+        >>> from transformersDev import BlenderbotSmallTokenizer, BlenderbotSmallForCausalLM
 
         >>> tokenizer = BlenderbotSmallTokenizer.from_pretrained("facebook/blenderbot_small-90M")
         >>> model = BlenderbotSmallForCausalLM.from_pretrained(

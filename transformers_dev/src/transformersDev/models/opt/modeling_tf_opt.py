@@ -109,7 +109,7 @@ class TFOPTLearnedPositionalEmbedding(TFSharedEmbeddings):
         return super().call(positions + self.offset)
 
 
-# Copied from transformers.models.bart.modeling_tf_bart.TFBartAttention with Bart->OPT
+# Copied from transformersDev.models.bart.modeling_tf_bart.TFBartAttention with Bart->OPT
 class TFOPTAttention(tf.keras.layers.Layer):
     """Multi-headed attention from "Attention Is All You Need"""
 
@@ -404,7 +404,7 @@ OPT_START_DOCSTRING = r"""
 )
 class TFOPTPreTrainedModel(TFPreTrainedModel):
     """
-    TFOPT Pretrained Model that inheritates from transformers.TFPreTrainedModel
+    TFOPT Pretrained Model that inheritates from transformersDev.TFPreTrainedModel
 
     Args:
         config: OPTConfig
@@ -956,7 +956,7 @@ class TFOPTForCausalLM(TFOPTPreTrainedModel, TFCausalLanguageModelingLoss):
         Example:
 
         ```python
-        >>> from transformers import GPT2Tokenizer, TFOPTForCausalLM
+        >>> from transformersDev import GPT2Tokenizer, TFOPTForCausalLM
 
         >>> model = TFOPTForCausalLM.from_pretrained("facebook/opt-350m")
         >>> tokenizer = GPT2Tokenizer.from_pretrained("facebook/opt-350m")

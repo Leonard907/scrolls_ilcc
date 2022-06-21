@@ -18,9 +18,9 @@
 import inspect
 import unittest
 
-from transformers import ResNetConfig
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from transformersDev import ResNetConfig
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev.utils import cached_property, is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -30,14 +30,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import ResNetForImageClassification, ResNetModel
-    from transformers.models.resnet.modeling_resnet import RESNET_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev import ResNetForImageClassification, ResNetModel
+    from transformersDev.models.resnet.modeling_resnet import RESNET_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoFeatureExtractor
+    from transformersDev import AutoFeatureExtractor
 
 
 class ResNetModelTester:

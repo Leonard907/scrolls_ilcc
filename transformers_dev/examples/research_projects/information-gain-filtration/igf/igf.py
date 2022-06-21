@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import joblib
-from transformers import AdamW, GPT2LMHeadModel, get_linear_schedule_with_warmup
+from transformersDev import AdamW, GPT2LMHeadModel, get_linear_schedule_with_warmup
 
 
 logger = logging.getLogger(__name__)

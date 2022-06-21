@@ -50,7 +50,7 @@ class RobertaConfig(BertConfig):
     Examples:
 
     ```python
-    >>> from transformers import RobertaConfig, RobertaModel
+    >>> from transformersDev import RobertaConfig, RobertaModel
 
     >>> # Initializing a RoBERTa configuration
     >>> configuration = RobertaConfig()

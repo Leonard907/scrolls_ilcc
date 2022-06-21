@@ -19,9 +19,9 @@ import tempfile
 import unittest
 from typing import List
 
-from transformers import AddedToken, LayoutXLMTokenizerFast, SpecialTokensMixin, is_tf_available, is_torch_available
-from transformers.models.layoutxlm.tokenization_layoutxlm import LayoutXLMTokenizer
-from transformers.testing_utils import (
+from transformersDev import AddedToken, LayoutXLMTokenizerFast, SpecialTokensMixin, is_tf_available, is_torch_available
+from transformersDev.models.layoutxlm.tokenization_layoutxlm import LayoutXLMTokenizer
+from transformersDev.testing_utils import (
     get_tests_dir,
     is_pt_tf_cross_test,
     require_pandas,
@@ -1129,7 +1129,7 @@ class LayoutXLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from transformersDev import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 

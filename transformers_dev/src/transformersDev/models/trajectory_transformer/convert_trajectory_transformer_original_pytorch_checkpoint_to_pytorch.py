@@ -17,7 +17,7 @@
 import torch
 
 import trajectory.utils as utils
-from transformers import TrajectoryTransformerModel
+from transformersDev import TrajectoryTransformerModel
 
 
 class Parser(utils.Parser):

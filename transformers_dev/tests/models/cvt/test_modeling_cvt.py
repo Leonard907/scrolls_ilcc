@@ -19,9 +19,9 @@ import inspect
 import unittest
 from math import floor
 
-from transformers import CvtConfig
-from transformers.file_utils import cached_property, is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
+from transformersDev import CvtConfig
+from transformersDev.file_utils import cached_property, is_torch_available, is_vision_available
+from transformersDev.testing_utils import require_torch, require_vision, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -30,14 +30,14 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import CvtForImageClassification, CvtModel
-    from transformers.models.cvt.modeling_cvt import CVT_PRETRAINED_MODEL_ARCHIVE_LIST
+    from transformersDev import CvtForImageClassification, CvtModel
+    from transformersDev.models.cvt.modeling_cvt import CVT_PRETRAINED_MODEL_ARCHIVE_LIST
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoFeatureExtractor
+    from transformersDev import AutoFeatureExtractor
 
 
 class CvtConfigTester(ConfigTester):

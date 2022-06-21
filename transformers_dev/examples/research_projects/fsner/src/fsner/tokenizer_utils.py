@@ -1,6 +1,6 @@
 import torch
 
-from transformers import AutoTokenizer
+from transformersDev import AutoTokenizer
 
 
 class FSNERTokenizerUtils(object):
