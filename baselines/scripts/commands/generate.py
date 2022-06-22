@@ -15,6 +15,13 @@ def get_command(id_):
     id_ = split_id[0]
     num_gpus = 1
 
+    gg_longt5_local_args = [
+        f"--max_source_length 1024",
+        f"--max_target_length {GG_LONGT5_MAX_LEN}",
+        f"--fp16 {GG_LONGT5_FP16}",
+        f"--per_device_eval_batch_size {FB_BART_per_device_eval_batch_size}",
+    ]
+
     fb_256_bart_args = [
         f"--max_source_length 256",
         f"--max_target_length {FB_BART_MAX_LEN}",
@@ -88,6 +95,7 @@ def get_command(id_):
         commands_dict[f"{dataset}_led-16384_test"] = base_args + allenai_led_args + ["--do_predict True",
                                                                                                   "--global_attention_first_token True",
                                                                                                   "--max_source_length 16384"]
+        commands_dict[f"{dataset}_longt5-local_test"] = base_args + gg_longt5_local_args + ["--do_predict True"]
 
     command_parts = commands_dict[id_]
     # fmt: on
