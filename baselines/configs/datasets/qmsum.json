@@ -1,7 +1,7 @@
 {
     "dataset_name": "tau/scrolls",
     "dataset_config_name": "qmsum",
-    "num_train_epochs": 20,
+    "num_train_epochs": 50,
     "metric_names": ["rouge"],
     "metric_for_best_model": "rouge/geometric_mean",
     "greater_is_better": true
