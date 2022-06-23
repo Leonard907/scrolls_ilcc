@@ -283,6 +283,7 @@ def main():
 
     os.environ["WANDB_WATCH"] = "false"
     os.environ["WANDB_DISABLED"] = "true"
+    # import pdb; pdb.set_trace()
 
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
