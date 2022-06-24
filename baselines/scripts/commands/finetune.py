@@ -25,7 +25,7 @@ def get_command(id_):
         f"--fp16 {GG_LONGT5_FP16}",
         f"--train_max_tokens {tokens_bsz}",
         f"--gradient_accumulation_steps {accum_steps}",
-        f"--attention_window {GG_LONGT5_ATTENTION_WINDOW}"
+        f"--attention_window {GG_LONGT5_ATTENTION_WINDOW}",
         f"--per_device_eval_batch_size {GG_LONGT5_per_device_eval_batch_size}",
         f"--folder_suffix {folder_suffix}",
         "--source_prefix \"summarize: \""
