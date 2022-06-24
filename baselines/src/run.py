@@ -683,6 +683,7 @@ def main():
                     id_to_prediction[instance["id"]] = predict_results.predictions[i]
                 predictions = decode(id_to_prediction, tokenizer, data_args)
                 output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions.json")
+                logger.info('Generated File: {}'.format(output_prediction_file))
                 with open(output_prediction_file, "w") as writer:
                     json.dump(predictions, writer, indent=4)
 
