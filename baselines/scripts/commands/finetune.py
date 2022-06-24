@@ -19,14 +19,16 @@ def get_command(id_):
     generate_in_eval = False
 
     gg_longt5_local_base_args = [
-        f"--model_name_or_path google/long-t5-local-base",
+        f"--model_name_or_path google/long-t5-tglobal-base",
         f"--max_source_length 1024",
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--train_max_tokens {tokens_bsz}",
         f"--gradient_accumulation_steps {accum_steps}",
+        f"--attention_window {GG_LONGT5_ATTENTION_WINDOW}"
         f"--per_device_eval_batch_size {GG_LONGT5_per_device_eval_batch_size}",
         f"--folder_suffix {folder_suffix}",
+        "--source_prefix \"summarize: \""
     ]
 
     fb_bart_256_args = [
