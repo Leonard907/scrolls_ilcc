@@ -159,7 +159,7 @@ def get_command(id_):
             "--do_eval True",
             "--load_best_model_at_end True",
             # "--lr_scheduler linear",
-            "--warmup_ratio 0.1",
+            "--warmup_ratio 0.0",
         ] + (
             ["--m configs/no_metrics.json", "--predict_with_generate False", "--prediction_loss_only True"]
             if not generate_in_eval

@@ -7,7 +7,7 @@ GG_LONGT5_MAX_LEN = "910"
 GG_LONGT5_FP16 = "False"
 GG_LONGT5_ATTENTION_WINDOW = "127"
 GG_LONGT5_per_device_eval_batch_size = "1"
-GG_LONGT5_LR_SCHEDULER = "linear"
+GG_LONGT5_LR_SCHEDULER = "constant"
 GG_LONGT5_PREFIX = "summarize: "
 
 ALLEN_AI_MAX_SOURCE_LEN = "16384"
