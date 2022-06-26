@@ -20,6 +20,7 @@ def get_command(id_):
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--per_device_eval_batch_size {FB_BART_per_device_eval_batch_size}",
+        f"--source_prefix {GG_LONGT5_PREFIX}"
     ]
 
     fb_256_bart_args = [
