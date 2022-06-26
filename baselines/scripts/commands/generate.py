@@ -96,7 +96,7 @@ def get_command(id_):
                                                                                                   "--global_attention_first_token True",
                                                                                                   "--max_source_length 16384"]
         commands_dict[f"{dataset}_longt5-local_test"] = base_args + gg_longt5_local_args + ["--do_predict True"]
-	    commands_dict[f"{dataset}_longt5-local_validation"] = base_args + gg_longt5_local_args + ["--do_eval True"]
+        commands_dict[f"{dataset}_longt5-local_validation"] = base_args + gg_longt5_local_args + ["--do_eval True"]
 
     command_parts = commands_dict[id_]
     # fmt: on
