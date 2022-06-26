@@ -601,6 +601,8 @@ def main():
                 desc="Running tokenizer on prediction dataset",
             )
 
+    import pdb; pdb.set_trace()
+
     if data_args.preprocess_only:
         logger.info(f"With --preprocess_only, exiting after preprocess_on the data")
         exit()
