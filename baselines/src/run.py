@@ -601,7 +601,7 @@ def main():
                 desc="Running tokenizer on prediction dataset",
             )
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     if data_args.preprocess_only:
         logger.info(f"With --preprocess_only, exiting after preprocess_on the data")
@@ -770,7 +770,7 @@ def preprocess_function(
             inputs = [prefix + inp for inp in inputs]
         if trim_very_long_strings:
             inputs = [inp[: max_source_length * 7] for inp in inputs]
-
+        import pdb; pdb.set_trace()
         model_inputs = tokenizer(inputs, max_length=max_source_length, padding=padding, truncation=True)
 
         if max_source_length is not None and assign_zero_to_too_long_val_examples:
