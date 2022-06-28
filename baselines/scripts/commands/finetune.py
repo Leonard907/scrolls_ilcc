@@ -11,16 +11,16 @@ def get_command(id_):
 
     commands_dict = {}
 
-    tokens_bsz = 1024
-    num_gpus = 2
-    accum_steps = 64
+    tokens_bsz = 16384
+    num_gpus = 1
+    accum_steps = 1
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
 
     gg_longt5_local_base_args = [
         f"--model_name_or_path google/long-t5-tglobal-base",
-        f"--max_source_length 1024",
+        f"--max_source_length 16384",
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--train_max_tokens {tokens_bsz}",

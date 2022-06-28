@@ -283,7 +283,6 @@ def main():
 
     os.environ["WANDB_WATCH"] = "false"
     os.environ["WANDB_DISABLED"] = "true"
-    # import pdb; pdb.set_trace()
 
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
@@ -601,8 +600,6 @@ def main():
                 desc="Running tokenizer on prediction dataset",
             )
 
-    # import pdb; pdb.set_trace()
-
     if data_args.preprocess_only:
         logger.info(f"With --preprocess_only, exiting after preprocess_on the data")
         exit()
@@ -632,7 +629,7 @@ def main():
         output_dir=training_args.output_dir,
         data_args=data_args,
     )
-    # pdb.set_trace()
+
     # Training
     if training_args.do_train:
         checkpoint = None
@@ -664,29 +661,6 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
-
-        logger.info("*** Predict ***")
-
-        predict_results = trainer.predict(eval_dataset, metric_key_prefix="predict")
-        metrics = predict_results.metrics
-        max_predict_samples = (
-            data_args.max_predict_samples if data_args.max_predict_samples is not None else len(eval_dataset)
-        )
-        metrics["predict_samples"] = min(max_predict_samples, len(eval_dataset))
-
-        trainer.log_metrics("predict", metrics)
-        trainer.save_metrics("predict", metrics)
-
-        if trainer.is_world_process_zero():
-            if training_args.predict_with_generate:
-                id_to_prediction = {}
-                for i, instance in enumerate(untokenized_eval_dataset):
-                    id_to_prediction[instance["id"]] = predict_results.predictions[i]
-                predictions = decode(id_to_prediction, tokenizer, data_args)
-                output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions.json")
-                logger.info('Generated File: {}'.format(output_prediction_file))
-                with open(output_prediction_file, "w") as writer:
-                    json.dump(predictions, writer, indent=4)
 
     if training_args.do_predict:
         logger.info("*** Predict ***")
@@ -770,7 +744,6 @@ def preprocess_function(
             inputs = [prefix + inp for inp in inputs]
         if trim_very_long_strings:
             inputs = [inp[: max_source_length * 7] for inp in inputs]
-        import pdb; pdb.set_trace()
         model_inputs = tokenizer(inputs, max_length=max_source_length, padding=padding, truncation=True)
 
         if max_source_length is not None and assign_zero_to_too_long_val_examples:
