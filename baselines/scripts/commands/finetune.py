@@ -29,6 +29,7 @@ def get_command(id_):
         f"--per_device_eval_batch_size {GG_LONGT5_per_device_eval_batch_size}",
         f"--folder_suffix {folder_suffix}",
         f"--source_prefix {GG_LONGT5_PREFIX}"
+        # f"--bf16 True"
     ]
 
     fb_bart_256_args = [

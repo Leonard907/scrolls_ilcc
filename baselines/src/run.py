@@ -30,6 +30,7 @@ import json
 from copy import deepcopy
 
 import datasets
+import torch
 
 import transformers
 from transformers import (
@@ -294,7 +295,6 @@ def main():
         model_args, data_args, training_args = parser.parse_dictionary_and_args(config)
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-    data_args.source_prefix = 'summarize: '
 
     if training_args.process_index == 0:
         os.makedirs(training_args.output_dir, exist_ok=True)
@@ -411,6 +411,7 @@ def main():
         config_overrides["relative_attention_num_buckets"] = model_args.relative_attention_num_buckets
     if model_args.remove_global_attention is not None:
         config_overrides["remove_global_attention"] = model_args.remove_global_attention
+    config_overrides["torch_dtype"] = 'float16'
 
     config = AutoConfig.from_pretrained(
         config_name,
@@ -435,9 +436,11 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(
         tokenizer_name,
         cache_dir=model_args.cache_dir,
+        config=config,
         use_fast=model_args.use_fast_tokenizer,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
+        **config_overrides,
     )
     if model_args.model_name_or_path is not None:
         model = AutoModelForSeq2SeqLM.from_pretrained(
