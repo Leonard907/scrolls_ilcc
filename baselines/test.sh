@@ -9,4 +9,4 @@
 #SBATCH --time=48:00:00
 #SBATCH --array=0
 
-python scripts/execute.py scripts/commands/finetune.py qmsum_longt5-local
+python scripts/execute.py scripts/commands/finetune.py qmsum_1024-bart

@@ -1,6 +1,6 @@
 FB_BART_MAX_LEN = "1024"
 FB_BART_FP16 = "True"
-FB_BART_per_device_eval_batch_size = "10"
+FB_BART_per_device_eval_batch_size = "1"
 FB_BART_LR_SCHEDULER = "linear"
 
 GG_LONGT5_MAX_LEN = "512"

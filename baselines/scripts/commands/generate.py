@@ -13,10 +13,10 @@ def get_command(id_):
     split_id = id_.split("$$$")
     checkpoint_path = split_id[1]
     id_ = split_id[0]
-    num_gpus = 1
+    num_gpus = 2
 
     gg_longt5_local_args = [
-        f"--max_source_length 1024",
+        f"--max_source_length 16384",
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--per_device_eval_batch_size {FB_BART_per_device_eval_batch_size}",
