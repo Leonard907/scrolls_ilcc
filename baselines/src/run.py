@@ -224,6 +224,13 @@ class DataTrainingArguments:
             "which is used during ``evaluate`` and ``predict``."
         },
     )
+    repetition_penalty: Optional[float] = field(
+        default=None,
+        metadata={
+            "help": "Repetition penalty for generation. This argument will be passed to ``model.generate``, "
+            "which is used during ``evaluate`` and ``predict``."
+        },
+    )
     ignore_pad_token_for_loss: bool = field(
         default=True,
         metadata={
@@ -411,7 +418,8 @@ def main():
         config_overrides["relative_attention_num_buckets"] = model_args.relative_attention_num_buckets
     if model_args.remove_global_attention is not None:
         config_overrides["remove_global_attention"] = model_args.remove_global_attention
-    config_overrides["torch_dtype"] = 'float16'
+    if data_args.repetition_penalty is not None:
+        config_overrides["repetition_penalty"] = data_args.repetition_penalty
 
     config = AutoConfig.from_pretrained(
         config_name,
@@ -436,11 +444,9 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(
         tokenizer_name,
         cache_dir=model_args.cache_dir,
-        config=config,
         use_fast=model_args.use_fast_tokenizer,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
-        **config_overrides,
     )
     if model_args.model_name_or_path is not None:
         model = AutoModelForSeq2SeqLM.from_pretrained(
@@ -656,20 +662,20 @@ def main():
     # Evaluation
     results = {}
     if training_args.do_eval:
-        logger.info("*** Evaluate ***")
+        # logger.info("*** Evaluate ***")
 
-        metrics = trainer.evaluate(metric_key_prefix="eval")
-        max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
-        metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
+        # metrics = trainer.evaluate(metric_key_prefix="eval")
+        # max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
+        # metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
 
-        trainer.log_metrics("eval", metrics)
-        trainer.save_metrics("eval", metrics)
+        # trainer.log_metrics("eval", metrics)
+        # trainer.save_metrics("eval", metrics)
         predict_results = trainer.predict(eval_dataset, metric_key_prefix="predict")
         metrics = predict_results.metrics
-        max_predict_samples = (
-            data_args.max_predict_samples if data_args.max_predict_samples is not None else len(eval_dataset)
+        max_eval_samples = (
+            data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
         )
-        metrics["predict_samples"] = min(max_predict_samples, len(eval_dataset))
+        metrics["predict_samples"] = min(max_eval_samples, len(eval_dataset))
 
         trainer.log_metrics("predict", metrics)
         trainer.save_metrics("predict", metrics)
@@ -766,6 +772,7 @@ def preprocess_function(
             inputs = [prefix + inp for inp in inputs]
         if trim_very_long_strings:
             inputs = [inp[: max_source_length * 7] for inp in inputs]
+
         model_inputs = tokenizer(inputs, max_length=max_source_length, padding=padding, truncation=True)
 
         if max_source_length is not None and assign_zero_to_too_long_val_examples:
@@ -801,7 +808,6 @@ def preprocess_function(
             [1] + [0] * (len(attn_mask) - 1) for attn_mask in model_inputs["attention_mask"]
         ]
     return model_inputs
-
 
 def _mp_fn(index):
     # For xla_spawn (TPUs)

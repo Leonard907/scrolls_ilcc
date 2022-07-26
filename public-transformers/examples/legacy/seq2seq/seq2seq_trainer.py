@@ -214,6 +214,7 @@ class Seq2SeqTrainer(Trainer):
             if self.data_args is not None
             else self.config.max_length,
             "num_beams": self.data_args.eval_beams if self.data_args is not None else self.config.num_beams,
+            "repetition_penalty": self.data_args.repetition_penalty if self.data_args is not None else 1.0
         }
 
         if self.args.predict_with_generate and not self.args.prediction_loss_only:

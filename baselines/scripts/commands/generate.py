@@ -13,14 +13,13 @@ def get_command(id_):
     split_id = id_.split("$$$")
     checkpoint_path = split_id[1]
     id_ = split_id[0]
-    num_gpus = 2
+    num_gpus = 1
 
     gg_longt5_local_args = [
         f"--max_source_length 16384",
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--per_device_eval_batch_size {FB_BART_per_device_eval_batch_size}",
-        f"--source_prefix {GG_LONGT5_PREFIX}"
     ]
 
     fb_256_bart_args = [
@@ -59,6 +58,7 @@ def get_command(id_):
                      "--predict_with_generate True",
                      "--drop_duplicates_in_eval True",
                      "--num_beams 1",
+                     "--repetition_penalty 1.0"
                      ]
 
         if dataset == "narrative_qa":

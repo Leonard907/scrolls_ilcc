@@ -264,8 +264,12 @@ class Seq2SeqTrainer(Trainer):
         gen_kwargs = {
             "max_length": self._max_length if self._max_length is not None else self.model.config.max_length,
             "num_beams": self._num_beams if self._num_beams is not None else self.model.config.num_beams,
+            "repetition_penalty": self.model.config.repetition_penalty,
             "synced_gpus": True if is_deepspeed_zero3_enabled() else False,
         }
+
+        # TODO: add decoder_input_ids to this function
+        # TODO: check if the generation is correct by looking at the full output, also check multi-GPU setting
 
         generated_tokens = self.model.generate(
             inputs["input_ids"],

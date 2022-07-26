@@ -11,24 +11,23 @@ def get_command(id_):
 
     commands_dict = {}
 
-    tokens_bsz = 12000
-    num_gpus = 2
-    accum_steps = 1
+    tokens_bsz = 8192
+    num_gpus = 1
+    accum_steps = 32
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
     generate_in_eval = False
 
     gg_longt5_local_base_args = [
         f"--model_name_or_path google/long-t5-tglobal-base",
-        f"--max_source_length 10000",
+        f"--max_source_length 8192",
         f"--max_target_length {GG_LONGT5_MAX_LEN}",
         f"--fp16 {GG_LONGT5_FP16}",
         f"--train_max_tokens {tokens_bsz}",
         f"--gradient_accumulation_steps {accum_steps}",
-        f"--attention_window {GG_LONGT5_ATTENTION_WINDOW}",
         f"--per_device_eval_batch_size {GG_LONGT5_per_device_eval_batch_size}",
         f"--folder_suffix {folder_suffix}",
-        f"--source_prefix {GG_LONGT5_PREFIX}"
+        # f"--source_prefix {GG_LONGT5_PREFIX}"
         # f"--bf16 True"
     ]
 
@@ -141,7 +140,7 @@ def get_command(id_):
         },
     }
 
-    distributed_str = f"-m torch.distributed.run --nproc_per_node={num_gpus}" if num_gpus > 1 else ""
+    distributed_str = f"-m torch.distributed.run --nproc_per_node={num_gpus} --master_port=29501" if num_gpus > 1 else ""
 
     for dataset in ["qasper", "narrative_qa", "gov_report", "summ_screen_fd", "qmsum", "contract_nli", "quality"]:
 
