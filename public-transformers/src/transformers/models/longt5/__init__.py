@@ -23,6 +23,7 @@ from ...file_utils import _LazyModule, is_flax_available, is_torch_available
 
 _import_structure = {
     "configuration_longt5": ["LONGT5_PRETRAINED_CONFIG_ARCHIVE_MAP", "LongT5Config", "LongT5OnnxConfig"],
+    "knn_memory": ["KNNMemoryList", "DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY"]
 }
 
 if is_torch_available():
