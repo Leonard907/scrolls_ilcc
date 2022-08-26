@@ -422,6 +422,7 @@ def main():
         config_overrides["repetition_penalty"] = data_args.repetition_penalty
     config_overrides["memory_layers"] = [4]
     config_overrides["memory_topk"] = 32
+    config_overrides["max_knn_memories"] = 25000
 
     config = AutoConfig.from_pretrained(
         config_name,

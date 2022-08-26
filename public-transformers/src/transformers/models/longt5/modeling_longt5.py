@@ -2202,6 +2202,14 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
+        self.knn_memories_directory = DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
+        self.num_memory_layers = len(config.memory_layers)
+        self.knn_mem_kwargs = dict(
+            dim = config.d_kv,
+            max_memories = config.max_knn_memories,
+            multiprocessing = False
+        )
+
         # Initialize weights and apply final processing
         self.init_weights()
 
