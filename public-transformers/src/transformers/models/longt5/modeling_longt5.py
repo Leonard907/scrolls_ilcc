@@ -22,7 +22,7 @@ from typing import Any, List, Optional, Tuple, Union
 from contextlib import contextmanager
 from pathlib import Path
 from filelock import FileLock
-from longt5.knn_memory import KNNMemoryList, DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
+from .knn_memory import KNNMemoryList, DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
 
 import torch
 from torch import nn
