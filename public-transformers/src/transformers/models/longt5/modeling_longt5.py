@@ -2206,7 +2206,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.num_memory_layers = [4] # len(config.memory_layers)
         self.knn_mem_kwargs = dict(
             dim = config.d_kv,
-            max_memories = 25000 # config.max_knn_memories,
+            max_memories = 25000, # config.max_knn_memories,
             multiprocessing = False
         )
 
