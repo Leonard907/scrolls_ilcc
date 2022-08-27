@@ -1042,7 +1042,7 @@ class LongT5MemoryAttention(nn.Module):
         self.n_heads = config.num_heads
         self.dropout = config.dropout_rate
         self.inner_dim = self.n_heads * self.key_value_proj_dim
-        self.memory_topk = config.memory_topk
+        self.memory_topk = 32
 
         # Mesh TensorFlow initialization to avoid scaling before softmax
         self.q = nn.Linear(self.d_model, self.inner_dim, bias=False)
@@ -2203,10 +2203,10 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
         self.knn_memories_directory = DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
-        self.num_memory_layers = len(config.memory_layers)
+        self.num_memory_layers = [4] # len(config.memory_layers)
         self.knn_mem_kwargs = dict(
             dim = config.d_kv,
-            max_memories = config.max_knn_memories,
+            max_memories = 25000 # config.max_knn_memories,
             multiprocessing = False
         )
 
