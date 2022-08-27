@@ -1790,6 +1790,7 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
+                next_knn_memory = next(knn_memories)
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask=extended_attention_mask,
@@ -1802,7 +1803,7 @@ class LongT5Stack(LongT5PreTrainedModel):
                     past_key_value=past_key_value,
                     use_cache=use_cache,
                     output_attentions=output_attentions,
-                    knn_memories=knn_memories,
+                    knn_memories=next_knn_memory,
                 )
 
             # layer_outputs is a tuple with:
@@ -2349,6 +2350,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # Decode
         with self.knn_memories_context(batch_size = batch_size) as knn_memories:
+            knn_memories_iter = iter(knn_memories)
             decoder_outputs = self.decoder(
                 input_ids=decoder_input_ids,
                 attention_mask=decoder_attention_mask,
@@ -2362,7 +2364,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
                 output_attentions=output_attentions,
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
-                knn_memories=knn_memories
+                knn_memories=knn_memories_iter
             )
 
         sequence_output = decoder_outputs[0]
