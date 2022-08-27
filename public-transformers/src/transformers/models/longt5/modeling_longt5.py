@@ -1015,6 +1015,7 @@ class LongT5LayerSelfAttention(nn.Module):
         past_key_value=None,
         use_cache=False,
         output_attentions=False,
+        knn_memories=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.SelfAttention(
@@ -1298,6 +1299,7 @@ class LongT5LayerLocalSelfAttention(nn.Module):
         position_bias=None,
         layer_head_mask=None,
         output_attentions=False,
+        knn_memories=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1331,6 +1333,7 @@ class LongT5LayerTransientGlobalSelfAttention(nn.Module):
         position_bias=None,
         layer_head_mask=None,
         output_attentions=False,
+        knn_memories=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1365,6 +1368,7 @@ class LongT5LayerCrossAttention(nn.Module):
         use_cache=False,
         query_length=None,
         output_attentions=False,
+        knn_memories=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.EncDecAttention(
