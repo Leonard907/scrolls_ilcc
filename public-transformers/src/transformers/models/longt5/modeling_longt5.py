@@ -1248,7 +1248,7 @@ class LongT5MemoryAttention(nn.Module):
 
         combined_attn = torch.cat((sim_mem, scores), dim = -1)
 
-        attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
+        attn_weights = nn.functional.softmax(combined_attn.float(), dim=-1).type_as(
             combined_attn # scores
         )  # (batch_size, n_heads, seq_length, key_length + topk)
         attn_weights = nn.functional.dropout(
@@ -1258,8 +1258,6 @@ class LongT5MemoryAttention(nn.Module):
         local_attn, mem_attn = attn_weights[..., self.memory_topk:], attn_weights[..., :self.memory_topk]
         # local_attn: (batch_size, n_heads, seq_length, key_length)
         # mem_attn: (batch_size, n_heads, seq_length, topk)
-        logger.info(local_attn.shape)
-        logger.info(value_states.shape)
         local_attn_output = torch.matmul(local_attn, value_states)
         # (batch_size, n_heads, seq_length, dim_head)
         mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_attn, mem_v)
