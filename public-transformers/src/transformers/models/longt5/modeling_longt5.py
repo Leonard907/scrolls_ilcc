@@ -1790,10 +1790,10 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
-                if knn_memories is None:
-                    next_knn_memory = None
-                else:
+                if i in [4]:
                     next_knn_memory = next(knn_memories)
+                else:
+                    next_knn_memory = None
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask=extended_attention_mask,
