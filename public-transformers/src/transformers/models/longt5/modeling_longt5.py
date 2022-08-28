@@ -1790,7 +1790,7 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
-                if i in [4]:
+                if i in [4] and knn_memories is not None:
                     next_knn_memory = next(knn_memories)
                 else:
                     next_knn_memory = None
