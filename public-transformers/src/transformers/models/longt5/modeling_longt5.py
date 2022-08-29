@@ -1279,10 +1279,19 @@ class LongT5MemoryAttention(nn.Module):
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        memory_new_k =  rearrange(key_states, 'b h n d -> b n (h d)')
-        memory_new_v = rearrange(value_states, 'b h n d -> b n (h d)')
-        memory_new_kv = torch.stack((memory_new_k, memory_new_v), dim = -2).detach()
-        knn_memories.add(memory_new_kv)
+        def split_states_to_mem(x, dim=1, num_chunks=self.n_heads): # default to head dimension
+            x_to_chunk = x.chunk(num_chunks, dim=dim)
+            x_to_chunk = tuple(map(lambda x_chunk: x_chunk.view(batch_size, key_length, -1), x_to_chunk))
+            return x_to_chunk
+
+        for k_chunk, v_chunk in zip(split_states_to_mem(key_states), split_states_to_mem(value_states)):
+            kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
+            knn_memories.add(kv_chunk)
+
+        # memory_new_k =  rearrange(key_states, 'b h n d -> b n (h d)')
+        # memory_new_v = rearrange(value_states, 'b h n d -> b n (h d)')
+        # memory_new_kv = torch.stack((memory_new_k, memory_new_v), dim = -2).detach()
+        # knn_memories.add(memory_new_kv)
 
         logger.info('after attn: {}'.format(attn_output.shape))
 
