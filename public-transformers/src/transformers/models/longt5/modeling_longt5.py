@@ -444,6 +444,7 @@ class LongT5Attention(nn.Module):
         # Input is (batch_size, seq_length, dim)
         # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
         # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
+        logger.info('hidden state {}'.format(hidden_states.shape))
         batch_size, seq_length = hidden_states.shape[:2]
 
         real_seq_length = seq_length
@@ -536,6 +537,7 @@ class LongT5Attention(nn.Module):
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
+        logger.info('output shape {}'.format(attn_output.shape))
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
@@ -1018,6 +1020,7 @@ class LongT5LayerSelfAttention(nn.Module):
         knn_memories=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
+        logger.info('Normal Self Attention')
         attention_output = self.SelfAttention(
             normed_hidden_states,
             mask=attention_mask,
@@ -1156,6 +1159,7 @@ class LongT5MemoryAttention(nn.Module):
         # Input is (batch_size, seq_length, dim)
         # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
         # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
+        logger.info('inputs: {}'.format(hidden_states.shape))
         batch_size, seq_length = hidden_states.shape[:2]
 
         real_seq_length = seq_length
@@ -1276,6 +1280,7 @@ class LongT5MemoryAttention(nn.Module):
 
         memory_new_kv = torch.stack((key_states, value_states), dim = -2).detach()
         knn_memories.add(memory_new_kv)
+        logger.info('outputs: {}'.format(attn_output.shape))
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
@@ -1404,6 +1409,7 @@ class LongT5MemorySelfAttention(nn.Module):
         knn_memories=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
+        logger.info('Memory attention')
         attention_output = self.SelfAttention(
             normed_hidden_states,
             mask=attention_mask,
