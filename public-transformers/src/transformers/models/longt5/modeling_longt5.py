@@ -28,6 +28,7 @@ import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss
 from torch.utils.checkpoint import checkpoint
+from einops import rearrange
 
 from ...activations import ACT2FN
 from ...modeling_outputs import (
@@ -1159,7 +1160,7 @@ class LongT5MemoryAttention(nn.Module):
         # Input is (batch_size, seq_length, dim)
         # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
         # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
-        logger.info('inputs: {}'.format(hidden_states.shape))
+        logger.info('hidden states shape: {}'.format(hidden_states.shape))
         batch_size, seq_length = hidden_states.shape[:2]
 
         real_seq_length = seq_length
@@ -1278,9 +1279,12 @@ class LongT5MemoryAttention(nn.Module):
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        memory_new_kv = torch.stack((key_states, value_states), dim = -2).detach()
+        memory_new_k =  rearrange(key_states, 'b h n d -> b n (h d)')
+        memory_new_v = rearrange(value_states, 'b h n d -> b n (h d)')
+        memory_new_kv = torch.stack((memory_new_k, memory_new_v), dim = -2).detach()
         knn_memories.add(memory_new_kv)
-        logger.info('outputs: {}'.format(attn_output.shape))
+
+        logger.info('after attn: {}'.format(attn_output.shape))
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
