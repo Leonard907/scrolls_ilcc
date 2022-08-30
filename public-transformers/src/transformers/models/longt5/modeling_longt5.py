@@ -64,6 +64,10 @@ LONGT5_PRETRAINED_MODEL_ARCHIVE_LIST = [
     "google/long-t5-tglobal-large",
 ]
 
+def split_states_to_mem(x, batch_size, key_length, dim=1, num_chunks=12): # default to head dimension
+    x_to_chunk = x.chunk(num_chunks, dim=dim)
+    x_to_chunk = tuple(map(lambda x_chunk: x_chunk.view(batch_size, key_length, -1), x_to_chunk))
+    return x_to_chunk
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
     """Pad a tensor so that a sequence length will be a multiple of `block_len`"""
@@ -438,6 +442,7 @@ class LongT5Attention(nn.Module):
         query_length=None,
         use_cache=False,
         output_attentions=False,
+        knn_memories=None,
     ):
         """
         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -534,6 +539,11 @@ class LongT5Attention(nn.Module):
 
         attn_output = unshape(torch.matmul(attn_weights, value_states))  # (batch_size, seq_length, dim)
         attn_output = self.o(attn_output)
+
+        # Add knn memories
+        for k_chunk, v_chunk in zip(split_states_to_mem(key_states, batch_size, key_length), split_states_to_mem(value_states, batch_size, key_length)):
+            kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
+            knn_memories.add(kv_chunk)
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
@@ -1027,6 +1037,7 @@ class LongT5LayerSelfAttention(nn.Module):
             past_key_value=past_key_value,
             use_cache=use_cache,
             output_attentions=output_attentions,
+            knn_memories=knn_memories
         )
         hidden_states = hidden_states + self.dropout(attention_output[0])
         outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
@@ -1275,12 +1286,7 @@ class LongT5MemoryAttention(nn.Module):
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        def split_states_to_mem(x, dim=1, num_chunks=self.n_heads): # default to head dimension
-            x_to_chunk = x.chunk(num_chunks, dim=dim)
-            x_to_chunk = tuple(map(lambda x_chunk: x_chunk.view(batch_size, key_length, -1), x_to_chunk))
-            return x_to_chunk
-
-        for k_chunk, v_chunk in zip(split_states_to_mem(key_states), split_states_to_mem(value_states)):
+        for k_chunk, v_chunk in zip(split_states_to_mem(key_states, batch_size, key_length), split_states_to_mem(value_states, batch_size, key_length)):
             kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
             knn_memories.add(kv_chunk)
 
