@@ -1249,13 +1249,16 @@ class LongT5MemoryAttention(nn.Module):
         # 1. Search in memory using query_states. Result has shape (batch_size, n_heads, seq_length, topk, dim_head)
         # 2. Split to mem key and values. Multiply query_states and mem key
 
-        mask_value = -torch.finfo(scores.dtype).max
+        mem_mask_value = 0
 
-        mem_kv, mem_mask = knn_memories.search(query_states, self.memory_topk)
+        no_batch_query_states = rearrange(query_states, 'b h i d -> k n i d', k=1)
+        mem_kv, mem_mask = knn_memories.search(no_batch_query_states, self.memory_topk)
+        mem_kv = rearrange(mem_kv, 'k n i d -> b h i d', b = batch_size)
+        mem_mask = rearrange(mem_mask, 'k n i d -> b h i d', b = batch_size)
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, mem_k) # * scale
-        sim_mem = sim_mem.masked_fill(~mem_mask, mask_value)
+        sim_mem = sim_mem.masked_fill(~mem_mask, mem_mask_value)
         # sim_mem: (batch_size, n_heads, seq_length, topk)
 
         combined_attn = torch.cat((sim_mem, scores), dim = -1)
@@ -1286,14 +1289,11 @@ class LongT5MemoryAttention(nn.Module):
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        for k_chunk, v_chunk in zip(split_states_to_mem(key_states, batch_size, key_length), split_states_to_mem(value_states, batch_size, key_length)):
-            kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
-            knn_memories.add(kv_chunk)
-
-        # memory_new_k =  rearrange(key_states, 'b h n d -> b n (h d)')
-        # memory_new_v = rearrange(value_states, 'b h n d -> b n (h d)')
-        # memory_new_kv = torch.stack((memory_new_k, memory_new_v), dim = -2).detach()
-        # knn_memories.add(memory_new_kv)
+        # batch size = 1
+        no_batch_key_states = rearrange(key_states, 'b h n d -> k (b h n) d', k=1)
+        no_batch_value_states = rearrange(value_states, 'b h n d -> k (b h n) d', k=1)
+        no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
+        knn_memories.add(no_batch_kv_stack)
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
@@ -2366,11 +2366,8 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             # get decoder inputs from shifting lm labels to the right
             decoder_input_ids = self._shift_right(labels)
 
-        batch_size = decoder_input_ids.size()[0]
-
         # Decode
-        with self.knn_memories_context(batch_size = batch_size) as knn_memories:
-            print(knn_memories is None)
+        with self.knn_memories_context(batch_size = 1) as knn_memories:
             knn_memories_iter = iter(knn_memories)
             decoder_outputs = self.decoder(
                 input_ids=decoder_input_ids,
