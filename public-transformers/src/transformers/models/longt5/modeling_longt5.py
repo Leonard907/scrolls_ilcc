@@ -28,7 +28,7 @@ import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss
 from torch.utils.checkpoint import checkpoint
-from einops import rearrange
+from einops import rearrange, repeat, reduce
 
 from ...activations import ACT2FN
 from ...modeling_outputs import (
@@ -540,10 +540,10 @@ class LongT5Attention(nn.Module):
         attn_output = unshape(torch.matmul(attn_weights, value_states))  # (batch_size, seq_length, dim)
         attn_output = self.o(attn_output)
 
-        # Add knn memories
-        for k_chunk, v_chunk in zip(split_states_to_mem(key_states, batch_size, key_length), split_states_to_mem(value_states, batch_size, key_length)):
-            kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
-            knn_memories.add(kv_chunk)
+        # # Add knn memories
+        # for k_chunk, v_chunk in zip(split_states_to_mem(key_states, batch_size, key_length), split_states_to_mem(value_states, batch_size, key_length)):
+        #     kv_chunk = torch.stack((k_chunk, v_chunk), dim = -2).detach()
+        #     knn_memories.add(kv_chunk)
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
@@ -1251,10 +1251,16 @@ class LongT5MemoryAttention(nn.Module):
 
         mem_mask_value = 0
 
-        no_batch_query_states = rearrange(query_states, 'b h i d -> k n i d', k=1)
-        mem_kv, mem_mask = knn_memories.search(no_batch_query_states, self.memory_topk)
-        mem_kv = rearrange(mem_kv, 'k n i d -> b h i d', b = batch_size)
-        mem_mask = rearrange(mem_mask, 'k n i d -> b h i d', b = batch_size)
+        no_batch_query_states = repeat(
+            rearrange(query_states, 'b h i d -> (b h) i d'), 'k i d -> b k i d', b=1
+        )
+        mem_kv, mem_mask = knn_memories.search(no_batch_query_states, self.memory_topk) # (1, batch_size * n_heads, seq_len, topk, 2, dim_head)
+        mem_kv = rearrange(
+            reduce(mem_kv, 'b ... -> ...', 'max'), '(b n) l t s d -> b n l t s d'
+        )
+        mem_mask = rearrange(
+            reduce(mem_mask, 'b ... -> ...', 'max'), '(b n) l t s d -> b n l t s d'
+        )
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, mem_k) # * scale
@@ -1290,8 +1296,12 @@ class LongT5MemoryAttention(nn.Module):
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
         # batch size = 1
-        no_batch_key_states = rearrange(key_states, 'b h n d -> k (b h n) d', k=1)
-        no_batch_value_states = rearrange(value_states, 'b h n d -> k (b h n) d', k=1)
+        no_batch_key_states = repeat(
+            rearrange(key_states, 'b h n d -> (b h n) d'), 'k d -> b h d', b=1
+        )
+        no_batch_value_states = repeat(
+            rearrange(value_states, 'b h n d -> (b h n) d'), 'k d -> b h d', b=1
+        )
         no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
         knn_memories.add(no_batch_kv_stack)
 
