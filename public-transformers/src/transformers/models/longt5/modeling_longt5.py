@@ -1256,10 +1256,10 @@ class LongT5MemoryAttention(nn.Module):
         )
         mem_kv, mem_mask = knn_memories.search(no_batch_query_states, self.memory_topk) # (1, batch_size * n_heads, seq_len, topk, 2, dim_head)
         mem_kv = rearrange(
-            reduce(mem_kv, 'b ... -> ...', 'max'), '(b n) l t s d -> b n l t s d'
+            reduce(mem_kv, 'b k l t s d -> k l t s d', 'max'), '(b n) l t s d -> b n l t s d', b=batch_size
         )
         mem_mask = rearrange(
-            reduce(mem_mask, 'b ... -> ...', 'max'), '(b n) l t s d -> b n l t s d'
+            reduce(mem_mask, 'b k l t -> k l t', 'max'), '(b n) l t -> b n l t', b=batch_size
         )
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
 
@@ -1297,10 +1297,10 @@ class LongT5MemoryAttention(nn.Module):
 
         # batch size = 1
         no_batch_key_states = repeat(
-            rearrange(key_states, 'b h n d -> (b h n) d'), 'k d -> b h d', b=1
+            rearrange(key_states, 'b h n d -> (b h n) d'), 'k d -> b k d', b=1
         )
         no_batch_value_states = repeat(
-            rearrange(value_states, 'b h n d -> (b h n) d'), 'k d -> b h d', b=1
+            rearrange(value_states, 'b h n d -> (b h n) d'), 'k d -> b k d', b=1
         )
         no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
         knn_memories.add(no_batch_kv_stack)
