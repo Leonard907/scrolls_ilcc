@@ -1249,8 +1249,6 @@ class LongT5MemoryAttention(nn.Module):
         # 1. Search in memory using query_states. Result has shape (batch_size, n_heads, seq_length, topk, dim_head)
         # 2. Split to mem key and values. Multiply query_states and mem key
 
-        mem_mask_value = 0
-
         no_batch_query_states = repeat(
             rearrange(query_states, 'b h i d -> (b h) i d'), 'k i d -> b k i d', b=1
         )
@@ -1264,7 +1262,7 @@ class LongT5MemoryAttention(nn.Module):
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, mem_k) # * scale
-        sim_mem = sim_mem.masked_fill(~mem_mask, mem_mask_value)
+        sim_mem = sim_mem.masked_fill(~mem_mask, -1e10)
         # sim_mem: (batch_size, n_heads, seq_length, topk)
 
         combined_attn = torch.cat((sim_mem, scores), dim = -1)
