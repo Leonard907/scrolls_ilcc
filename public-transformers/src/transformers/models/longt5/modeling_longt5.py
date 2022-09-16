@@ -1161,6 +1161,7 @@ class LongT5MemoryAttention(nn.Module):
         use_cache=False,
         output_attentions=False,
         knn_memories=None,
+        original_ids=None,
     ):
         """
         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -1394,6 +1395,7 @@ class LongT5LayerCrossAttention(nn.Module):
         query_length=None,
         output_attentions=False,
         knn_memories=None,
+        original_ids=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.EncDecAttention(
@@ -1406,6 +1408,7 @@ class LongT5LayerCrossAttention(nn.Module):
             use_cache=use_cache,
             query_length=query_length,
             output_attentions=output_attentions,
+            original_ids=None,
         )
         layer_output = hidden_states + self.dropout(attention_output[0])
         outputs = (layer_output,) + attention_output[1:]  # add attentions if we output them
@@ -1428,6 +1431,7 @@ class LongT5MemorySelfAttention(nn.Module):
         use_cache=False,
         output_attentions=False,
         knn_memories=None,
+        original_ids=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.SelfAttention(
@@ -1439,6 +1443,7 @@ class LongT5MemorySelfAttention(nn.Module):
             use_cache=use_cache,
             output_attentions=output_attentions,
             knn_memories=knn_memories,
+            original_ids=None,
         )
         hidden_states = hidden_states + self.dropout(attention_output[0])
         outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
@@ -1483,6 +1488,7 @@ class LongT5Block(nn.Module):
         use_cache=False,
         output_attentions=False,
         knn_memories=None,
+        original_ids=None,
         return_dict=True,
     ):
 
@@ -1512,6 +1518,7 @@ class LongT5Block(nn.Module):
             use_cache=use_cache,
             output_attentions=output_attentions,
             knn_memories=knn_memories,
+            original_ids=original_ids,
         )
         hidden_states, present_key_value_state = self_attention_outputs[:2]
         attention_outputs = self_attention_outputs[2:]  # Keep self-attention outputs and relative position weights
@@ -1832,6 +1839,7 @@ class LongT5Stack(LongT5PreTrainedModel):
                     use_cache=use_cache,
                     output_attentions=output_attentions,
                     knn_memories=next_knn_memory,
+                    original_ids=input_ids,
                 )
 
             # layer_outputs is a tuple with:
@@ -2373,6 +2381,8 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         if labels is not None and decoder_input_ids is None and decoder_inputs_embeds is None:
             # get decoder inputs from shifting lm labels to the right
             decoder_input_ids = self._shift_right(labels)
+
+        import pdb; pdb.set_trace()
 
         # Decode
         with self.knn_memories_context(batch_size = 1) as knn_memories:
