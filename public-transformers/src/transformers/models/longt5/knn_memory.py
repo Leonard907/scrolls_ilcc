@@ -55,20 +55,23 @@ class KNN():
         max_num_entries,
         cap_num_entries = False,
         M = 15,
-        keep_stats = False
+        keep_stats = False,
+        index = None,
     ):
-        index = faiss.IndexHNSWFlat(dim, M, faiss.METRIC_INNER_PRODUCT)
-        self.index = index
+        if index is None:
+            index = faiss.IndexHNSWFlat(dim, M, faiss.METRIC_INNER_PRODUCT)
+        self.index = index # remove_ids
         self.max_num_entries = max_num_entries
         self.cap_num_entries = cap_num_entries
         self.is_trained = False
         self.keep_stats = keep_stats
+        self.ids = np.empty((0,), dtype = np.int32)
 
-        self.reset()
+        # self.reset()
 
-    def __del__(self):
-        if hasattr(self, 'index'):
-            del self.index
+    # def __del__(self):
+    #     if hasattr(self, 'index'):
+    #         del self.index
 
     def reset(self):
         self.ids = np.empty((0,), dtype = np.int32)
@@ -85,7 +88,19 @@ class KNN():
         self.index.train(x)
         self.is_trained = True
 
-    def add(self, x, ids):
+    def remove_overflow(self):
+        overflow_count = self.index.ntotal - self.max_num_entries
+
+        if overflow_count > 0:
+            keep_ids = np.arange(overflow_count, self.index.ntotal)
+            keep_vectors = np.array(list(map(lambda id: self.index.reconstruct(id.item()), keep_ids)))
+            # Current faiss doesn't support remove_ids, reset and add again instead 
+            self.index.reset()
+            self.index.add(keep_vectors)
+
+    def add(self, x, ids, offset):
+        num_memories = x.shape[0]
+
         if not self.is_trained:
             self.train(x)
 
@@ -99,7 +114,8 @@ class KNN():
         if self.cap_num_entries and len(self.ids) > self.max_num_entries:
             self.reset()
 
-        return self.index.add(x)
+        self.index.add(x)
+        self.remove_overflow()
 
     def search(
         self,
@@ -110,11 +126,11 @@ class KNN():
         increment_hits = False,
         increment_age = True
     ):
+
         if not self.is_trained:
             return np.full((x.shape[0], topk), -1)
 
         distances, indices = self.index.search(x, k = topk)
-        import pdb; pdb.set_trace()
 
         if increment_hits and self.keep_stats:
             hits = count_intersect(self.ids, rearrange(indices, '... -> (...)'))
@@ -141,7 +157,8 @@ class KNNMemory():
         max_memories = 16000,
         num_indices = 1,
         memmap_filename = './knn.memory.memmap',
-        multiprocessing = True
+        multiprocessing = True,
+        index = None,
     ):
         self.dim = dim
         self.num_indices = num_indices
@@ -149,10 +166,21 @@ class KNNMemory():
 
         self.max_memories = max_memories
         self.shape = (num_indices, max_memories, 2, dim)
-        self.db_offsets = np.zeros(num_indices, dtype = np.int32)
+        self.token_shape = (num_indices, max_memories)
+        self.offset_shape = (num_indices)
+        # self.db_offsets = np.zeros(num_indices, dtype = np.int32)
 
-        self.db = np.memmap(memmap_filename, mode = 'w+', dtype = np.float32, shape = self.shape)
-        self.knns = [KNN(dim = dim, max_num_entries = max_memories, cap_num_entries = True) for _ in range(num_indices)]
+        if not Path(memmap_filename).exists():
+            self.db_create = np.memmap(memmap_filename, mode = 'w+', dtype = np.float32, shape = self.shape)
+        if not Path(memmap_filename + '.token').exists():
+            self.db_token_create = np.memmap(memmap_filename + '.token', mode = 'w+', dtype = np.float32, shape = self.token_shape)
+        if not Path(memmap_filename + '.offset').exists():
+            self.db_offset_create = np.memmap(memmap_filename + '.offset', mode = 'w+', dtype = np.int32, shape = self.offset_shape)
+
+        self.db = np.memmap(memmap_filename, mode = 'r+', dtype = np.float32, shape = self.shape)
+        self.db_token = np.memmap(memmap_filename + '.token', mode = 'r+', dtype = np.float32, shape = self.token_shape)
+        self.db_offset = np.memmap(memmap_filename + '.offset', mode = 'r+', dtype = np.int32, shape = self.offset_shape)
+        self.knns = [KNN(dim = dim, max_num_entries = max_memories, cap_num_entries = True, index = index) for _ in range(num_indices)]
     
         self.n_jobs = cpu_count() if multiprocessing else 1
 
@@ -179,10 +207,12 @@ class KNNMemory():
             knn = self.knns[index]
             knn.reset()
 
-        self.db_offsets[batch_indices] = 0
+        self.db_offset[batch_indices] = 0
 
-    def add(self, memories):
+    def add(self, memories, tokens=None):
         check_shape(memories, 'b n kv d', d = self.dim, kv = 2, b = len(self.scoped_indices))
+        if tokens is not None:
+            tokens = tokens.detach().cpu().numpy()
 
         memories = memories.detach().cpu().numpy()
         memories = memories[:, -self.max_memories:]
@@ -192,23 +222,29 @@ class KNNMemory():
 
         keys = np.ascontiguousarray(memories[..., 0, :])
         knns = [self.knns[i] for i in self.scoped_indices]
-        db_offsets = [self.db_offsets[i] for i in self.scoped_indices]
+        db_offsets = [self.db_offset[i] for i in self.scoped_indices]
 
         # use joblib to insert new key / value memories into faiss index
 
         @delayed
         def knn_add(knn, key, db_offset):
-            knn.add(key, ids = knn_insert_ids + db_offset)
+            knn.add(key, ids = knn_insert_ids + db_offset, offset = db_offset)
 
         Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, keys, db_offsets))
 
         # add the new memories to the memmap "database"
 
-        add_indices = (rearrange(np.arange(num_memories), 'j -> 1 j') + rearrange(self.db_offsets[list(self.scoped_indices)], 'i -> i 1')) % self.max_memories
+        add_indices = (rearrange(np.arange(num_memories), 'j -> 1 j') + rearrange(self.db_offset[list(self.scoped_indices)], 'i -> i 1')) % self.max_memories
         self.db[rearrange(np.array(self.scoped_indices), 'i -> i 1'), add_indices] = memories
         self.db.flush()
 
-        self.db_offsets += num_memories
+        if tokens is not None:
+            self.db_token[rearrange(np.array(self.scoped_indices), 'i -> i 1'), add_indices] = tokens
+            self.db_token.flush()
+
+        self.db_offset += num_memories
+        self.db_offset %= self.max_memories
+        self.db_offset.flush()
 
     def search(
         self,
@@ -227,6 +263,7 @@ class KNNMemory():
 
         all_masks = []
         all_key_values = []
+        all_tokens = []
 
         knns = [self.knns[i] for i in self.scoped_indices]
 
@@ -248,43 +285,47 @@ class KNNMemory():
             all_masks.append(torch.from_numpy(mask))
 
             key_values = self.db[batch_index, db_indices % self.max_memories]
+            tokens = self.db_token[batch_index, db_indices % self.max_memories].astype('int32')
             all_key_values.append(torch.from_numpy(key_values))
+            all_tokens.append(torch.from_numpy(tokens))
 
         all_masks = torch.stack(all_masks)
         all_key_values = torch.stack(all_key_values)
+        all_tokens = torch.stack(all_tokens)
         all_key_values = all_key_values.masked_fill(~rearrange(all_masks, '... -> ... 1 1'), 0.)
 
         all_key_values = rearrange_with_anon_dims(all_key_values, 'b (...p) ... -> b ...p ...', p = prec_dims)
         all_masks = rearrange_with_anon_dims(all_masks, 'b (...p) ... -> b ...p ...', p = prec_dims)
+        all_tokens = rearrange_with_anon_dims(all_tokens, 'b (...p) ... -> b ...p ...', p = prec_dims)
 
-        return all_key_values.to(device), all_masks.to(device)
+        return all_key_values.to(device), all_masks.to(device), all_tokens.to(device)
 
-    def __del__(self):
-        if hasattr(self, 'knns'):
-            for knn in self.knns:
-                del knn
-        del self.db
+    # def __del__(self):
+    #     if hasattr(self, 'knns'):
+    #         for knn in self.knns:
+    #             del knn
+    #     del self.db
 
 # extends list with some extra methods for collections of KNN memories
 
-class KNNMemoryList(list):
-    def cleanup(self):
-        for memory in self:
-            del memory
+class KNNMemoryList():
+    # def cleanup(self):
+    #     for memory in self:
+    #         del memory
 
     @classmethod
     def create_memories(
         self,
         *,
         batch_size,
+        index,
         num_memory_layers,
         memories_directory = DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
     ):
         memories_path = Path(memories_directory)
         memories_path.mkdir(exist_ok = True, parents = True)
-
         def inner(*args, **kwargs):
-            return self([KNNMemory(*args, num_indices = batch_size, memmap_filename = str(memories_path / f'knn.memory.layer.{ind + 1}.memmap'), **kwargs) for ind in range(num_memory_layers)])
+            return KNNMemory(*args, num_indices = batch_size, memmap_filename = str(memories_path / f'knn.memory.layer.memmap'), index = index, **kwargs)
         return inner
 
     @contextmanager
