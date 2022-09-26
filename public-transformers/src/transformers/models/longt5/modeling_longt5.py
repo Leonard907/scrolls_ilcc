@@ -54,7 +54,6 @@ from transformers import AutoTokenizer
 
 logger = logging.get_logger(__name__)
 tokenizer = AutoTokenizer.from_pretrained('google/long-t5-tglobal-base')
-display_decode = 40
 
 _CONFIG_FOR_DOC = "LongT5Config"
 _TOKENIZER_FOR_DOC = "T5Tokenizer"
@@ -68,7 +67,7 @@ LONGT5_PRETRAINED_MODEL_ARCHIVE_LIST = [
     "google/long-t5-tglobal-large",
 ]
 
-knn_memory_layer = [4,6]
+knn_memory_layer = [10]
 
 def split_states_to_mem(x, batch_size, key_length, dim=1, num_chunks=12): # default to head dimension
     x_to_chunk = x.chunk(num_chunks, dim=dim)
@@ -1045,6 +1044,7 @@ class LongT5LayerSelfAttention(nn.Module):
         output_attentions=False,
         knn_memories=None,
         original_ids=None,
+        is_validation=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.SelfAttention(
@@ -1181,6 +1181,7 @@ class LongT5MemoryAttention(nn.Module):
         output_attentions=False,
         knn_memories=None,
         original_ids=None,
+        is_validation=None,
     ):
         """
         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -1283,9 +1284,9 @@ class LongT5MemoryAttention(nn.Module):
             reduce(retrieved_tokens, 'b k l t -> k l t', 'max'), '(b n) l t -> b n l t', b=batch_size
         )
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
-
         top_token = retrieved_tokens[0, 0, :, 0]
-        logger.info('token decode: {}'.format(tokenizer.decode(top_token)[:display_decode]))
+        if is_validation:
+            logger.info('token decode: {}'.format(tokenizer.decode(top_token)))
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, mem_k) # (batch_size, n_heads, seq_len, topk)
         sim_mem = sim_mem.masked_fill(~mem_mask, -1e10)
@@ -1352,6 +1353,7 @@ class LongT5LayerLocalSelfAttention(nn.Module):
         output_attentions=False,
         knn_memories=None,
         original_ids=None,
+        is_validation=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1387,6 +1389,7 @@ class LongT5LayerTransientGlobalSelfAttention(nn.Module):
         output_attentions=False,
         knn_memories=None,
         original_ids=None,
+        is_validation=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1459,6 +1462,7 @@ class LongT5MemorySelfAttention(nn.Module):
         output_attentions=False,
         knn_memories=None,
         original_ids=None,
+        is_validation=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.SelfAttention(
@@ -1471,6 +1475,7 @@ class LongT5MemorySelfAttention(nn.Module):
             output_attentions=output_attentions,
             knn_memories=knn_memories,
             original_ids=original_ids,
+            is_validation=is_validation,
         )
         hidden_states = hidden_states + self.dropout(attention_output[0])
         outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
@@ -1517,6 +1522,7 @@ class LongT5Block(nn.Module):
         knn_memories=None,
         original_ids=None,
         return_dict=True,
+        is_validation=None,
     ):
         if past_key_value is not None:
             if not self.is_decoder:
@@ -1545,6 +1551,7 @@ class LongT5Block(nn.Module):
             output_attentions=output_attentions,
             knn_memories=knn_memories,
             original_ids=original_ids,
+            is_validation=is_validation,
         )
         hidden_states, present_key_value_state = self_attention_outputs[:2]
         attention_outputs = self_attention_outputs[2:]  # Keep self-attention outputs and relative position weights
@@ -1737,6 +1744,7 @@ class LongT5Stack(LongT5PreTrainedModel):
         output_hidden_states=None,
         return_dict=None,
         knn_memories=None,
+        is_validation=None,
     ):
         use_cache = use_cache if use_cache is not None else self.config.use_cache
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
@@ -1848,10 +1856,6 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
-                # if i in knn_memory_layer and knn_memories is not None:
-                #     next_knn_memory = next(knn_memories)
-                # else:
-                #     next_knn_memory = None
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask=extended_attention_mask,
@@ -1866,6 +1870,7 @@ class LongT5Stack(LongT5PreTrainedModel):
                     output_attentions=output_attentions,
                     knn_memories=knn_memories,
                     original_ids=input_ids,
+                    is_validation=is_validation,
                 )
 
             # layer_outputs is a tuple with:
@@ -2349,6 +2354,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
+        is_validation: Optional[bool] = False,
     ) -> Union[Tuple[torch.FloatTensor], Seq2SeqLMOutput]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size,)`, *optional*):
@@ -2413,7 +2419,8 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # Decode
         with self.knn_memories_context(batch_size = 1) as knn_memories:
-            logger.info('true seq: {}'.format(tokenizer.decode(decoder_input_ids[0][:display_decode])))
+            if is_validation:
+                logger.info('true seq: {}'.format(tokenizer.decode(decoder_input_ids[0])))
             decoder_outputs = self.decoder(
                 input_ids=decoder_input_ids,
                 attention_mask=decoder_attention_mask,
@@ -2427,7 +2434,8 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
                 output_attentions=output_attentions,
                 output_hidden_states=output_hidden_states,
                 return_dict=return_dict,
-                knn_memories=knn_memories
+                knn_memories=knn_memories,
+                is_validation=is_validation,
             )
 
         sequence_output = decoder_outputs[0]

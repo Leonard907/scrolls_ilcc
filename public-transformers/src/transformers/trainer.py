@@ -1945,7 +1945,7 @@ class Trainer:
 
         return loss.detach()
 
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False, is_validation=False):
         """
         How the loss is computed by Trainer. By default, all models return the loss in the first element.
 
@@ -1955,7 +1955,7 @@ class Trainer:
             labels = inputs.pop("labels")
         else:
             labels = None
-        outputs = model(**inputs)
+        outputs = model(**inputs, is_validation=is_validation)
         # Save past state if it exists
         # TODO: this needs to be fixed and made cleaner later.
         if self.args.past_index >= 0:
@@ -2502,6 +2502,7 @@ class Trainer:
         inputs: Dict[str, Union[torch.Tensor, Any]],
         prediction_loss_only: bool,
         ignore_keys: Optional[List[str]] = None,
+        is_validation: Optional[bool] = False,
     ) -> Tuple[Optional[torch.Tensor], Optional[torch.Tensor], Optional[torch.Tensor]]:
         """
         Perform an evaluation step on :obj:`model` using obj:`inputs`.
@@ -2564,7 +2565,7 @@ class Trainer:
                     logits = smp_nested_concat(logits_mb)
             else:
                 if has_labels:
-                    loss, outputs = self.compute_loss(model, inputs, return_outputs=True)
+                    loss, outputs = self.compute_loss(model, inputs, return_outputs=True, is_validation=is_validation)
                     loss = loss.mean().detach()
                     if isinstance(outputs, dict):
                         logits = tuple(v for k, v in outputs.items() if k not in ignore_keys + ["loss"])

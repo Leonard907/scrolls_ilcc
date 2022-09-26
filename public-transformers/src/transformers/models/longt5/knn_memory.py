@@ -127,7 +127,7 @@ class KNN():
         increment_age = True
     ):
 
-        if not self.is_trained:
+        if self.index.ntotal == 0:
             return np.full((x.shape[0], topk), -1)
 
         distances, indices = self.index.search(x, k = topk)

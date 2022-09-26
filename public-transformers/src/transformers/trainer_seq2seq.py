@@ -254,7 +254,7 @@ class Seq2SeqTrainer(Trainer):
 
         if not self.args.predict_with_generate or prediction_loss_only:
             return super().prediction_step(
-                model, inputs, prediction_loss_only=prediction_loss_only, ignore_keys=ignore_keys
+                model, inputs, prediction_loss_only=prediction_loss_only, ignore_keys=ignore_keys, is_validation=True
             )
 
         has_labels = "labels" in inputs
