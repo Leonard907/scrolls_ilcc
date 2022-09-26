@@ -90,7 +90,7 @@ class KNN():
 
     def remove_overflow(self):
         overflow_count = self.index.ntotal - self.max_num_entries
-
+        
         if overflow_count > 0:
             keep_ids = np.arange(overflow_count, self.index.ntotal)
             keep_vectors = np.array(list(map(lambda id: self.index.reconstruct(id.item()), keep_ids)))
@@ -114,8 +114,13 @@ class KNN():
         if self.cap_num_entries and len(self.ids) > self.max_num_entries:
             self.reset()
 
-        self.index.add(x)
-        self.remove_overflow()
+        if num_memories == self.index.ntotal:
+            # simple reset and add, no need to remove
+            self.index.reset()
+            self.index.add(x)
+        else:
+            self.index.add(x)
+            self.remove_overflow()
 
     def search(
         self,

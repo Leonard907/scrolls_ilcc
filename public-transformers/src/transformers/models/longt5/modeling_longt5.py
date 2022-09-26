@@ -1327,8 +1327,8 @@ class LongT5MemoryAttention(nn.Module):
             value_states[0, 0, ...], 'k d -> b k d', b=1
         ) # (1, seq_len, dim_head) 
         no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
-        extended_original_ids = repeat(original_ids, 'b l -> s (b h l)', s=1, h=self.n_heads)
-        knn_memories.add(no_batch_kv_stack, extended_original_ids)
+        # extended_original_ids = repeat(original_ids, 'b l -> s (b h l)', s=1, h=self.n_heads)
+        knn_memories.add(no_batch_kv_stack, original_ids)
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
