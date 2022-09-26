@@ -1321,11 +1321,11 @@ class LongT5MemoryAttention(nn.Module):
 
         # batch size = 1
         no_batch_key_states = repeat(
-            rearrange(key_states, 'b h n d -> (b h n) d'), 'k d -> b k d', b=1
-        ) # (1, batch_size * n_heads * seq_len, dim_head)
+            key_states[0, 0, ...], 'k d -> b k d', b=1
+        ) # (1, seq_len, dim_head)
         no_batch_value_states = repeat(
-            rearrange(value_states, 'b h n d -> (b h n) d'), 'k d -> b k d', b=1
-        )
+            value_states[0, 0, ...], 'k d -> b k d', b=1
+        ) # (1, seq_len, dim_head) 
         no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
         extended_original_ids = repeat(original_ids, 'b l -> s (b h l)', s=1, h=self.n_heads)
         knn_memories.add(no_batch_kv_stack, extended_original_ids)
@@ -2281,7 +2281,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.num_memory_layers = len(self.memory_layers) # len(config.memory_layers)
         self.knn_mem_kwargs = dict(
             dim = config.d_kv,
-            max_memories = 200000, # config.max_knn_memories, 8192 multiples
+            max_memories = 10000, # config.max_knn_memories, 8192 multiples
             multiprocessing = False
         )
 
