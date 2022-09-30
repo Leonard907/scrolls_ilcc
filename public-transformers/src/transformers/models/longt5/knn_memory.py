@@ -114,13 +114,8 @@ class KNN():
         if self.cap_num_entries and len(self.ids) > self.max_num_entries:
             self.reset()
 
-        if num_memories == self.index.ntotal:
-            # simple reset and add, no need to remove
-            self.index.reset()
-            self.index.add(x)
-        else:
-            self.index.add(x)
-            self.remove_overflow()
+        self.index.reset()
+        self.index.add(x)
 
     def search(
         self,
@@ -184,7 +179,7 @@ class KNNMemory():
 
         self.db = np.memmap(memmap_filename, mode = 'r+', dtype = np.float32, shape = self.shape)
         self.db_token = np.memmap(memmap_filename + '.token', mode = 'r+', dtype = np.float32, shape = self.token_shape)
-        self.db_offset = np.memmap(memmap_filename + '.offset', mode = 'r+', dtype = np.int32, shape = self.offset_shape)
+        self.db_offset = np.memmap(memmap_filename + '.offset', mode = 'r+', dtype = np.int64, shape = self.offset_shape)
         self.knns = [KNN(dim = dim, max_num_entries = max_memories, cap_num_entries = True, index = index) for _ in range(num_indices)]
     
         self.n_jobs = cpu_count() if multiprocessing else 1
@@ -231,25 +226,28 @@ class KNNMemory():
 
         # use joblib to insert new key / value memories into faiss index
 
-        @delayed
-        def knn_add(knn, key, db_offset):
-            knn.add(key, ids = knn_insert_ids + db_offset, offset = db_offset)
-
-        Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, keys, db_offsets))
-
         # add the new memories to the memmap "database"
 
         add_indices = (rearrange(np.arange(num_memories), 'j -> 1 j') + rearrange(self.db_offset[list(self.scoped_indices)], 'i -> i 1')) % self.max_memories
         self.db[rearrange(np.array(self.scoped_indices), 'i -> i 1'), add_indices] = memories
         self.db.flush()
-
+        
         if tokens is not None:
             self.db_token[rearrange(np.array(self.scoped_indices), 'i -> i 1'), add_indices] = tokens
             self.db_token.flush()
 
         self.db_offset += num_memories
-        self.db_offset %= self.max_memories
         self.db_offset.flush()
+
+        @delayed
+        def knn_add(knn, key, db_offset):
+            knn.add(key, ids = knn_insert_ids + db_offset, offset = db_offset)
+
+        if self.db_offset > self.max_memories:
+            Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, self.db[..., 0, :], db_offsets))
+        else:
+            Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, keys, db_offsets))
+        
 
     def search(
         self,
