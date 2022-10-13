@@ -1,0 +1,20 @@
+{
+    "rouge/rouge1": 52.2318,
+    "rouge/rouge2": 24.6183,
+    "rouge/rougeL": 27.5289,
+    "rouge/rougeLsum": 49.667,
+    "rouge/geometric_mean": 32.8343,
+    "num_predicted": 972,
+    "mean_prediction_length_characters": 4432.0679,
+    "scrolls_score": 32.8343,
+    "display_keys": [
+        "rouge/rouge1",
+        "rouge/rouge2",
+        "rouge/rougeL"
+    ],
+    "display": [
+        52.2318,
+        24.6183,
+        27.5289
+    ]
+}

@@ -22,6 +22,7 @@ from typing import Any, List, Optional, Tuple, Union
 from contextlib import contextmanager
 from pathlib import Path
 from filelock import FileLock
+import numpy as np
 from .knn_memory import KNNMemoryList, DEFAULT_KNN_MEMORY_MEMMAP_DIRECTORY
 
 import torch
@@ -1074,7 +1075,18 @@ class LongT5MemoryAttention(nn.Module):
         self.n_heads = config.num_heads
         self.dropout = config.dropout_rate
         self.inner_dim = self.n_heads * self.key_value_proj_dim
-        self.memory_topk = 32
+        self.memory_topk = 3
+
+        # Store topk results
+        self.retrieve_result_filename = './.tmp/retrieved_tokens'
+        self.retrieve_offset_filename = './.tmp/retrieve_offset'
+        self.max_retrieve = 100000
+        if Path(self.retrieve_result_filename).exists():
+            self.retrieve_topk = np.memmap(self.retrieve_result_filename, mode = 'r+', shape=(self.max_retrieve, 3))
+            self.retrieve_offset = np.memmap(self.retrieve_offset_filename, mode = 'r+', shape=(1))
+        else:
+            self.retrieve_topk = np.memmap(self.retrieve_result_filename, mode = 'w+', shape=(self.max_retrieve, 3))
+            self.retrieve_offset = np.memmap(self.retrieve_offset_filename, mode = 'w+', shape=(1))
 
         # Mesh TensorFlow initialization to avoid scaling before softmax
         self.q = nn.Linear(self.d_model, self.inner_dim, bias=False)
@@ -1284,9 +1296,15 @@ class LongT5MemoryAttention(nn.Module):
             reduce(retrieved_tokens, 'b k l t -> k l t', 'max'), '(b n) l t -> b n l t', b=batch_size
         )
         mem_k, mem_v = mem_kv.unbind(dim = -2) # (batch_size, n_heads, seq_length, topk, dim_head)
-        top_token = retrieved_tokens[0, 0, :, 0]
-        if is_validation:
-            logger.info('token decode: {}'.format(tokenizer.decode(top_token)))
+        if not is_validation:
+            top_token = retrieved_tokens[0, 0, ...].detach().cpu().numpy()
+            # import pdb; pdb.set_trace()
+            # logger.info('position 0: {}'.format(top_token[0]))
+            add_indices = np.arange(self.retrieve_offset, self.retrieve_offset + real_seq_length) % self.max_retrieve
+            self.retrieve_topk[add_indices] = top_token
+            self.retrieve_offset += real_seq_length
+            self.retrieve_topk.flush()
+            self.retrieve_offset.flush()
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, mem_k) # (batch_size, n_heads, seq_len, topk)
         sim_mem = sim_mem.masked_fill(~mem_mask, -1e10)
@@ -1325,10 +1343,14 @@ class LongT5MemoryAttention(nn.Module):
         ) # (1, seq_len, dim_head)
         no_batch_value_states = repeat(
             value_states[0, 0, ...], 'k d -> b k d', b=1
-        ) # (1, seq_len, dim_head) 
+        ) # (1, seq_len, dim_head)
+        original_ids = repeat(
+            original_ids[0], 'd -> k d', k=1
+        )
         no_batch_kv_stack = torch.stack((no_batch_key_states, no_batch_value_states), dim=-2)
         # extended_original_ids = repeat(original_ids, 'b l -> s (b h l)', s=1, h=self.n_heads)
-        knn_memories.add(no_batch_kv_stack, original_ids)
+        # if not is_validation:
+        #     knn_memories.add(no_batch_kv_stack, original_ids)
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
@@ -2259,6 +2281,14 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.model_dim = config.d_model
         self.knn_neighbors = 15
         self.faiss_index = faiss.IndexHNSWFlat(config.d_kv, self.knn_neighbors, faiss.METRIC_INNER_PRODUCT)
+        self.decoder_output_memmap_filename = './.tmp/decoder_output'
+        self.decoder_output_size = 100000
+
+        if Path(self.decoder_output_memmap_filename).exists():
+            self.out_memmap = np.memmap(self.decoder_output_memmap_filename, mode = 'r+', shape=(self.decoder_output_size, 1))
+        else:
+            self.out_memmap = np.memmap(self.decoder_output_memmap_filename, mode = 'w+', shape=(self.decoder_output_size, 1))
+        self.out_offset = 0
 
         self.shared = nn.Embedding(config.vocab_size, config.d_model)
 
@@ -2383,6 +2413,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         >>> print(tokenizer.decode(outputs[0], skip_special_tokens=True))
         abstractthe aim of this article is to summarize the studies have shown that owning a dog
         ```"""
+        # logger.info('mem {}'.format(self.faiss_index.ntotal))
         use_cache = use_cache if use_cache is not None else self.config.use_cache
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
@@ -2419,8 +2450,6 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # Decode
         with self.knn_memories_context(batch_size = 1) as knn_memories:
-            if is_validation:
-                logger.info('true seq: {}'.format(tokenizer.decode(decoder_input_ids[0])))
             decoder_outputs = self.decoder(
                 input_ids=decoder_input_ids,
                 attention_mask=decoder_attention_mask,
@@ -2446,6 +2475,15 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             sequence_output = sequence_output * (self.model_dim**-0.5)
 
         lm_logits = self.lm_head(sequence_output)
+        
+        if not is_validation:
+            topv, topi = lm_logits.topk(1, dim=-1)
+            import pdb; pdb.set_trace()
+            add_indices = np.arange(self.out_offset, self.out_offset + topi.shape[1]) % self.decoder_output_size
+            self.out_memmap[add_indices] = topi[0].detach().cpu().numpy()
+            self.out_offset += topi.shape[1]
+            self.out_memmap.flush()
+            # logger.info('position 0 true: {}'.format(topi[0, 0]))
 
         loss = None
         if labels is not None:

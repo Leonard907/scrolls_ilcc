@@ -2542,7 +2542,7 @@ class Trainer:
                 labels = labels[0]
         else:
             labels = None
-
+        
         with torch.no_grad():
             if is_sagemaker_mp_enabled():
                 raw_outputs = smp_forward_only(model, inputs)

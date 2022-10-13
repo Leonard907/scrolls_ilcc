@@ -154,7 +154,7 @@ class KNNMemory():
     def __init__(
         self,
         dim,
-        max_memories = 16000,
+        max_memories = 10000,
         num_indices = 1,
         memmap_filename = './knn.memory.memmap',
         multiprocessing = True,
@@ -178,6 +178,9 @@ class KNNMemory():
             self.db_offset_create = np.memmap(memmap_filename + '.offset', mode = 'w+', dtype = np.int32, shape = self.offset_shape)
 
         self.db = np.memmap(memmap_filename, mode = 'r+', dtype = np.float32, shape = self.shape)
+        if index and index.ntotal == 0:
+            # import pdb; pdb.set_trace()
+            index.add(rearrange(self.db[:, :, 0, :], 'b l d -> (b l) d').copy(order='C'))
         self.db_token = np.memmap(memmap_filename + '.token', mode = 'r+', dtype = np.float32, shape = self.token_shape)
         self.db_offset = np.memmap(memmap_filename + '.offset', mode = 'r+', dtype = np.int64, shape = self.offset_shape)
         self.knns = [KNN(dim = dim, max_num_entries = max_memories, cap_num_entries = True, index = index) for _ in range(num_indices)]
@@ -244,7 +247,7 @@ class KNNMemory():
             knn.add(key, ids = knn_insert_ids + db_offset, offset = db_offset)
 
         if self.db_offset > self.max_memories:
-            Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, self.db[..., 0, :], db_offsets))
+            Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, self.db[..., 0, :].copy(order='C'), db_offsets))
         else:
             Parallel(n_jobs = self.n_jobs)(knn_add(*args) for args in zip(knns, keys, db_offsets))
         

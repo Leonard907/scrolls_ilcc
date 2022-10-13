@@ -665,34 +665,34 @@ def main():
     # Evaluation
     results = {}
     if training_args.do_eval:
-        logger.info("*** Evaluate ***")
+        # pass
+        # logger.info("*** Evaluate ***")
 
-        metrics = trainer.evaluate(metric_key_prefix="eval")
-        max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
-        metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
+        # metrics = trainer.evaluate(metric_key_prefix="eval")
+        # max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
+        # metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
+        # import pdb; pdb.set_trace()
+        predict_results = trainer.predict(eval_dataset, metric_key_prefix="predict")
+        metrics = predict_results.metrics
+        max_eval_samples = (
+            data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
+        )
+        metrics["predict_samples"] = min(max_eval_samples, len(eval_dataset))
 
-        trainer.log_metrics("eval", metrics)
-        trainer.save_metrics("eval", metrics)
-        # predict_results = trainer.predict(eval_dataset, metric_key_prefix="predict")
-        # metrics = predict_results.metrics
-        # max_eval_samples = (
-        #     data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
-        # )
-        # metrics["predict_samples"] = min(max_eval_samples, len(eval_dataset))
+        trainer.log_metrics("predict", metrics)
+        trainer.save_metrics("predict", metrics)
 
-        # trainer.log_metrics("predict", metrics)
-        # trainer.save_metrics("predict", metrics)
+        if trainer.is_world_process_zero() or True:
+            if training_args.predict_with_generate or True:
+                id_to_prediction = {}
+                for i, instance in enumerate(untokenized_eval_dataset):
+                    id_to_prediction[instance["id"]] = predict_results.predictions[i]
+                predictions = decode(id_to_prediction, tokenizer, data_args)
+                output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions_val.json")
+                logger.info('Generated File: {}'.format(output_prediction_file))
+                with open(output_prediction_file, "w") as writer:
+                    json.dump(predictions, writer, indent=4)
 
-        # if trainer.is_world_process_zero() or True:
-        #     if training_args.predict_with_generate or True:
-        #         id_to_prediction = {}
-        #         for i, instance in enumerate(untokenized_eval_dataset):
-        #             id_to_prediction[instance["id"]] = predict_results.predictions[i]
-        #         predictions = decode(id_to_prediction, tokenizer, data_args)
-        #         output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions_val.json")
-        #         logger.info('Generated File: {}'.format(output_prediction_file))
-        #         with open(output_prediction_file, "w") as writer:
-        #             json.dump(predictions, writer, indent=4)
     if training_args.do_predict:
         logger.info("*** Predict ***")
 
