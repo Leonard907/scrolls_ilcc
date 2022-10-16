@@ -276,7 +276,6 @@ class Seq2SeqTrainer(Trainer):
             attention_mask=inputs["attention_mask"],
             **gen_kwargs,
         )
-        import pdb; pdb.set_trace()
         # in case the batch is shorter than max length, the output should be padded
         if generated_tokens.shape[-1] < gen_kwargs["max_length"]:
             generated_tokens = self._pad_tensors_to_max_len(generated_tokens, gen_kwargs["max_length"])
