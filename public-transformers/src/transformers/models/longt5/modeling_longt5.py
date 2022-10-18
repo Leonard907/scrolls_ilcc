@@ -84,7 +84,7 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
         mem_count = key_states.shape[0]
         add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
         # start_time = time.time()
-        faiss_index.add(key_states.contiguous())
+        faiss_index.add(key_states.detach().cpu().contiguous())
         # logger.info('Add time: {:.5f}, shape: {}'.format(time.time() - start_time, key_states.shape))
         mem_storage[add_indices, 0, :] = key_states
         mem_storage[add_indices, 1, :] = value_states
@@ -473,6 +473,7 @@ class LongT5Attention(nn.Module):
         knn_mem=None,
         original_ids=None,
         is_last_layer=None,
+        is_validation=None,
     ):
         """
         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -573,7 +574,7 @@ class LongT5Attention(nn.Module):
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        if knn_mem is not None and is_last_layer:
+        if knn_mem is not None and is_last_layer and (not is_validation):
             # faiss_index = knn_mem["faiss_index"]
             # if faiss_index.ntotal == 0:
             #     key_states_for_train = rearrange(key_states, 'b h l d -> (b h l) d')
@@ -1078,6 +1079,7 @@ class LongT5LayerSelfAttention(nn.Module):
             original_ids=original_ids,
             knn_mem=knn_mem,
             is_last_layer=is_last_layer,
+            is_validation=is_validation,
         )
         hidden_states = hidden_states + self.dropout(attention_output[0])
         outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
@@ -1299,7 +1301,7 @@ class LongT5MemoryAttention(nn.Module):
         query_states_flat = rearrange(
             query_states, 'b h i d -> (b h i) d'
         )
-        distances, indices = faiss_index.search(query_states_flat.contiguous(), k = topk)
+        distances, indices = faiss_index.search(query_states_flat.detach().cpu().contiguous(), k = topk)
         flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
         flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
         retrieved_mem_k = rearrange(
@@ -1318,19 +1320,19 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
-        if is_validation:
-            mem_size = 100000
-            if Path('mem_tokens').exists():
-                file_write = np.memmap('mem_tokens', mode='r+', shape=(100000, 10))
-                file_offset = np.memmap('mem_offset', mode='r+', shape=(1))
-            else:
-                file_write = np.memmap('mem_tokens', mode='w+', shape=(100000, 10))
-                file_offset = np.memmap('mem_offset', mode='w+', shape=(1))
-            add_indices = np.arange(file_offset[0], file_offset[0] + real_seq_length) % mem_size
-            file_write[add_indices] = retrieved_token[0, 0, :, :, 0].detach().cpu().numpy()
-            file_offset[0]= (file_offset[0] + real_seq_length) % mem_size 
-            file_write.flush()
-            file_offset.flush()
+        # if is_validation:
+        #     mem_size = 100000
+        #     if Path('mem_tokens').exists():
+        #         file_write = np.memmap('mem_tokens', mode='r+', shape=(100000, 10))
+        #         file_offset = np.memmap('mem_offset', mode='r+', shape=(1))
+        #     else:
+        #         file_write = np.memmap('mem_tokens', mode='w+', shape=(100000, 10))
+        #         file_offset = np.memmap('mem_offset', mode='w+', shape=(1))
+        #     add_indices = np.arange(file_offset[0], file_offset[0] + real_seq_length) % mem_size
+        #     file_write[add_indices] = retrieved_token[0, 0, :, :10, 0].detach().cpu().numpy()
+        #     file_offset[0]= (file_offset[0] + real_seq_length) % mem_size 
+        #     file_write.flush()
+        #     file_offset.flush()
 
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
 
@@ -2332,7 +2334,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.faiss_index = faiss.IndexFlatL2(config.d_kv)
         # self.faiss_index = faiss.index_factory(config.d_kv, "IVF128,Flat")
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
-        self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
+        # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
         self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:0")
         self.mem_value_offset = torch.zeros((1)).to("cuda:0")
         self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:0")
@@ -2477,17 +2479,17 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         lm_logits = self.lm_head(sequence_output)
 
-        if is_validation:
-            mem_size = 100000
-            if Path('true_tokens').exists():
-                file_write = np.memmap('true_tokens', mode='r+', shape=(100000, 1))
-            else:
-                file_write = np.memmap('true_tokens', mode='w+', shape=(100000, 1))
-            topk, topi = torch.topk(lm_logits, 1, dim=-1)
-            add_indices = np.arange(self.file_offset, self.file_offset + topi.shape[1]) % mem_size
-            file_write[add_indices] = topi[0].detach().cpu().numpy()
-            self.file_offset = (self.file_offset + topi.shape[1]) % mem_size
-            file_write.flush()
+        # if is_validation:
+        #     mem_size = 100000
+        #     if Path('true_tokens').exists():
+        #         file_write = np.memmap('true_tokens', mode='r+', shape=(100000, 1))
+        #     else:
+        #         file_write = np.memmap('true_tokens', mode='w+', shape=(100000, 1))
+        #     topk, topi = torch.topk(lm_logits, 1, dim=-1)
+        #     add_indices = np.arange(self.file_offset, self.file_offset + topi.shape[1]) % mem_size
+        #     file_write[add_indices] = topi[0].detach().cpu().numpy()
+        #     self.file_offset = (self.file_offset + topi.shape[1]) % mem_size
+        #     file_write.flush()
         
         loss = None
         if labels is not None:

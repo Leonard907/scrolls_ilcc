@@ -10,4 +10,4 @@
 #SBATCH --array=0
 
 export XDG_CACHE_HOME=/home/$USER/rds/hpc-work/scrolls/scrolls_ilcc/scrolls_data/gov_report
-python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_user-keep-275
+python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local
