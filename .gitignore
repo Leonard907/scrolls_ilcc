@@ -133,6 +133,6 @@ dmypy.json
 *.lock
 wandb
 
-baselines/experiments/*
+# baselines/experiments/*
 baselines/outputs/*
 scrolls_data/*
