@@ -85,16 +85,30 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
         add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
         # start_time = time.time()
         faiss_index.add(key_states.detach().cpu().contiguous())
-        # logger.info('Add time: {:.5f}, shape: {}'.format(time.time() - start_time, key_states.shape))
-        mem_storage[add_indices, 0, :] = key_states
-        mem_storage[add_indices, 1, :] = value_states
-        token_storage[add_indices] = original_ids.reshape(-1, 1)
-        mem_val_offset[0] = (mem_val_offset[0] + mem_count) % max_memories
+        if faiss_index.ntotal > max_memories:
+            mem_indices = torch.ones(max_memories, dtype=torch.bool)
+            mem_indices[add_indices] = False
+            mem_to_keep = mem_storage[mem_indices]
+            token_to_keep = token_storage[mem_indices]
+            mem_storage[:mem_to_keep.shape[0], 0, :] = mem_to_keep[:, 0, :]
+            mem_storage[:mem_to_keep.shape[0], 1, :] = mem_to_keep[:, 1, :]
+            mem_storage[-mem_count:, 0, :] = key_states
+            mem_storage[-mem_count:, 1, :] = value_states
+            token_storage[:mem_to_keep.shape[0]] = token_to_keep
+            token_storage[-mem_count:] = original_ids.reshape(-1, 1)
+            mem_val_offset[0] = 0
+        else:
+            # logger.info('Add time: {:.5f}, shape: {}'.format(time.time() - start_time, key_states.shape))
+            mem_storage[add_indices, 0, :] = key_states
+            mem_storage[add_indices, 1, :] = value_states
+            token_storage[add_indices] = original_ids.reshape(-1, 1)
+            mem_val_offset[0] = (mem_val_offset[0] + mem_count) % max_memories
 
         if faiss_index.ntotal > max_memories:
             ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
             # start_time = time.time()
             faiss_index.remove_ids(ids_to_remove)
+            # f
             # logger.info('Mod time: {:.5f}, shape: {}'.format(time.time() - start_time, keep_vectors.shape))
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
@@ -1104,6 +1118,10 @@ class LongT5MemoryAttention(nn.Module):
         self.v = nn.Linear(self.d_model, self.inner_dim, bias=False)
         self.o = nn.Linear(self.inner_dim, self.d_model, bias=False)
 
+        # bias to weigh mem and original
+        self.bias = nn.Parameter(torch.zeros(1))
+        self.bias_norm = nn.Sigmoid()
+
         if self.has_relative_attention_bias:
             self.relative_attention_bias = nn.Embedding(self.relative_attention_num_buckets, self.n_heads)
         self.pruned_heads = set()
@@ -1320,6 +1338,10 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
+        # add_indices = np.arange(mem_cmp_offset, mem_cmp_offset + real_seq_length) % 50000
+        # mem_cmp[:, add_indices, 1:] = retrieved_token[:, 0, :, :10, 0]
+        # set_flag()
+
         # if is_validation:
         #     mem_size = 100000
         #     if Path('mem_tokens').exists():
@@ -1352,7 +1374,8 @@ class LongT5MemoryAttention(nn.Module):
         # (batch_size, n_heads, seq_length, dim_head)
         mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_attn, retrieved_mem_v)
         # (batch_size, n_heads, seq_length, dim_head)
-        combined_attn_output = local_attn_output + mem_attn_output
+        bias_sigmoid = self.bias_norm(self.bias)
+        combined_attn_output = local_attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
 
         # Mask heads if we want to
         if layer_head_mask is not None:
@@ -2329,6 +2352,13 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
         # Settings for knn memory
+        self.compat_flag = False
+
+        def set_true():
+            self.compat_flag = True
+
+
+        # self.prev_mem = torch.load('mem_8192.pt')
         self.knn_neighbors = 15
         self.max_memories = 8192
         self.faiss_index = faiss.IndexFlatL2(config.d_kv)
@@ -2336,9 +2366,14 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
         self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:0")
-        self.mem_value_offset = torch.zeros((1)).to("cuda:0")
+        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda:0")
         self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:0")
+        self.mem_cmp_size = 50000
+        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda:0")
+        self.mem_cmp_offset = 0
         self.file_offset = 0
+
+        self.set_flag = set_true
 
         # Initialize weights and apply final processing
         self.init_weights()
@@ -2467,6 +2502,9 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
                 "faiss_index": self.faiss_index,
                 "mem_storage": self.mem_storage,
                 "mem_value_offset": self.mem_value_offset,
+                "set_true": self.set_flag,
+                "mem_cmp": self.mem_cmp,
+                "mem_cmp_offset": self.mem_cmp_offset, 
             },
         )
 
@@ -2479,6 +2517,13 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         lm_logits = self.lm_head(sequence_output)
 
+        # topk, topi = torch.topk(lm_logits, 1, dim=-1)
+        # add_indices = np.arange(self.mem_cmp_offset, self.mem_cmp_offset + topi.shape[1]) % self.mem_cmp_size
+        # if self.compat_flag:
+        #     self.mem_cmp[:, add_indices, 0] = topi[:, :, 0]
+        #     self.mem_cmp_offset = (self.mem_cmp_offset + topi.shape[1]) % self.mem_cmp_size
+        #     self.compat_flag = False
+        #     torch.save(self.mem_cmp, 'output.pt')
         # if is_validation:
         #     mem_size = 100000
         #     if Path('true_tokens').exists():

@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --output=/home/%u/longt5_gov_tr_log/knn_mem_v1.3_10000_epoch_10.out
-#SBATCH --error=/home/%u/longt5_gov_tr_log/knn_mem_v1.3_10000_epoch_10.out
+#SBATCH --output=/home/%u/longt5_gov_tr_log/knn_mem_v1.4_8192_epoch_10.out
+#SBATCH --error=/home/%u/longt5_gov_tr_log/knn_mem_v1.4_8192_epoch_10.out
 #SBATCH --job-name=gov_longt5-tglobal-local_8192
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1

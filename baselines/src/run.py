@@ -731,6 +731,8 @@ def main():
 
         trainer.push_to_hub(**kwargs)
 
+    torch.save(model.mem_storage[:, 0, :], 'memory.pt')
+
     return results
 
 
