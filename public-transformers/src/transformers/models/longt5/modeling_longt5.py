@@ -98,18 +98,17 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
             token_storage[-mem_count:] = original_ids.reshape(-1, 1)
             mem_val_offset[0] = 0
         else:
-            # logger.info('Add time: {:.5f}, shape: {}'.format(time.time() - start_time, key_states.shape))
             mem_storage[add_indices, 0, :] = key_states
             mem_storage[add_indices, 1, :] = value_states
             token_storage[add_indices] = original_ids.reshape(-1, 1)
             mem_val_offset[0] = (mem_val_offset[0] + mem_count) % max_memories
 
         if faiss_index.ntotal > max_memories:
-            ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
             # start_time = time.time()
+            # faiss_index.reset()
+            # faiss_index.add(mem_storage[:, 0, :].detach().cpu().contiguous())
+            ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
             faiss_index.remove_ids(ids_to_remove)
-            # f
-            # logger.info('Mod time: {:.5f}, shape: {}'.format(time.time() - start_time, keep_vectors.shape))
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
     """Pad a tensor so that a sequence length will be a multiple of `block_len`"""
@@ -488,6 +487,7 @@ class LongT5Attention(nn.Module):
         original_ids=None,
         is_last_layer=None,
         is_validation=None,
+        is_cross=None,
     ):
         """
         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -586,7 +586,20 @@ class LongT5Attention(nn.Module):
         attn_output = self.o(attn_output)
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
-        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
+        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)            
+
+        if not is_cross:
+            q_abs = torch.abs(query_states)
+            k_abs = torch.abs(key_states)
+            v_abs = torch.abs(value_states)
+
+            logger.info('Add average: q {}, k {}, v {}'.format(
+                torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
+            )
+
+            logger.info('Add var: q {}, k {}, v {}'.format(
+                torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
+            )
 
         if knn_mem is not None and is_last_layer and (not is_validation):
             # faiss_index = knn_mem["faiss_index"]
@@ -1319,7 +1332,9 @@ class LongT5MemoryAttention(nn.Module):
         query_states_flat = rearrange(
             query_states, 'b h i d -> (b h i) d'
         )
+        # start_time = time.time()
         distances, indices = faiss_index.search(query_states_flat.detach().cpu().contiguous(), k = topk)
+        # logger.info('Search time: {}'.format(time.time() - start_time))
         flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
         flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
         retrieved_mem_k = rearrange(
@@ -1336,6 +1351,18 @@ class LongT5MemoryAttention(nn.Module):
             rearrange(
                 token_storage[flat_indices], '(l k) d -> l k d', k=topk
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+        )
+
+        q_abs = torch.abs(query_states)
+        k_abs = torch.abs(key_states)
+        v_abs = torch.abs(value_states)
+
+        logger.info('Mem average: q {}, k {}, v {}'.format(
+            torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
+        )
+
+        logger.info('Mem var: q {}, k {}, v {}'.format(
+            torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
         )
 
         # add_indices = np.arange(mem_cmp_offset, mem_cmp_offset + real_seq_length) % 50000
@@ -1497,6 +1524,7 @@ class LongT5LayerCrossAttention(nn.Module):
             query_length=query_length,
             output_attentions=output_attentions,
             original_ids=original_ids,
+            is_cross=True,
         )
         layer_output = hidden_states + self.dropout(attention_output[0])
         outputs = (layer_output,) + attention_output[1:]  # add attentions if we output them
@@ -1933,6 +1961,8 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
+                if self.is_decoder:
+                    logger.info('***** Layer {} *****'.format(i))
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask=extended_attention_mask,
@@ -2360,16 +2390,28 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # self.prev_mem = torch.load('mem_8192.pt')
         self.knn_neighbors = 15
-        self.max_memories = 8192
+        self.max_memories = config.vocab_size
+
         self.faiss_index = faiss.IndexFlatL2(config.d_kv)
+
+        # quantizer = faiss.IndexFlatL2(config.d_kv)
+        # self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
+        # self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
+
+        # self.faiss_index = faiss.IndexHNSWFlat(config.d_kv, )
+
         # self.faiss_index = faiss.index_factory(config.d_kv, "IVF128,Flat")
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
-        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:0")
-        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda:0")
-        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:0")
+
+        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv))#.to("cuda:0")
+        # self.mem_storage = torch.load('train_mem.pt')
+        # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
+
+        self.mem_value_offset = torch.zeros((1)).type(torch.long)#.to("cuda:0")
+        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long)#.to("cuda:0")
         self.mem_cmp_size = 50000
-        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda:0")
+        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long)#.to("cuda:0")
         self.mem_cmp_offset = 0
         self.file_offset = 0
 
@@ -2516,6 +2558,8 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             sequence_output = sequence_output * (self.model_dim**-0.5)
 
         lm_logits = self.lm_head(sequence_output)
+
+        import pdb; pdb.set_trace()
 
         # topk, topi = torch.topk(lm_logits, 1, dim=-1)
         # add_indices = np.arange(self.mem_cmp_offset, self.mem_cmp_offset + topi.shape[1]) % self.mem_cmp_size
