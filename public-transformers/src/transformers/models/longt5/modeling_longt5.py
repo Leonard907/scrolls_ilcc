@@ -586,30 +586,7 @@ class LongT5Attention(nn.Module):
         attn_output = self.o(attn_output)
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
-        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)            
-
-        if not is_cross:
-            q_abs = torch.abs(query_states)
-            k_abs = torch.abs(key_states)
-            v_abs = torch.abs(value_states)
-
-            logger.info('Add average: q {}, k {}, v {}'.format(
-                torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
-            )
-
-            logger.info('Add var: q {}, k {}, v {}'.format(
-                torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
-            )
-
-        if knn_mem is not None and is_last_layer and (not is_validation):
-            # faiss_index = knn_mem["faiss_index"]
-            # if faiss_index.ntotal == 0:
-            #     key_states_for_train = rearrange(key_states, 'b h l d -> (b h l) d')
-            #     key_states_for_train = key_states_for_train[:-(key_states_for_train.shape[0] % 128)]
-            #     start_time = time.time()
-            #     faiss_index.train(key_states_for_train.cpu().contiguous())
-            #     logger.info('train time {:.5f}'.format(time.time() - start_time))
-            add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
+        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
@@ -1329,11 +1306,11 @@ class LongT5MemoryAttention(nn.Module):
             mem_storage = knn_mem['mem_storage']
 
         topk = 32
-        query_states_flat = rearrange(
-            query_states, 'b h i d -> (b h i) d'
+        key_states_flat = rearrange(
+            key_states, 'b h i d -> (b h i) d'
         )
         # start_time = time.time()
-        distances, indices = faiss_index.search(query_states_flat.detach().cpu().contiguous(), k = topk)
+        distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
         # logger.info('Search time: {}'.format(time.time() - start_time))
         flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
         flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
@@ -1353,17 +1330,17 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
-        q_abs = torch.abs(query_states)
-        k_abs = torch.abs(key_states)
-        v_abs = torch.abs(value_states)
+        # q_abs = torch.abs(query_states)
+        # k_abs = torch.abs(key_states)
+        # v_abs = torch.abs(value_states)
 
-        logger.info('Mem average: q {}, k {}, v {}'.format(
-            torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
-        )
+        # logger.info('Mem average: q {}, k {}, v {}'.format(
+        #     torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
+        # )
 
-        logger.info('Mem var: q {}, k {}, v {}'.format(
-            torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
-        )
+        # logger.info('Mem var: q {}, k {}, v {}'.format(
+        #     torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
+        # )
 
         # add_indices = np.arange(mem_cmp_offset, mem_cmp_offset + real_seq_length) % 50000
         # mem_cmp[:, add_indices, 1:] = retrieved_token[:, 0, :, :10, 0]
@@ -1416,6 +1393,9 @@ class LongT5MemoryAttention(nn.Module):
 
         if output_attentions:
             outputs = outputs + (attn_weights,)
+
+        add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
+
         return outputs
 
 
