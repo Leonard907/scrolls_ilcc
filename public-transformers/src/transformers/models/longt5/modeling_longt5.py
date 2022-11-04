@@ -80,6 +80,7 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
         faiss_index = knn_mem['faiss_index']
         mem_storage = knn_mem['mem_storage']
         mem_val_offset = knn_mem['mem_value_offset']
+        index_remove_offset = knn_mem['index_remove_offset']
 
         mem_count = key_states.shape[0]
         add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
@@ -101,14 +102,16 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
             mem_storage[add_indices, 0, :] = key_states
             mem_storage[add_indices, 1, :] = value_states
             token_storage[add_indices] = original_ids.reshape(-1, 1)
-            mem_val_offset[0] = (mem_val_offset[0] + mem_count) % max_memories
+            mem_val_offset[0] += mem_count
 
         if faiss_index.ntotal > max_memories:
             # start_time = time.time()
             # faiss_index.reset()
             # faiss_index.add(mem_storage[:, 0, :].detach().cpu().contiguous())
-            ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
-            faiss_index.remove_ids(ids_to_remove)
+            ids_to_remove = np.arange(index_remove_offset[0], index_remove_offset[0] + faiss_index.ntotal - max_memories)
+            ids_sel = faiss.IDSelectorArray(len(ids_to_remove), faiss.swig_ptr(ids_to_remove))
+            faiss_index.remove_ids(ids_sel)
+            index_remove_offset[0] += (faiss_index.ntotal - max_memories)
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
     """Pad a tensor so that a sequence length will be a multiple of `block_len`"""
@@ -1330,36 +1333,6 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
-        # q_abs = torch.abs(query_states)
-        # k_abs = torch.abs(key_states)
-        # v_abs = torch.abs(value_states)
-
-        # logger.info('Mem average: q {}, k {}, v {}'.format(
-        #     torch.mean(q_abs), torch.mean(k_abs), torch.mean(v_abs))
-        # )
-
-        # logger.info('Mem var: q {}, k {}, v {}'.format(
-        #     torch.var(q_abs.flatten()), torch.var(k_abs.flatten()), torch.var(v_abs.flatten()))
-        # )
-
-        # add_indices = np.arange(mem_cmp_offset, mem_cmp_offset + real_seq_length) % 50000
-        # mem_cmp[:, add_indices, 1:] = retrieved_token[:, 0, :, :10, 0]
-        # set_flag()
-
-        # if is_validation:
-        #     mem_size = 100000
-        #     if Path('mem_tokens').exists():
-        #         file_write = np.memmap('mem_tokens', mode='r+', shape=(100000, 10))
-        #         file_offset = np.memmap('mem_offset', mode='r+', shape=(1))
-        #     else:
-        #         file_write = np.memmap('mem_tokens', mode='w+', shape=(100000, 10))
-        #         file_offset = np.memmap('mem_offset', mode='w+', shape=(1))
-        #     add_indices = np.arange(file_offset[0], file_offset[0] + real_seq_length) % mem_size
-        #     file_write[add_indices] = retrieved_token[0, 0, :, :10, 0].detach().cpu().numpy()
-        #     file_offset[0]= (file_offset[0] + real_seq_length) % mem_size 
-        #     file_write.flush()
-        #     file_offset.flush()
-
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
 
         combined_attn = torch.cat((sim_mem, scores), dim = -1)
@@ -2361,22 +2334,15 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
-        # Settings for knn memory
-        self.compat_flag = False
-
-        def set_true():
-            self.compat_flag = True
-
-
         # self.prev_mem = torch.load('mem_8192.pt')
         self.knn_neighbors = 15
         self.max_memories = config.vocab_size
 
-        self.faiss_index = faiss.IndexFlatL2(config.d_kv)
+        # self.faiss_index = faiss.IndexFlatL2(config.d_kv)
 
-        # quantizer = faiss.IndexFlatL2(config.d_kv)
-        # self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
-        # self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
+        quantizer = faiss.IndexFlatL2(config.d_kv)
+        self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
+        self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
 
         # self.faiss_index = faiss.IndexHNSWFlat(config.d_kv, )
 
@@ -2388,14 +2354,12 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.mem_storage = torch.load('train_mem.pt')
         # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
 
-        self.mem_value_offset = torch.zeros((1)).type(torch.long)#.to("cuda:0")
-        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long)#.to("cuda:0")
+        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_size = 50000
-        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long)#.to("cuda:0")
+        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_offset = 0
-        self.file_offset = 0
-
-        self.set_flag = set_true
+        self.index_remove_offset = torch.zeros((1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
 
         # Initialize weights and apply final processing
         self.init_weights()
@@ -2524,9 +2488,9 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
                 "faiss_index": self.faiss_index,
                 "mem_storage": self.mem_storage,
                 "mem_value_offset": self.mem_value_offset,
-                "set_true": self.set_flag,
                 "mem_cmp": self.mem_cmp,
                 "mem_cmp_offset": self.mem_cmp_offset, 
+                "index_remove_offset": self.index_remove_offset,
             },
         )
 
@@ -2538,27 +2502,6 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             sequence_output = sequence_output * (self.model_dim**-0.5)
 
         lm_logits = self.lm_head(sequence_output)
-
-        import pdb; pdb.set_trace()
-
-        # topk, topi = torch.topk(lm_logits, 1, dim=-1)
-        # add_indices = np.arange(self.mem_cmp_offset, self.mem_cmp_offset + topi.shape[1]) % self.mem_cmp_size
-        # if self.compat_flag:
-        #     self.mem_cmp[:, add_indices, 0] = topi[:, :, 0]
-        #     self.mem_cmp_offset = (self.mem_cmp_offset + topi.shape[1]) % self.mem_cmp_size
-        #     self.compat_flag = False
-        #     torch.save(self.mem_cmp, 'output.pt')
-        # if is_validation:
-        #     mem_size = 100000
-        #     if Path('true_tokens').exists():
-        #         file_write = np.memmap('true_tokens', mode='r+', shape=(100000, 1))
-        #     else:
-        #         file_write = np.memmap('true_tokens', mode='w+', shape=(100000, 1))
-        #     topk, topi = torch.topk(lm_logits, 1, dim=-1)
-        #     add_indices = np.arange(self.file_offset, self.file_offset + topi.shape[1]) % mem_size
-        #     file_write[add_indices] = topi[0].detach().cpu().numpy()
-        #     self.file_offset = (self.file_offset + topi.shape[1]) % mem_size
-        #     file_write.flush()
         
         loss = None
         if labels is not None:
@@ -2569,6 +2512,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         if not return_dict:
             output = (lm_logits,) + decoder_outputs[1:] + encoder_outputs
             return ((loss,) + output) if loss is not None else output
+
         return Seq2SeqLMOutput(
             loss=loss,
             logits=lm_logits,
