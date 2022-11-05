@@ -1312,12 +1312,14 @@ class LongT5MemoryAttention(nn.Module):
         )
         # start_time = time.time()
         distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
+        if torch.max(indices) == 32128 or torch.max(indices) > 32128:
+            pdb.set_trace()
         # logger.info('Search time: {}'.format(time.time() - start_time))
         flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
         flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
-        mem_mask = rearrange(
+        mem_mask = torch.tensor(rearrange(
             np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
-        )
+            )).to('cuda:0' if torch.cuda.is_available() else 'cpu')
         retrieved_mem_k = rearrange(
             rearrange(
                 mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
@@ -1334,7 +1336,7 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
-        pdb.set_trace()
+        # pdb.set_trace()
         # if np.max(indices) > 32128:
         #     pdb.set_trace()
 
@@ -1900,8 +1902,6 @@ class LongT5Stack(LongT5PreTrainedModel):
                     None,  # past_key_value is always None with gradient checkpointing
                 )
             else:
-                if self.is_decoder:
-                    logger.info('***** Layer {} *****'.format(i))
                 layer_outputs = layer_module(
                     hidden_states,
                     attention_mask=extended_attention_mask,
@@ -2336,7 +2336,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
 
-        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv))#.to("cuda:0")
+        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:0")
         # self.mem_storage = torch.load('train_mem.pt')
         # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
 
