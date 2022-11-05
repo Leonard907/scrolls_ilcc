@@ -25,6 +25,7 @@ from pathlib import Path
 from filelock import FileLock
 import numpy as np
 import time
+import pdb
 
 import faiss
 import faiss.contrib.torch_utils
@@ -488,7 +489,6 @@ class LongT5Attention(nn.Module):
         output_attentions=False,
         knn_mem=None,
         original_ids=None,
-        is_last_layer=None,
         is_validation=None,
         is_cross=None,
     ):
@@ -1072,7 +1072,6 @@ class LongT5LayerSelfAttention(nn.Module):
         original_ids=None,
         is_validation=None,
         knn_mem=None,
-        is_last_layer=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.SelfAttention(
@@ -1085,7 +1084,6 @@ class LongT5LayerSelfAttention(nn.Module):
             output_attentions=output_attentions,
             original_ids=original_ids,
             knn_mem=knn_mem,
-            is_last_layer=is_last_layer,
             is_validation=is_validation,
         )
         hidden_states = hidden_states + self.dropout(attention_output[0])
@@ -1317,6 +1315,9 @@ class LongT5MemoryAttention(nn.Module):
         # logger.info('Search time: {}'.format(time.time() - start_time))
         flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
         flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
+        mem_mask = rearrange(
+            np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
+        )
         retrieved_mem_k = rearrange(
             rearrange(
                 mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
@@ -1333,32 +1334,38 @@ class LongT5MemoryAttention(nn.Module):
             ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
         )
 
+        pdb.set_trace()
+        # if np.max(indices) > 32128:
+        #     pdb.set_trace()
+
         sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
+        sim_mem += mem_mask
 
-        combined_attn = torch.cat((sim_mem, scores), dim = -1)
-
-        attn_weights = nn.functional.softmax(combined_attn.float(), dim=-1).type_as(
-            combined_attn # scores
-        )  # (batch_size, n_heads, seq_length, key_length + topk)
+        attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
+            scores # scores
+        )  # (batch_size, n_heads, seq_length, key_length)
         attn_weights = nn.functional.dropout(
             attn_weights, p=self.dropout, training=self.training
-        )  # (batch_size, n_heads, seq_length, key_length + topk)
+        )  # (batch_size, n_heads, seq_length, key_length)
+        attn_output = torch.matmul(attn_weights, value_states)  # (batch_size, n_heads, seq_length, dim_per_head)
 
-        local_attn, mem_attn = attn_weights[..., topk:], attn_weights[..., :topk]
-        # local_attn: (batch_size, n_heads, seq_length, key_length)
-        # mem_attn: (batch_size, n_heads, seq_length, topk)
-        local_attn_output = torch.matmul(local_attn, value_states)
-        # (batch_size, n_heads, seq_length, dim_head)
-        mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_attn, retrieved_mem_v)
-        # (batch_size, n_heads, seq_length, dim_head)
-        bias_sigmoid = self.bias_norm(self.bias)
-        combined_attn_output = local_attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
+        if faiss_index.ntotal > 0:
+            mem_weights = nn.functional.softmax(sim_mem.float(), dim=-1).type_as(
+                sim_mem # scores
+            )  # (batch_size, n_heads, seq_length, topk)
+            mem_weights = nn.functional.dropout(
+                mem_weights, p=self.dropout, training=self.training
+            )  # (batch_size, n_heads, seq_length, topk)
+            mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
+            # (batch_size, n_heads, seq_length, key_length)
+            bias_sigmoid = self.bias_norm(self.bias)
+            attn_output = attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
 
         # Mask heads if we want to
         if layer_head_mask is not None:
             attn_weights = attn_weights * layer_head_mask
 
-        attn_output = unshape(combined_attn_output)  # (batch_size, seq_length, dim)
+        attn_output = unshape(attn_output)  # (batch_size, seq_length, dim)
         attn_output = self.o(attn_output)
 
         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
@@ -1391,7 +1398,6 @@ class LongT5LayerLocalSelfAttention(nn.Module):
         original_ids=None,
         is_validation=None,
         knn_mem=None,
-        is_last_layer=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1428,7 +1434,6 @@ class LongT5LayerTransientGlobalSelfAttention(nn.Module):
         original_ids=None,
         is_validation=None,
         knn_mem=None,
-        is_last_layer=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1487,7 +1492,6 @@ class LongT5MemorySelfAttention(nn.Module):
     def __init__(self, config, has_relative_attention_bias=False):
         super().__init__()
         self.MemorySelfAttention = LongT5MemoryAttention(config, has_relative_attention_bias=has_relative_attention_bias)
-        self.SelfAttention = LongT5Attention(config, has_relative_attention_bias=has_relative_attention_bias)
         self.layer_norm = LongT5LayerNorm(config.d_model, eps=config.layer_norm_epsilon)
         self.dropout = nn.Dropout(config.dropout_rate)
 
@@ -1503,44 +1507,28 @@ class LongT5MemorySelfAttention(nn.Module):
         original_ids=None,
         is_validation=None,
         knn_mem=None,
-        is_last_layer=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
-        index_empty = knn_mem is not None and knn_mem["faiss_index"].ntotal == 0
-        if index_empty:
-            attention_output = self.SelfAttention(
-                normed_hidden_states,
-                mask=attention_mask,
-                position_bias=position_bias,
-                layer_head_mask=layer_head_mask,
-                past_key_value=past_key_value,
-                use_cache=use_cache,
-                output_attentions=output_attentions,
-                original_ids=original_ids,
-                knn_mem=knn_mem,
-            )
-        else:
-            attention_output = self.MemorySelfAttention(
-                normed_hidden_states,
-                mask=attention_mask,
-                position_bias=position_bias,
-                layer_head_mask=layer_head_mask,
-                past_key_value=past_key_value,
-                use_cache=use_cache,
-                output_attentions=output_attentions,
-                original_ids=original_ids,
-                is_validation=is_validation,
-                knn_mem=knn_mem,
-            )
+        attention_output = self.MemorySelfAttention(
+            normed_hidden_states,
+            mask=attention_mask,
+            position_bias=position_bias,
+            layer_head_mask=layer_head_mask,
+            past_key_value=past_key_value,
+            use_cache=use_cache,
+            output_attentions=output_attentions,
+            original_ids=original_ids,
+            is_validation=is_validation,
+            knn_mem=knn_mem,
+        )
         hidden_states = hidden_states + self.dropout(attention_output[0])
         outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
         return outputs
 
 class LongT5Block(nn.Module):
-    def __init__(self, config, has_relative_attention_bias=False, is_memory_layer=False, is_last_layer=False):
+    def __init__(self, config, has_relative_attention_bias=False, is_memory_layer=False):
         super().__init__()
         self.is_decoder = config.is_decoder
-        self.is_last_layer = is_last_layer
         if config.is_decoder:
             if is_memory_layer:
                 attention_layer = LongT5MemorySelfAttention
@@ -1608,7 +1596,6 @@ class LongT5Block(nn.Module):
             original_ids=original_ids,
             is_validation=is_validation,
             knn_mem=knn_mem,
-            is_last_layer=self.is_last_layer,
         )
         hidden_states, present_key_value_state = self_attention_outputs[:2]
         attention_outputs = self_attention_outputs[2:]  # Keep self-attention outputs and relative position weights
@@ -1768,8 +1755,7 @@ class LongT5Stack(LongT5PreTrainedModel):
         self.block_len = self.local_radius + 1
 
         self.block = nn.ModuleList(
-            [LongT5Block(config, has_relative_attention_bias=bool(i == 0), is_memory_layer=bool(i in knn_memory_layer), 
-            is_last_layer=bool(i == config.num_layers - 1 and self.is_decoder)) for i in range(config.num_layers)]
+            [LongT5Block(config, has_relative_attention_bias=bool(i == 0), is_memory_layer=bool(i in knn_memory_layer)) for i in range(config.num_layers)]
         )
         self.final_layer_norm = LongT5LayerNorm(config.d_model, eps=config.layer_norm_epsilon)
         self.dropout = nn.Dropout(config.dropout_rate)
