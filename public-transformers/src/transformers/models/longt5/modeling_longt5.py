@@ -84,10 +84,10 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
         index_remove_offset = knn_mem['index_remove_offset']
 
         mem_count = key_states.shape[0]
-        add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long)
-        # start_time = time.time()
-        faiss_index.add_with_ids(key_states.detach().cpu().contiguous(), add_indices.detach().cpu().contiguous())
-        add_indices = add_indices % max_memories
+        add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
+        # faiss_index.add_with_ids(key_states.detach().cpu().contiguous(), add_indices.detach().cpu().contiguous())
+        faiss_index.add(key_states.detach().cpu().contiguous())
+
         if faiss_index.ntotal > max_memories:
             mem_indices = torch.ones(max_memories, dtype=torch.bool)
             mem_indices[add_indices] = False
@@ -107,14 +107,20 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
             mem_val_offset[0] += mem_count
 
         if faiss_index.ntotal > max_memories:
-            start_time = time.time()
+            # start_time = time.time()
+
             # faiss_index.reset()
             # faiss_index.add(mem_storage[:, 0, :].detach().cpu().contiguous())
-            ids_to_remove = np.arange(index_remove_offset[0], index_remove_offset[0] + faiss_index.ntotal - max_memories)
-            ids_sel = faiss.IDSelectorArray(len(ids_to_remove), faiss.swig_ptr(ids_to_remove))
-            faiss_index.remove_ids(ids_sel)
-            logger.info('mod time {}'.format(time.time() - start_time))
-            index_remove_offset[0] += (faiss_index.ntotal - max_memories)
+
+            ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
+            faiss_index.remove_ids(ids_to_remove)
+
+            # ids_to_remove = np.arange(index_remove_offset[0], index_remove_offset[0] + faiss_index.ntotal - max_memories)
+            # ids_sel = faiss.IDSelectorArray(len(ids_to_remove), faiss.swig_ptr(ids_to_remove))
+            # faiss_index.remove_ids(ids_sel)
+            # index_remove_offset[0] += (faiss_index.ntotal - max_memories)
+
+            # logger.info('mod time {}'.format(time.time() - start_time))
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
     """Pad a tensor so that a sequence length will be a multiple of `block_len`"""
@@ -1323,9 +1329,6 @@ class LongT5MemoryAttention(nn.Module):
             )
             start_time = time.time()
             distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
-            logger.info('Search time: {}'.format(time.time() - start_time))
-            if torch.max(indices) == 32128 or torch.max(indices) > 32128:
-                pdb.set_trace()
             flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
             flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
             mem_mask = torch.tensor(rearrange(
