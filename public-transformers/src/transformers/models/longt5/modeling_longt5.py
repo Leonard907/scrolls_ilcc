@@ -84,9 +84,10 @@ def add_to_index(knn_mem, key_states, value_states, original_ids):
         index_remove_offset = knn_mem['index_remove_offset']
 
         mem_count = key_states.shape[0]
-        add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
+        add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long)
         # start_time = time.time()
-        faiss_index.add(key_states.detach().cpu().contiguous())
+        faiss_index.add_with_ids(key_states.detach().cpu().contiguous(), add_indices.detach().cpu().contiguous())
+        add_indices = add_indices % max_memories
         if faiss_index.ntotal > max_memories:
             mem_indices = torch.ones(max_memories, dtype=torch.bool)
             mem_indices[add_indices] = False
@@ -2325,11 +2326,11 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         self.knn_neighbors = 15
         self.max_memories = config.vocab_size
 
-        # self.faiss_index = faiss.IndexFlatL2(config.d_kv)
+        self.faiss_index = faiss.IndexFlatL2(config.d_kv)
 
-        quantizer = faiss.IndexFlatL2(config.d_kv)
-        self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
-        self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
+        # quantizer = faiss.IndexFlatL2(config.d_kv)
+        # self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
+        # self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
 
         # self.faiss_index = faiss.IndexHNSWFlat(config.d_kv, )
 
