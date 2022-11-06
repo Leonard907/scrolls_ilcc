@@ -1308,43 +1308,6 @@ class LongT5MemoryAttention(nn.Module):
             faiss_index = knn_mem['faiss_index']
             mem_storage = knn_mem['mem_storage']
 
-        topk = 32
-        key_states_flat = rearrange(
-            key_states, 'b h i d -> (b h i) d'
-        )
-        start_time = time.time()
-        distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
-        logger.info('Search time: {}'.format(time.time() - start_time))
-        if torch.max(indices) == 32128 or torch.max(indices) > 32128:
-            pdb.set_trace()
-        flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
-        flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
-        mem_mask = torch.tensor(rearrange(
-            np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
-            )).to('cuda:0' if torch.cuda.is_available() else 'cpu')
-        retrieved_mem_k = rearrange(
-            rearrange(
-                mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
-            ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
-        )
-        retrieved_mem_v = rearrange(
-            rearrange(
-                mem_storage[flat_indices, 1, :], '(l k) d -> l k d', k=topk
-            ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
-        )
-        retrieved_token = rearrange(
-            rearrange(
-                token_storage[flat_indices], '(l k) d -> l k d', k=topk
-            ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
-        )
-
-        # pdb.set_trace()
-        # if np.max(indices) > 32128:
-        #     pdb.set_trace()
-
-        sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
-        sim_mem += mem_mask
-
         attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
             scores # scores
         )  # (batch_size, n_heads, seq_length, key_length)
@@ -1354,6 +1317,37 @@ class LongT5MemoryAttention(nn.Module):
         attn_output = torch.matmul(attn_weights, value_states)  # (batch_size, n_heads, seq_length, dim_per_head)
 
         if faiss_index.ntotal > 0:
+            topk = 32
+            key_states_flat = rearrange(
+                key_states, 'b h i d -> (b h i) d'
+            )
+            start_time = time.time()
+            distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
+            logger.info('Search time: {}'.format(time.time() - start_time))
+            if torch.max(indices) == 32128 or torch.max(indices) > 32128:
+                pdb.set_trace()
+            flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
+            flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
+            mem_mask = torch.tensor(rearrange(
+                np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
+                )).to('cuda:0' if torch.cuda.is_available() else 'cpu')
+            retrieved_mem_k = rearrange(
+                rearrange(
+                    mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            )
+            retrieved_mem_v = rearrange(
+                rearrange(
+                    mem_storage[flat_indices, 1, :], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            )
+            retrieved_token = rearrange(
+                rearrange(
+                    token_storage[flat_indices], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            )
+            sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
+            sim_mem += mem_mask
             mem_weights = nn.functional.softmax(sim_mem.float(), dim=-1).type_as(
                 sim_mem # scores
             )  # (batch_size, n_heads, seq_length, topk)
