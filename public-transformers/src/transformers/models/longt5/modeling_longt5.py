@@ -1359,6 +1359,8 @@ class LongT5MemoryAttention(nn.Module):
             )  # (batch_size, n_heads, seq_length, topk)
             mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
             # (batch_size, n_heads, seq_length, key_length)
+            if faiss_index.ntotal == 32128:
+                import pdb; pdb.set_trace()
             bias_sigmoid = self.bias_norm(self.bias)
             attn_output = attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
 
