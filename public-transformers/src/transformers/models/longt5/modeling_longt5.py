@@ -1333,7 +1333,7 @@ class LongT5MemoryAttention(nn.Module):
             flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
             mem_mask = torch.tensor(rearrange(
                 np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
-                )).to('cuda:0' if torch.cuda.is_available() else 'cpu')
+                )).to('cuda:3' if torch.cuda.is_available() else 'cpu')
             retrieved_mem_k = rearrange(
                 rearrange(
                     mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
@@ -1359,8 +1359,6 @@ class LongT5MemoryAttention(nn.Module):
             )  # (batch_size, n_heads, seq_length, topk)
             mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
             # (batch_size, n_heads, seq_length, key_length)
-            if faiss_index.ntotal == 32128:
-                import pdb; pdb.set_trace()
             bias_sigmoid = self.bias_norm(self.bias)
             attn_output = attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
 
@@ -2337,16 +2335,16 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
 
-        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:0")
+        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda:3")
         # self.mem_storage = torch.load('train_mem.pt')
         # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
 
-        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda:3" if torch.cuda.is_available() else "cpu")
+        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda:3" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_size = 50000
-        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda:3" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_offset = 0
-        self.index_remove_offset = torch.zeros((1)).type(torch.long).to("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.index_remove_offset = torch.zeros((1)).type(torch.long).to("cuda:3" if torch.cuda.is_available() else "cpu")
 
         # Initialize weights and apply final processing
         self.init_weights()

@@ -7,12 +7,13 @@ def get_command(id_):
     os.environ["DEBUG"] = os.environ.get("DEBUG", "false")
 
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
     # fmt: off
 
     commands_dict = {}
 
     tokens_bsz = 8192
-    num_gpus = 0
+    num_gpus = 1
     accum_steps = 32
     folder_suffix_params = ["max_source_length", "gradient_accumulation_steps", "learning_rate", "train_max_tokens"]
     folder_suffix = "$".join(folder_suffix_params)
