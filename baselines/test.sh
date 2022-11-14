@@ -9,7 +9,11 @@
 #SBATCH --time=36:00:00
 #SBATCH --array=0
 
-export XDG_CACHE_HOME=/home/$USER/rds/hpc-work/scrolls/scrolls_ilcc/scrolls_data/gov_report
-python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_language-truck-416 
+export XDG_CACHE_HOME=/data/scrolls_data/gov_report
+python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local --resume_from_checkpoint outputs/saved_models/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_outcome-cry-1
+# google checkpoints
+# 32128 epoch 4 inner product google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_outcome-cry-1
+# hpc checkpoints
+# 32128 epoch 4 --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_language-truck-416 
 # 32128 epoch 4 --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_sector-tough-378
 # 8192 epoch 10 --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_speed-deep-324

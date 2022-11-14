@@ -7,7 +7,7 @@ def get_command(id_):
     os.environ["DEBUG"] = os.environ.get("DEBUG", "false")
 
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     # fmt: off
 
     commands_dict = {}

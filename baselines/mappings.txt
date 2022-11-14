@@ -1,0 +1,2 @@
+-- Mem 32128, Epoch 4, Max Inner Product search 
+google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_outcome-cry-1
