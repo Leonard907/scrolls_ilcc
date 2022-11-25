@@ -185,6 +185,10 @@ if TYPE_CHECKING:
 
 logger = logging.get_logger(__name__)
 
+forward_times = []
+backward_times = []
+optimizer_times = []
+
 
 class Trainer:
     """
@@ -1447,6 +1451,7 @@ class Trainer:
                             )
 
                     # Optimizer step
+                    optimizer_start_time = time.perf_counter()
                     optimizer_was_run = True
                     if self.deepspeed:
                         pass  # called outside the loop
@@ -1463,6 +1468,11 @@ class Trainer:
 
                     if optimizer_was_run and not self.deepspeed:
                         self.lr_scheduler.step()
+                    optimizer_end_time = time.perf_counter()
+                    if self.model.faiss_index.ntotal == 320000:
+                        optimizer_times.append(optimizer_end_time - optimizer_start_time)
+                        if len(optimizer_times) % 50 == 0:
+                            logger.info(f"Optimizer time: {np.mean(optimizer_times)}")
 
                     model.zero_grad()
                     self.state.global_step += 1
@@ -1919,11 +1929,17 @@ class Trainer:
             loss_mb = smp_forward_backward(model, inputs, self.args.gradient_accumulation_steps, scaler=scaler)
             return loss_mb.reduce_mean().detach().to(self.args.device)
 
+        forward_start_time = time.perf_counter()
         if self.use_amp:
             with autocast():
                 loss = self.compute_loss(model, inputs)
         else:
             loss = self.compute_loss(model, inputs)
+        forward_end_time = time.perf_counter()
+        if model.faiss_index.ntotal == 320000:
+            forward_times.append(forward_end_time - forward_start_time)
+            if len(forward_times) % 50 == 0:
+                logger.info(f"Average forward time: {sum(forward_times) / len(forward_times)}")
 
         if self.args.n_gpu > 1:
             loss = loss.mean()  # mean() to average on multi-gpu parallel training
@@ -1932,6 +1948,7 @@ class Trainer:
             # deepspeed handles loss scaling by gradient_accumulation_steps in its `backward`
             loss = loss / self.args.gradient_accumulation_steps
 
+        backward_start_time = time.perf_counter()
         if self.use_amp:
             self.scaler.scale(loss).backward()
         elif self.use_apex:
@@ -1942,6 +1959,11 @@ class Trainer:
             loss = self.deepspeed.backward(loss)
         else:
             loss.backward()
+        backward_end_time = time.perf_counter()
+        if model.faiss_index.ntotal == 320000:
+            backward_times.append(backward_end_time - backward_start_time)
+            if len(backward_times) % 50 == 0:
+                logger.info(f"Average backward time: {sum(backward_times) / len(backward_times)}")
 
         return loss.detach()
 

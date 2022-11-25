@@ -72,7 +72,7 @@ LONGT5_PRETRAINED_MODEL_ARCHIVE_LIST = [
 ]
 
 knn_memory_layer = [10]
-faiss_gpu_res = faiss.StandardGpuResources()
+faiss_times = []
 
 def add_to_index(knn_mem, key_states, value_states, original_ids):
     with torch.no_grad():
@@ -1327,7 +1327,13 @@ class LongT5MemoryAttention(nn.Module):
             query_states_flat = rearrange(
                 query_states, 'b h i d -> (b h i) d'
             )
+            faiss_start_time = time.perf_counter()
             distances, indices = faiss_index.search(query_states_flat.detach().cpu().contiguous(), k = topk)
+            faiss_end_time = time.perf_counter()
+            if faiss_index.ntotal == 320000:
+                faiss_times.append(faiss_end_time - faiss_start_time)
+                if len(faiss_times) % 50 == 0:
+                    logger.info(f"Average faiss time: {sum(faiss_times) / len(faiss_times)}")
             flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
             flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
             mem_mask = torch.tensor(rearrange(
@@ -1374,7 +1380,7 @@ class LongT5MemoryAttention(nn.Module):
         if output_attentions:
             outputs = outputs + (attn_weights,)
 
-        # add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
+        add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
 
         return outputs
 
@@ -2320,7 +2326,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # self.prev_mem = torch.load('mem_8192.pt')
         self.knn_neighbors = 15
-        self.max_memories = config.vocab_size
+        self.max_memories = 320000
 
         self.faiss_index = faiss.IndexFlatIP(config.d_kv)
 
@@ -2334,12 +2340,12 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
 
-        # self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda")
-        # self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda")
+        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.mem_storage = torch.load('mem.pt').to("cuda")
-        self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
-        self.token_retrieval_map = torch.load('token.pt').to("cuda")
+        # self.mem_storage = torch.load('mem.pt').to("cuda")
+        # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
+        # self.token_retrieval_map = torch.load('token.pt').to("cuda")
 
         self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_size = 50000
