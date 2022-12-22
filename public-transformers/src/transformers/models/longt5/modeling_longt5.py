@@ -1328,35 +1328,52 @@ class LongT5MemoryAttention(nn.Module):
                 key_states, 'b h i d -> (b h i) d'
             )
             distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
+            # if faiss_index.ntotal == 8192:
+            #     torch.save(mem_storage, 'mem_storage.pt')
+            #     torch.save(token_storage, 'token_storage.pt')
+            #     import pdb; pdb.set_trace()
             flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
             flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
-            mem_mask = torch.tensor(rearrange(
-                np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = seq_length
-                )).to('cuda' if torch.cuda.is_available() else 'cpu')
+            mem_mask = torch.tensor(
+                repeat(
+                    rearrange(
+                        np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = key_length # seq_length
+                    ), 'b h i k -> b h l i k', l = seq_length
+                )
+            ).to('cuda' if torch.cuda.is_available() else 'cpu')
             retrieved_mem_k = rearrange(
                 rearrange(
                     mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
                 ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
-            )
+            ) # (batch_size, n_heads, key_length, topk, dim_head)
             retrieved_mem_v = rearrange(
                 rearrange(
                     mem_storage[flat_indices, 1, :], '(l k) d -> l k d', k=topk
                 ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
-            )
+            ) # (batch_size, n_heads, key_length, topk, dim_head)
             retrieved_token = rearrange(
                 rearrange(
                     token_storage[flat_indices], '(l k) d -> l k d', k=topk
                 ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
             )
-            sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
+            sim_mem = torch.einsum('b h i d, b h k j d -> b h i k j', query_states, retrieved_token) # (batch_size, n_heads, seq_len, key_len, topk)
             sim_mem += mem_mask
-            mem_weights = nn.functional.softmax(sim_mem.float(), dim=-1).type_as(
+            mem_weights = nn.functional.softmax(sim_mem.float(), dim=-2).type_as(
                 sim_mem # scores
             )  # (batch_size, n_heads, seq_length, topk)
             mem_weights = nn.functional.dropout(
                 mem_weights, p=self.dropout, training=self.training
             )  # (batch_size, n_heads, seq_length, topk)
-            mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
+            mem_attn_output = torch.einsum('b h i k j, b h k j d -> b h i d', mem_weights, retrieved_mem_v)
+            # sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
+            # sim_mem += mem_mask
+            # mem_weights = nn.functional.softmax(sim_mem.float(), dim=-1).type_as(
+            #     sim_mem # scores
+            # )  # (batch_size, n_heads, seq_length, topk)
+            # mem_weights = nn.functional.dropout(
+            #     mem_weights, p=self.dropout, training=self.training
+            # )  # (batch_size, n_heads, seq_length, topk)
+            # mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
             # (batch_size, n_heads, seq_length, key_length)
             bias_sigmoid = self.bias_norm(self.bias)
             attn_output = attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
@@ -1374,7 +1391,7 @@ class LongT5MemoryAttention(nn.Module):
         if output_attentions:
             outputs = outputs + (attn_weights,)
 
-        add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
+        # add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
 
         return outputs
 
@@ -2320,7 +2337,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         # self.prev_mem = torch.load('mem_8192.pt')
         self.knn_neighbors = 15
-        self.max_memories = config.vocab_size
+        self.max_memories = 8192
 
         self.faiss_index = faiss.IndexFlatL2(config.d_kv)
 
@@ -2334,12 +2351,14 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         # self.faiss_index.train(torch.rand(65536, config.d_kv))
         # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
 
-        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda")
-        # self.mem_storage = torch.load('train_mem.pt')
-        # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
+        # self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda")
+        # self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.mem_storage = torch.load('mem_storage.pt').to("cuda" if torch.cuda.is_available() else "cpu")
+        self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
+        self.token_retrieval_map = torch.load('token_storage.pt').to("cuda" if torch.cuda.is_available() else "cpu")
 
         self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
-        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_size = 50000
         self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
         self.mem_cmp_offset = 0
