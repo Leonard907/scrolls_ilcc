@@ -667,7 +667,6 @@ def main():
     # Evaluation
     results = {}
     if training_args.do_eval:
-        # pass
         logger.info("*** Evaluate ***")
 
         metrics = trainer.evaluate(metric_key_prefix="eval")

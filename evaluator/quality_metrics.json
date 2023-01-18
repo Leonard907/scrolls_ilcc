@@ -1,0 +1,12 @@
+{
+    "exact_match": 71.908,
+    "num_predicted": 2086,
+    "mean_prediction_length_characters": 46.4823,
+    "scrolls_score": 71.908,
+    "display_keys": [
+        "exact_match"
+    ],
+    "display": [
+        71.908
+    ]
+}

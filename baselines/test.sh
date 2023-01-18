@@ -10,6 +10,6 @@
 #SBATCH --array=0
 
 export XDG_CACHE_HOME=~/scrolls_data/gov_report
-python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_picture-bunch-5/checkpoint-3024
+python scripts/execute.py scripts/commands/finetune.py gov_report_longt5-local # --resume_from_checkpoint outputs/saved_models/longt5_8192_l2_epoch_7_mem_8K
 # 32128 epoch 4 --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_sector-tough-378
 # 8192 epoch 10 --resume_from_checkpoint outputs/google-long-t5-tglobal-base_8192_32_0.001_8192_scrolls_gov_report_speed-deep-324
