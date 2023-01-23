@@ -1,0 +1,19 @@
+Captain America is a popular superhero movie around the world. The leading actor Chris Evans portrayed the character Steve Rogers and was loved by the fans. The producer is Kevin Feige who is the president of Marvel Studios. He was involved in all movies under the Marvel franchise.
+Question: Given the statement "Chris Evans was an actor in one of the movies produced by Marvel Studios", which of the following is true?
+Options: (A) The statement is entailed in the passage (B) The statement contradicts the passage (C) The statement is not mentioned in the passage
+Answer: (A) The statement is entailed in the passage
+
+React has become the most popular frontend framework in the world. It is developed by Facebook and is used by many companies. It is a JavaScript library that is used to build webpages. One handy tool of React is called hooks. Hooks are used to create stateful components. The most commonly used hook is useState. It creates a stateful variable and a function to update it. If a webpage should be re-rendered when the stateful variable is updated, the function should be called. the stateful variable will not change if a new value is just assigned to it.
+Question: Given the statement "We can update the webpage by assigning a value to a variable", which of the following is true?
+Options: (A) The statement is entailed in the passage (B) The statement contradicts the passage (C) The statement is not mentioned in the passage
+Answer: (B) The statement contradicts the passage
+
+The United States is a country in North America. It is the third largest country in the world. It is also the third most populous country in the world. The capital of the United States is Washington D.C. The country is divided into 50 states. The country is also divided into 5 major regions. The first region is the Northeast. The second region is the Midwest. The third region is the South. The fourth region is the West. The fifth region is the Southwest.
+Question: Given the statement "The current president of United States is Joe Biden", which of the following is true?
+Options: (A) The statement is entailed in the passage (B) The statement contradicts the passage (C) The statement is not mentioned in the passage
+Answer: (C) The statement is not mentioned in the passage
+
+A coin is heads up. Maybelle flips the coin. Shalonda does not flip the coin.
+Question: Given the statement "The coin is heads up", which of the following is true?
+Options: (A) The statement is entailed in the passage (B) The statement contradicts the passage (C) The statement is not mentioned in the passage
+Answer: (B) The statement contradicts the passage
