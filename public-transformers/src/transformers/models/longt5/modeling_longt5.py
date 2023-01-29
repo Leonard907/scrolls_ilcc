@@ -19,11 +19,20 @@ import copy
 import math
 import warnings
 from typing import Any, List, Optional, Tuple, Union
+from contextlib import contextmanager
+from pathlib import Path
+from filelock import FileLock
+import numpy as np
+import time
+import pdb
 
+import faiss
+import faiss.contrib.torch_utils
 import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss
 from torch.utils.checkpoint import checkpoint
+from einops import rearrange, repeat, reduce
 
 from ...activations import ACT2FN
 from ...modeling_outputs import (
@@ -43,9 +52,11 @@ from ...file_utils import (
     replace_return_docstrings,
 )
 from .configuration_longt5 import LongT5Config
+from transformers import AutoTokenizer
 
 
 logger = logging.get_logger(__name__)
+tokenizer = AutoTokenizer.from_pretrained('google/long-t5-tglobal-base')
 
 _CONFIG_FOR_DOC = "LongT5Config"
 _TOKENIZER_FOR_DOC = "T5Tokenizer"
@@ -59,6 +70,56 @@ LONGT5_PRETRAINED_MODEL_ARCHIVE_LIST = [
     "google/long-t5-tglobal-large",
 ]
 
+knn_memory_layer = [10]
+faiss_gpu_res = faiss.StandardGpuResources()
+
+def add_to_index(knn_mem, key_states, value_states, original_ids):
+    with torch.no_grad():
+        max_memories = knn_mem['max_memories']
+        token_storage = knn_mem['token_storage']
+        faiss_index = knn_mem['faiss_index']
+        mem_storage = knn_mem['mem_storage']
+        mem_val_offset = knn_mem['mem_value_offset']
+        index_remove_offset = knn_mem['index_remove_offset']
+
+        mem_count = key_states.shape[0]
+        add_indices = torch.arange(mem_val_offset[0], mem_val_offset[0] + mem_count).type(torch.long) % max_memories
+        # faiss_index.add_with_ids(key_states.detach().cpu().contiguous(), add_indices.detach().cpu().contiguous())
+        faiss_index.add(key_states.detach().cpu().contiguous())
+
+        if faiss_index.ntotal > max_memories:
+            mem_indices = torch.ones(max_memories, dtype=torch.bool)
+            mem_indices[add_indices] = False
+            mem_to_keep = mem_storage[mem_indices]
+            token_to_keep = token_storage[mem_indices]
+            mem_storage[:mem_to_keep.shape[0], 0, :] = mem_to_keep[:, 0, :]
+            mem_storage[:mem_to_keep.shape[0], 1, :] = mem_to_keep[:, 1, :]
+            mem_storage[-mem_count:, 0, :] = key_states
+            mem_storage[-mem_count:, 1, :] = value_states
+            token_storage[:mem_to_keep.shape[0]] = token_to_keep
+            token_storage[-mem_count:] = original_ids.reshape(-1, 1)
+            mem_val_offset[0] = 0
+        else:
+            mem_storage[add_indices, 0, :] = key_states
+            mem_storage[add_indices, 1, :] = value_states
+            token_storage[add_indices] = original_ids.reshape(-1, 1)
+            mem_val_offset[0] += mem_count
+
+        if faiss_index.ntotal > max_memories:
+            # start_time = time.time()
+
+            # faiss_index.reset()
+            # faiss_index.add(mem_storage[:, 0, :].detach().cpu().contiguous())
+
+            ids_to_remove = np.arange(faiss_index.ntotal - max_memories)
+            faiss_index.remove_ids(ids_to_remove)
+
+            # ids_to_remove = np.arange(index_remove_offset[0], index_remove_offset[0] + faiss_index.ntotal - max_memories)
+            # ids_sel = faiss.IDSelectorArray(len(ids_to_remove), faiss.swig_ptr(ids_to_remove))
+            # faiss_index.remove_ids(ids_sel)
+            # index_remove_offset[0] += (faiss_index.ntotal - max_memories)
+
+            # logger.info('mod time {}'.format(time.time() - start_time))
 
 def _pad_to_multiple(x: torch.Tensor, block_len: int, dim: int, pad_value: int = 0) -> torch.Tensor:
     """Pad a tensor so that a sequence length will be a multiple of `block_len`"""
@@ -317,225 +378,229 @@ class LongT5LayerFF(nn.Module):
 
 
 # Copied from transformers.models.t5.modeling_t5.T5Attention with T5->LongT5
-class LongT5Attention(nn.Module):
-    def __init__(self, config: LongT5Config, has_relative_attention_bias=False):
-        super().__init__()
-        self.is_decoder = config.is_decoder
-        self.has_relative_attention_bias = has_relative_attention_bias
-        self.relative_attention_num_buckets = config.relative_attention_num_buckets
-        self.relative_attention_max_distance = config.relative_attention_max_distance
-        self.d_model = config.d_model
-        self.key_value_proj_dim = config.d_kv
-        self.n_heads = config.num_heads
-        self.dropout = config.dropout_rate
-        self.inner_dim = self.n_heads * self.key_value_proj_dim
+# class LongT5Attention(nn.Module):
+#     def __init__(self, config: LongT5Config, has_relative_attention_bias=False):
+#         super().__init__()
+#         self.is_decoder = config.is_decoder
+#         self.has_relative_attention_bias = has_relative_attention_bias
+#         self.relative_attention_num_buckets = config.relative_attention_num_buckets
+#         self.relative_attention_max_distance = config.relative_attention_max_distance
+#         self.d_model = config.d_model
+#         self.key_value_proj_dim = config.d_kv
+#         self.n_heads = config.num_heads
+#         self.dropout = config.dropout_rate
+#         self.inner_dim = self.n_heads * self.key_value_proj_dim
 
-        # Mesh TensorFlow initialization to avoid scaling before softmax
-        self.q = nn.Linear(self.d_model, self.inner_dim, bias=False)
-        self.k = nn.Linear(self.d_model, self.inner_dim, bias=False)
-        self.v = nn.Linear(self.d_model, self.inner_dim, bias=False)
-        self.o = nn.Linear(self.inner_dim, self.d_model, bias=False)
+#         # Mesh TensorFlow initialization to avoid scaling before softmax
+#         self.q = nn.Linear(self.d_model, self.inner_dim, bias=False)
+#         self.k = nn.Linear(self.d_model, self.inner_dim, bias=False)
+#         self.v = nn.Linear(self.d_model, self.inner_dim, bias=False)
+#         self.o = nn.Linear(self.inner_dim, self.d_model, bias=False)
 
-        if self.has_relative_attention_bias:
-            self.relative_attention_bias = nn.Embedding(self.relative_attention_num_buckets, self.n_heads)
-        self.pruned_heads = set()
-        self.gradient_checkpointing = False
+#         if self.has_relative_attention_bias:
+#             self.relative_attention_bias = nn.Embedding(self.relative_attention_num_buckets, self.n_heads)
+#         self.pruned_heads = set()
+#         self.gradient_checkpointing = False
 
-    def prune_heads(self, heads):
-        if len(heads) == 0:
-            return
-        heads, index = find_pruneable_heads_and_indices(
-            heads, self.n_heads, self.key_value_proj_dim, self.pruned_heads
-        )
-        # Prune linear layers
-        self.q = prune_linear_layer(self.q, index)
-        self.k = prune_linear_layer(self.k, index)
-        self.v = prune_linear_layer(self.v, index)
-        self.o = prune_linear_layer(self.o, index, dim=1)
-        # Update hyper params
-        self.n_heads = self.n_heads - len(heads)
-        self.inner_dim = self.key_value_proj_dim * self.n_heads
-        self.pruned_heads = self.pruned_heads.union(heads)
+#     def prune_heads(self, heads):
+#         if len(heads) == 0:
+#             return
+#         heads, index = find_pruneable_heads_and_indices(
+#             heads, self.n_heads, self.key_value_proj_dim, self.pruned_heads
+#         )
+#         # Prune linear layers
+#         self.q = prune_linear_layer(self.q, index)
+#         self.k = prune_linear_layer(self.k, index)
+#         self.v = prune_linear_layer(self.v, index)
+#         self.o = prune_linear_layer(self.o, index, dim=1)
+#         # Update hyper params
+#         self.n_heads = self.n_heads - len(heads)
+#         self.inner_dim = self.key_value_proj_dim * self.n_heads
+#         self.pruned_heads = self.pruned_heads.union(heads)
 
-    @staticmethod
-    def _relative_position_bucket(relative_position, bidirectional=True, num_buckets=32, max_distance=128):
-        """
-        Adapted from Mesh Tensorflow:
-        https://github.com/tensorflow/mesh/blob/0cb87fe07da627bf0b7e60475d59f95ed6b5be3d/mesh_tensorflow/transformer/transformer_layers.py#L593
+#     @staticmethod
+#     def _relative_position_bucket(relative_position, bidirectional=True, num_buckets=32, max_distance=128):
+#         """
+#         Adapted from Mesh Tensorflow:
+#         https://github.com/tensorflow/mesh/blob/0cb87fe07da627bf0b7e60475d59f95ed6b5be3d/mesh_tensorflow/transformer/transformer_layers.py#L593
 
-        Translate relative position to a bucket number for relative attention. The relative position is defined as
-        memory_position - query_position, i.e. the distance in tokens from the attending position to the attended-to
-        position. If bidirectional=False, then positive relative positions are invalid. We use smaller buckets for
-        small absolute relative_position and larger buckets for larger absolute relative_positions. All relative
-        positions >=max_distance map to the same bucket. All relative positions <=-max_distance map to the same bucket.
-        This should allow for more graceful generalization to longer sequences than the model has been trained on
+#         Translate relative position to a bucket number for relative attention. The relative position is defined as
+#         memory_position - query_position, i.e. the distance in tokens from the attending position to the attended-to
+#         position. If bidirectional=False, then positive relative positions are invalid. We use smaller buckets for
+#         small absolute relative_position and larger buckets for larger absolute relative_positions. All relative
+#         positions >=max_distance map to the same bucket. All relative positions <=-max_distance map to the same bucket.
+#         This should allow for more graceful generalization to longer sequences than the model has been trained on
 
-        Args:
-            relative_position: an int32 Tensor
-            bidirectional: a boolean - whether the attention is bidirectional
-            num_buckets: an integer
-            max_distance: an integer
+#         Args:
+#             relative_position: an int32 Tensor
+#             bidirectional: a boolean - whether the attention is bidirectional
+#             num_buckets: an integer
+#             max_distance: an integer
 
-        Returns:
-            a Tensor with the same shape as relative_position, containing int32 values in the range [0, num_buckets)
-        """
-        relative_buckets = 0
-        if bidirectional:
-            num_buckets //= 2
-            relative_buckets += (relative_position > 0).to(torch.long) * num_buckets
-            relative_position = torch.abs(relative_position)
-        else:
-            relative_position = -torch.min(relative_position, torch.zeros_like(relative_position))
-        # now relative_position is in the range [0, inf)
+#         Returns:
+#             a Tensor with the same shape as relative_position, containing int32 values in the range [0, num_buckets)
+#         """
+#         relative_buckets = 0
+#         if bidirectional:
+#             num_buckets //= 2
+#             relative_buckets += (relative_position > 0).to(torch.long) * num_buckets
+#             relative_position = torch.abs(relative_position)
+#         else:
+#             relative_position = -torch.min(relative_position, torch.zeros_like(relative_position))
+#         # now relative_position is in the range [0, inf)
 
-        # half of the buckets are for exact increments in positions
-        max_exact = num_buckets // 2
-        is_small = relative_position < max_exact
+#         # half of the buckets are for exact increments in positions
+#         max_exact = num_buckets // 2
+#         is_small = relative_position < max_exact
 
-        # The other half of the buckets are for logarithmically bigger bins in positions up to max_distance
-        relative_position_if_large = max_exact + (
-            torch.log(relative_position.float() / max_exact)
-            / math.log(max_distance / max_exact)
-            * (num_buckets - max_exact)
-        ).to(torch.long)
-        relative_position_if_large = torch.min(
-            relative_position_if_large, torch.full_like(relative_position_if_large, num_buckets - 1)
-        )
+#         # The other half of the buckets are for logarithmically bigger bins in positions up to max_distance
+#         relative_position_if_large = max_exact + (
+#             torch.log(relative_position.float() / max_exact)
+#             / math.log(max_distance / max_exact)
+#             * (num_buckets - max_exact)
+#         ).to(torch.long)
+#         relative_position_if_large = torch.min(
+#             relative_position_if_large, torch.full_like(relative_position_if_large, num_buckets - 1)
+#         )
 
-        relative_buckets += torch.where(is_small, relative_position, relative_position_if_large)
-        return relative_buckets
+#         relative_buckets += torch.where(is_small, relative_position, relative_position_if_large)
+#         return relative_buckets
 
-    def compute_bias(self, query_length, key_length, device=None):
-        """Compute binned relative position bias"""
-        if device is None:
-            device = self.relative_attention_bias.weight.device
-        context_position = torch.arange(query_length, dtype=torch.long, device=device)[:, None]
-        memory_position = torch.arange(key_length, dtype=torch.long, device=device)[None, :]
-        relative_position = memory_position - context_position  # shape (query_length, key_length)
-        relative_position_bucket = self._relative_position_bucket(
-            relative_position,  # shape (query_length, key_length)
-            bidirectional=(not self.is_decoder),
-            num_buckets=self.relative_attention_num_buckets,
-            max_distance=self.relative_attention_max_distance,
-        )
-        values = self.relative_attention_bias(relative_position_bucket)  # shape (query_length, key_length, num_heads)
-        values = values.permute([2, 0, 1]).unsqueeze(0)  # shape (1, num_heads, query_length, key_length)
-        return values
+#     def compute_bias(self, query_length, key_length, device=None):
+#         """Compute binned relative position bias"""
+#         if device is None:
+#             device = self.relative_attention_bias.weight.device
+#         context_position = torch.arange(query_length, dtype=torch.long, device=device)[:, None]
+#         memory_position = torch.arange(key_length, dtype=torch.long, device=device)[None, :]
+#         relative_position = memory_position - context_position  # shape (query_length, key_length)
+#         relative_position_bucket = self._relative_position_bucket(
+#             relative_position,  # shape (query_length, key_length)
+#             bidirectional=(not self.is_decoder),
+#             num_buckets=self.relative_attention_num_buckets,
+#             max_distance=self.relative_attention_max_distance,
+#         )
+#         values = self.relative_attention_bias(relative_position_bucket)  # shape (query_length, key_length, num_heads)
+#         values = values.permute([2, 0, 1]).unsqueeze(0)  # shape (1, num_heads, query_length, key_length)
+#         return values
 
-    def forward(
-        self,
-        hidden_states,
-        mask=None,
-        key_value_states=None,
-        position_bias=None,
-        past_key_value=None,
-        layer_head_mask=None,
-        query_length=None,
-        use_cache=False,
-        output_attentions=False,
-    ):
-        """
-        Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
-        """
-        # Input is (batch_size, seq_length, dim)
-        # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
-        # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
-        batch_size, seq_length = hidden_states.shape[:2]
+#     def forward(
+#         self,
+#         hidden_states,
+#         mask=None,
+#         key_value_states=None,
+#         position_bias=None,
+#         past_key_value=None,
+#         layer_head_mask=None,
+#         query_length=None,
+#         use_cache=False,
+#         output_attentions=False,
+#         knn_mem=None,
+#         original_ids=None,
+#         is_validation=None,
+#         is_cross=None,
+#     ):
+#         """
+#         Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
+#         """
+#         # Input is (batch_size, seq_length, dim)
+#         # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
+#         # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
+#         batch_size, seq_length = hidden_states.shape[:2]
 
-        real_seq_length = seq_length
+#         real_seq_length = seq_length
 
-        if past_key_value is not None:
-            assert (
-                len(past_key_value) == 2
-            ), f"past_key_value should have 2 past states: keys and values. Got { len(past_key_value)} past states"
-            real_seq_length += past_key_value[0].shape[2] if query_length is None else query_length
+#         if past_key_value is not None:
+#             assert (
+#                 len(past_key_value) == 2
+#             ), f"past_key_value should have 2 past states: keys and values. Got { len(past_key_value)} past states"
+#             real_seq_length += past_key_value[0].shape[2] if query_length is None else query_length
 
-        key_length = real_seq_length if key_value_states is None else key_value_states.shape[1]
+#         key_length = real_seq_length if key_value_states is None else key_value_states.shape[1]
 
-        def shape(states):
-            """projection"""
-            return states.view(batch_size, -1, self.n_heads, self.key_value_proj_dim).transpose(1, 2)
+#         def shape(states):
+#             """projection"""
+#             return states.view(batch_size, -1, self.n_heads, self.key_value_proj_dim).transpose(1, 2)
 
-        def unshape(states):
-            """reshape"""
-            return states.transpose(1, 2).contiguous().view(batch_size, -1, self.inner_dim)
+#         def unshape(states):
+#             """reshape"""
+#             return states.transpose(1, 2).contiguous().view(batch_size, -1, self.inner_dim)
 
-        def project(hidden_states, proj_layer, key_value_states, past_key_value):
-            """projects hidden states correctly to key/query states"""
-            if key_value_states is None:
-                # self-attn
-                # (batch_size, n_heads, seq_length, dim_per_head)
-                hidden_states = shape(proj_layer(hidden_states))
-            elif past_key_value is None:
-                # cross-attn
-                # (batch_size, n_heads, seq_length, dim_per_head)
-                hidden_states = shape(proj_layer(key_value_states))
+#         def project(hidden_states, proj_layer, key_value_states, past_key_value):
+#             """projects hidden states correctly to key/query states"""
+#             if key_value_states is None:
+#                 # self-attn
+#                 # (batch_size, n_heads, seq_length, dim_per_head)
+#                 hidden_states = shape(proj_layer(hidden_states))
+#             elif past_key_value is None:
+#                 # cross-attn
+#                 # (batch_size, n_heads, seq_length, dim_per_head)
+#                 hidden_states = shape(proj_layer(key_value_states))
 
-            if past_key_value is not None:
-                if key_value_states is None:
-                    # self-attn
-                    # (batch_size, n_heads, key_length, dim_per_head)
-                    hidden_states = torch.cat([past_key_value, hidden_states], dim=2)
-                else:
-                    # cross-attn
-                    hidden_states = past_key_value
-            return hidden_states
+#             if past_key_value is not None:
+#                 if key_value_states is None:
+#                     # self-attn
+#                     # (batch_size, n_heads, key_length, dim_per_head)
+#                     hidden_states = torch.cat([past_key_value, hidden_states], dim=2)
+#                 else:
+#                     # cross-attn
+#                     hidden_states = past_key_value
+#             return hidden_states
 
-        # get query states
-        query_states = shape(self.q(hidden_states))  # (batch_size, n_heads, seq_length, dim_per_head)
+#         # get query states
+#         query_states = shape(self.q(hidden_states))  # (batch_size, n_heads, seq_length, dim_per_head)
 
-        # get key/value states
-        key_states = project(
-            hidden_states, self.k, key_value_states, past_key_value[0] if past_key_value is not None else None
-        )
-        value_states = project(
-            hidden_states, self.v, key_value_states, past_key_value[1] if past_key_value is not None else None
-        )
+#         # get key/value states
+#         key_states = project(
+#             hidden_states, self.k, key_value_states, past_key_value[0] if past_key_value is not None else None
+#         )
+#         value_states = project(
+#             hidden_states, self.v, key_value_states, past_key_value[1] if past_key_value is not None else None
+#         )
 
-        # compute scores
-        scores = torch.matmul(
-            query_states, key_states.transpose(3, 2)
-        )  # equivalent of torch.einsum("bnqd,bnkd->bnqk", query_states, key_states), compatible with onnx op>9
+#         # compute scores
+#         scores = torch.matmul(
+#             query_states, key_states.transpose(3, 2)
+#         )  # equivalent of torch.einsum("bnqd,bnkd->bnqk", query_states, key_states), compatible with onnx op>9
 
-        if position_bias is None:
-            if not self.has_relative_attention_bias:
-                position_bias = torch.zeros(
-                    (1, self.n_heads, real_seq_length, key_length), device=scores.device, dtype=scores.dtype
-                )
-                if self.gradient_checkpointing and self.training:
-                    position_bias.requires_grad = True
-            else:
-                position_bias = self.compute_bias(real_seq_length, key_length, device=scores.device)
+#         if position_bias is None:
+#             if not self.has_relative_attention_bias:
+#                 position_bias = torch.zeros(
+#                     (1, self.n_heads, real_seq_length, key_length), device=scores.device, dtype=scores.dtype
+#                 )
+#                 if self.gradient_checkpointing and self.training:
+#                     position_bias.requires_grad = True
+#             else:
+#                 position_bias = self.compute_bias(real_seq_length, key_length, device=scores.device)
 
-            # if key and values are already calculated
-            # we want only the last query position bias
-            if past_key_value is not None:
-                position_bias = position_bias[:, :, -hidden_states.size(1) :, :]
+#             # if key and values are already calculated
+#             # we want only the last query position bias
+#             if past_key_value is not None:
+#                 position_bias = position_bias[:, :, -hidden_states.size(1) :, :]
 
-            if mask is not None:
-                position_bias = position_bias + mask  # (batch_size, n_heads, seq_length, key_length)
+#             if mask is not None:
+#                 position_bias = position_bias + mask  # (batch_size, n_heads, seq_length, key_length)
 
-        scores += position_bias
-        attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
-            scores
-        )  # (batch_size, n_heads, seq_length, key_length)
-        attn_weights = nn.functional.dropout(
-            attn_weights, p=self.dropout, training=self.training
-        )  # (batch_size, n_heads, seq_length, key_length)
+#         scores += position_bias
+#         attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
+#             scores
+#         )  # (batch_size, n_heads, seq_length, key_length)
+#         attn_weights = nn.functional.dropout(
+#             attn_weights, p=self.dropout, training=self.training
+#         )  # (batch_size, n_heads, seq_length, key_length)
 
-        # Mask heads if we want to
-        if layer_head_mask is not None:
-            attn_weights = attn_weights * layer_head_mask
+#         # Mask heads if we want to
+#         if layer_head_mask is not None:
+#             attn_weights = attn_weights * layer_head_mask
 
-        attn_output = unshape(torch.matmul(attn_weights, value_states))  # (batch_size, seq_length, dim)
-        attn_output = self.o(attn_output)
+#         attn_output = unshape(torch.matmul(attn_weights, value_states))  # (batch_size, seq_length, dim)
+#         attn_output = self.o(attn_output)
 
-        present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
-        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
+#         present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
+#         outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
 
-        if output_attentions:
-            outputs = outputs + (attn_weights,)
-        return outputs
+#         if output_attentions:
+#             outputs = outputs + (attn_weights,)
+#         return outputs
 
 
 class LongT5LocalAttention(nn.Module):
@@ -684,9 +749,14 @@ class LongT5LocalAttention(nn.Module):
         value_states = _concatenate_3_blocks(value_states, block_dim=1, sequence_dim=2)
 
         # Compute scores
+        # Einsum meaning: For each head, compute Q (qxh) * K^T (hxk).
         scores = torch.einsum(
             "...qhd,...khd->...hqk", query_states, key_states
         )  # (batch_size, num_block, n_heads, block_len, 3 * block_len)
+        # The einsum can be rewritten using matmul
+        # query_states = torch.permute([0...n-3, n-1,n-2,n]) -> ...hqd
+        # key_states = torch.permute([0...n-3, n-1,n,n-2]) -> ...hdk
+        # scores = torch.matmul(query_states, key_states) -> ...hqk
 
         if position_bias is None:
             # position_bias shape: # (1, 1, n_heads, block_len, 3 * block_len)
@@ -715,6 +785,7 @@ class LongT5LocalAttention(nn.Module):
         if layer_head_mask is not None:
             attn_weights = attn_weights * layer_head_mask
         attn_weights = attn_weights.type(value_states.dtype)
+        # Einsum meaning: multiply by value matrix
         attn_output = unshape(torch.einsum("...hqk,...khd->...qhd", attn_weights, value_states))
         attn_output = attn_output[:, :seq_length, :]
         attn_output = self.o(attn_output)
@@ -987,37 +1058,301 @@ class LongT5TransientGlobalAttention(nn.Module):
             outputs = outputs + (attn_weights,)
         return outputs
 
-
-# Copied from transformers.models.t5.modeling_t5.T5LayerSelfAttention with T5->LongT5
-class LongT5LayerSelfAttention(nn.Module):
-    def __init__(self, config, has_relative_attention_bias=False):
+class LongT5Attention(nn.Module):
+    def __init__(self, config: LongT5Config, has_relative_attention_bias=False):
         super().__init__()
-        self.SelfAttention = LongT5Attention(config, has_relative_attention_bias=has_relative_attention_bias)
-        self.layer_norm = LongT5LayerNorm(config.d_model, eps=config.layer_norm_epsilon)
-        self.dropout = nn.Dropout(config.dropout_rate)
+        self.is_decoder = config.is_decoder
+        self.has_relative_attention_bias = has_relative_attention_bias
+        self.relative_attention_num_buckets = config.relative_attention_num_buckets
+        self.relative_attention_max_distance = config.relative_attention_max_distance
+        self.d_model = config.d_model
+        self.key_value_proj_dim = config.d_kv
+        self.n_heads = config.num_heads
+        self.dropout = config.dropout_rate
+        self.inner_dim = self.n_heads * self.key_value_proj_dim
+
+        # Mesh TensorFlow initialization to avoid scaling before softmax
+        self.q = nn.Linear(self.d_model, self.inner_dim, bias=False)
+        self.k = nn.Linear(self.d_model, self.inner_dim, bias=False)
+        self.v = nn.Linear(self.d_model, self.inner_dim, bias=False)
+        self.o = nn.Linear(self.inner_dim, self.d_model, bias=False)
+
+        # bias to weigh mem and original
+        self.bias = nn.Parameter(torch.zeros(1))
+        self.bias_norm = nn.Sigmoid()
+
+        if self.has_relative_attention_bias:
+            self.relative_attention_bias = nn.Embedding(self.relative_attention_num_buckets, self.n_heads)
+        self.pruned_heads = set()
+        self.gradient_checkpointing = False
+
+    def prune_heads(self, heads):
+        if len(heads) == 0:
+            return
+        heads, index = find_pruneable_heads_and_indices(
+            heads, self.n_heads, self.key_value_proj_dim, self.pruned_heads
+        )
+        # Prune linear layers
+        self.q = prune_linear_layer(self.q, index)
+        self.k = prune_linear_layer(self.k, index)
+        self.v = prune_linear_layer(self.v, index)
+        self.o = prune_linear_layer(self.o, index, dim=1)
+        # Update hyper params
+        self.n_heads = self.n_heads - len(heads)
+        self.inner_dim = self.key_value_proj_dim * self.n_heads
+        self.pruned_heads = self.pruned_heads.union(heads)
+
+    @staticmethod
+    def _relative_position_bucket(relative_position, bidirectional=True, num_buckets=32, max_distance=128):
+        """
+        Adapted from Mesh Tensorflow:
+        https://github.com/tensorflow/mesh/blob/0cb87fe07da627bf0b7e60475d59f95ed6b5be3d/mesh_tensorflow/transformer/transformer_layers.py#L593
+
+        Translate relative position to a bucket number for relative attention. The relative position is defined as
+        memory_position - query_position, i.e. the distance in tokens from the attending position to the attended-to
+        position. If bidirectional=False, then positive relative positions are invalid. We use smaller buckets for
+        small absolute relative_position and larger buckets for larger absolute relative_positions. All relative
+        positions >=max_distance map to the same bucket. All relative positions <=-max_distance map to the same bucket.
+        This should allow for more graceful generalization to longer sequences than the model has been trained on
+
+        Args:
+            relative_position: an int32 Tensor
+            bidirectional: a boolean - whether the attention is bidirectional
+            num_buckets: an integer
+            max_distance: an integer
+
+        Returns:
+            a Tensor with the same shape as relative_position, containing int32 values in the range [0, num_buckets)
+        """
+        relative_buckets = 0
+        if bidirectional:
+            num_buckets //= 2
+            relative_buckets += (relative_position > 0).to(torch.long) * num_buckets
+            relative_position = torch.abs(relative_position)
+        else:
+            relative_position = -torch.min(relative_position, torch.zeros_like(relative_position))
+        # now relative_position is in the range [0, inf)
+
+        # half of the buckets are for exact increments in positions
+        max_exact = num_buckets // 2
+        is_small = relative_position < max_exact
+
+        # The other half of the buckets are for logarithmically bigger bins in positions up to max_distance
+        relative_position_if_large = max_exact + (
+            torch.log(relative_position.float() / max_exact)
+            / math.log(max_distance / max_exact)
+            * (num_buckets - max_exact)
+        ).to(torch.long)
+        relative_position_if_large = torch.min(
+            relative_position_if_large, torch.full_like(relative_position_if_large, num_buckets - 1)
+        )
+
+        relative_buckets += torch.where(is_small, relative_position, relative_position_if_large)
+        return relative_buckets
+
+    def compute_bias(self, query_length, key_length, device=None):
+        """Compute binned relative position bias"""
+        if device is None:
+            device = self.relative_attention_bias.weight.device
+        context_position = torch.arange(query_length, dtype=torch.long, device=device)[:, None]
+        memory_position = torch.arange(key_length, dtype=torch.long, device=device)[None, :]
+        relative_position = memory_position - context_position  # shape (query_length, key_length)
+        relative_position_bucket = self._relative_position_bucket(
+            relative_position,  # shape (query_length, key_length)
+            bidirectional=(not self.is_decoder),
+            num_buckets=self.relative_attention_num_buckets,
+            max_distance=self.relative_attention_max_distance,
+        )
+        values = self.relative_attention_bias(relative_position_bucket)  # shape (query_length, key_length, num_heads)
+        values = values.permute([2, 0, 1]).unsqueeze(0)  # shape (1, num_heads, query_length, key_length)
+        return values
 
     def forward(
         self,
         hidden_states,
-        attention_mask=None,
+        mask=None,
+        key_value_states=None,
         position_bias=None,
-        layer_head_mask=None,
         past_key_value=None,
+        layer_head_mask=None,
+        query_length=None,
         use_cache=False,
         output_attentions=False,
+        original_ids=None,
+        is_validation=None,
+        knn_mem=None,
     ):
-        normed_hidden_states = self.layer_norm(hidden_states)
-        attention_output = self.SelfAttention(
-            normed_hidden_states,
-            mask=attention_mask,
-            position_bias=position_bias,
-            layer_head_mask=layer_head_mask,
-            past_key_value=past_key_value,
-            use_cache=use_cache,
-            output_attentions=output_attentions,
-        )
-        hidden_states = hidden_states + self.dropout(attention_output[0])
-        outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
+        """
+        Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
+        """
+        # Input is (batch_size, seq_length, dim)
+        # Mask is (batch_size, key_length) (non-causal) or (batch_size, key_length, key_length)
+        # past_key_value[0] is (batch_size, n_heads, q_len - 1, dim_per_head)
+        batch_size, seq_length = hidden_states.shape[:2]
+
+        real_seq_length = seq_length
+
+        if past_key_value is not None:
+            assert (
+                len(past_key_value) == 2
+            ), f"past_key_value should have 2 past states: keys and values. Got { len(past_key_value)} past states"
+            real_seq_length += past_key_value[0].shape[2] if query_length is None else query_length
+
+        key_length = real_seq_length if key_value_states is None else key_value_states.shape[1]
+
+        def shape(states):
+            """projection"""
+            return states.view(batch_size, -1, self.n_heads, self.key_value_proj_dim).transpose(1, 2)
+
+        def unshape(states):
+            """reshape"""
+            return states.transpose(1, 2).contiguous().view(batch_size, -1, self.inner_dim)
+
+        def project(hidden_states, proj_layer, key_value_states, past_key_value):
+            """projects hidden states correctly to key/query states"""
+            if key_value_states is None:
+                # self-attn
+                # (batch_size, n_heads, seq_length, dim_per_head)
+                hidden_states = shape(proj_layer(hidden_states))
+            elif past_key_value is None:
+                # cross-attn
+                # (batch_size, n_heads, seq_length, dim_per_head)
+                hidden_states = shape(proj_layer(key_value_states))
+
+            if past_key_value is not None:
+                if key_value_states is None:
+                    # self-attn
+                    # (batch_size, n_heads, key_length, dim_per_head)
+                    hidden_states = torch.cat([past_key_value, hidden_states], dim=2)
+                else:
+                    # cross-attn
+                    hidden_states = past_key_value
+            return hidden_states
+
+        # get query states
+        query_states = shape(self.q(hidden_states))  # (batch_size, n_heads, seq_length, dim_per_head)
+
+        # get key/value states
+        key_states = project(
+            hidden_states, self.k, key_value_states, past_key_value[0] if past_key_value is not None else None
+        ) # (batch_size, n_heads, key_length, dim_per_head)
+        value_states = project(
+            hidden_states, self.v, key_value_states, past_key_value[1] if past_key_value is not None else None
+        ) # (batch_size, n_heads, key_length, dim_per_head)
+
+        # compute scores
+        scores = torch.matmul(
+            query_states, key_states.transpose(3, 2)
+        )  # equivalent of torch.einsum("bnqd,bnkd->bnqk", query_states, key_states), compatible with onnx op>9
+
+        if position_bias is None:
+            if not self.has_relative_attention_bias:
+                position_bias = torch.zeros(
+                    (1, self.n_heads, real_seq_length, key_length), device=scores.device, dtype=scores.dtype
+                )
+                if self.gradient_checkpointing and self.training:
+                    position_bias.requires_grad = True
+            else:
+                position_bias = self.compute_bias(real_seq_length, key_length, device=scores.device)
+
+            # if key and values are already calculated
+            # we want only the last query position bias
+            if past_key_value is not None:
+                position_bias = position_bias[:, :, -hidden_states.size(1) :, :]
+
+            if mask is not None:
+                position_bias = position_bias + mask  # (batch_size, n_heads, seq_length, key_length)
+
+        scores += position_bias
+
+        # Process:
+        # 1. Search in memory using query_states. Result has shape (batch_size, n_heads, seq_length, topk, dim_head)
+        # 2. Split to mem key and values. Multiply query_states and mem key
+
+        if knn_mem is not None:
+            token_storage = knn_mem['token_storage']
+            faiss_index = knn_mem['faiss_index']
+            mem_storage = knn_mem['mem_storage']
+
+        attn_weights = nn.functional.softmax(scores.float(), dim=-1).type_as(
+            scores # scores
+        )  # (batch_size, n_heads, seq_length, key_length)
+        attn_weights = nn.functional.dropout(
+            attn_weights, p=self.dropout, training=self.training
+        )  # (batch_size, n_heads, seq_length, key_length)
+        attn_output = torch.matmul(attn_weights, value_states)  # (batch_size, n_heads, seq_length, dim_per_head)
+
+        if knn_mem is not None and faiss_index.ntotal > 0:
+            topk = 32
+            key_states_flat = rearrange(
+                key_states, 'b h i d -> (b h i) d'
+            )
+            distances, indices = faiss_index.search(key_states_flat.detach().cpu().contiguous(), k = topk)
+            # if faiss_index.ntotal == 8192:
+            #     torch.save(mem_storage, 'mem_storage.pt')
+            #     torch.save(token_storage, 'token_storage.pt')
+            #     import pdb; pdb.set_trace()
+            flat_indices = torch.tensor(rearrange(indices, 'l k -> (l k)')).type(torch.long)
+            flat_indices = torch.where(flat_indices > 0, flat_indices, 0)
+            mem_mask = torch.tensor(
+                repeat(
+                    rearrange(
+                        np.where(indices == -1, -1e10, indices), '(b h i) k -> b h i k', b = batch_size, h = self.n_heads, i = key_length # seq_length
+                    ), 'b h i k -> b h l i k', l = seq_length
+                )
+            ).to('cuda' if torch.cuda.is_available() else 'cpu')
+            retrieved_mem_k = rearrange(
+                rearrange(
+                    mem_storage[flat_indices, 0, :], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            ) # (batch_size, n_heads, key_length, topk, dim_head)
+            retrieved_mem_v = rearrange(
+                rearrange(
+                    mem_storage[flat_indices, 1, :], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            ) # (batch_size, n_heads, key_length, topk, dim_head)
+            retrieved_token = rearrange(
+                rearrange(
+                    token_storage[flat_indices], '(l k) d -> l k d', k=topk
+                ), '(b h l) k d -> b h l k d', b=batch_size, h=self.n_heads
+            )
+            sim_mem = torch.einsum('b h i d, b h k j d -> b h i k j', query_states, retrieved_token) # (batch_size, n_heads, seq_len, key_len, topk)
+            sim_mem += mem_mask
+            mem_weights = nn.functional.softmax(sim_mem.float(), dim=-2).type_as(
+                sim_mem # scores
+            )  # (batch_size, n_heads, seq_length, topk)
+            mem_weights = nn.functional.dropout(
+                mem_weights, p=self.dropout, training=self.training
+            )  # (batch_size, n_heads, seq_length, topk)
+            mem_attn_output = torch.einsum('b h i k j, b h k j d -> b h i d', mem_weights, retrieved_mem_v)
+            # sim_mem = torch.einsum('b h i d, b h i j d -> b h i j', query_states, retrieved_mem_k) # (batch_size, n_heads, seq_len, topk)
+            # sim_mem += mem_mask
+            # mem_weights = nn.functional.softmax(sim_mem.float(), dim=-1).type_as(
+            #     sim_mem # scores
+            # )  # (batch_size, n_heads, seq_length, topk)
+            # mem_weights = nn.functional.dropout(
+            #     mem_weights, p=self.dropout, training=self.training
+            # )  # (batch_size, n_heads, seq_length, topk)
+            # mem_attn_output = torch.einsum('b h i j, b h i j d -> b h i d', mem_weights, retrieved_mem_v)
+            # (batch_size, n_heads, seq_length, key_length)
+            bias_sigmoid = self.bias_norm(self.bias)
+            attn_output = attn_output * (1 - bias_sigmoid) + mem_attn_output * bias_sigmoid
+
+        # Mask heads if we want to
+        if layer_head_mask is not None:
+            attn_weights = attn_weights * layer_head_mask
+
+        attn_output = unshape(attn_output)  # (batch_size, seq_length, dim)
+        attn_output = self.o(attn_output)
+
+        present_key_value_state = (key_states, value_states) if (self.is_decoder and use_cache) else None
+        outputs = (attn_output,) + (present_key_value_state,) + (position_bias,)
+
+        if output_attentions:
+            outputs = outputs + (attn_weights,)
+
+        # add_to_index(knn_mem, key_states[0, 0, ...], value_states[0, 0, ...], original_ids[0])
+
         return outputs
 
 
@@ -1037,6 +1372,9 @@ class LongT5LayerLocalSelfAttention(nn.Module):
         position_bias=None,
         layer_head_mask=None,
         output_attentions=False,
+        original_ids=None,
+        is_validation=None,
+        knn_mem=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1070,6 +1408,9 @@ class LongT5LayerTransientGlobalSelfAttention(nn.Module):
         position_bias=None,
         layer_head_mask=None,
         output_attentions=False,
+        original_ids=None,
+        is_validation=None,
+        knn_mem=None,
         **kwargs: Any,  # to accept past_key_value and use_cache kwargs
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
@@ -1104,6 +1445,7 @@ class LongT5LayerCrossAttention(nn.Module):
         use_cache=False,
         query_length=None,
         output_attentions=False,
+        original_ids=None,
     ):
         normed_hidden_states = self.layer_norm(hidden_states)
         attention_output = self.EncDecAttention(
@@ -1116,14 +1458,55 @@ class LongT5LayerCrossAttention(nn.Module):
             use_cache=use_cache,
             query_length=query_length,
             output_attentions=output_attentions,
+            original_ids=original_ids,
+            is_cross=True,
         )
         layer_output = hidden_states + self.dropout(attention_output[0])
         outputs = (layer_output,) + attention_output[1:]  # add attentions if we output them
         return outputs
 
+# Copied from transformers.models.t5.modeling_t5.T5LayerSelfAttention with T5->LongT5
+class LongT5LayerSelfAttention(nn.Module):
+    def __init__(self, config, has_relative_attention_bias=False, is_memory_layer=False):
+        super().__init__()
+        self.SelfAttention = LongT5Attention(config, has_relative_attention_bias=has_relative_attention_bias)
+        self.layer_norm = LongT5LayerNorm(config.d_model, eps=config.layer_norm_epsilon)
+        self.dropout = nn.Dropout(config.dropout_rate)
+        self.is_memory_layer = is_memory_layer
+
+    def forward(
+        self,
+        hidden_states,
+        attention_mask=None,
+        position_bias=None,
+        layer_head_mask=None,
+        past_key_value=None,
+        use_cache=False,
+        output_attentions=False,
+        original_ids=None,
+        is_validation=None,
+        knn_mem=None,
+    ):
+        normed_hidden_states = self.layer_norm(hidden_states)
+        knn_mem = knn_mem if is_memory_layer else None
+        attention_output = self.SelfAttention(
+            normed_hidden_states,
+            mask=attention_mask,
+            position_bias=position_bias,
+            layer_head_mask=layer_head_mask,
+            past_key_value=past_key_value,
+            use_cache=use_cache,
+            output_attentions=output_attentions,
+            original_ids=original_ids,
+            knn_mem=knn_mem,
+            is_validation=is_validation,
+        )
+        hidden_states = hidden_states + self.dropout(attention_output[0])
+        outputs = (hidden_states,) + attention_output[1:]  # add attentions if we output them
+        return outputs
 
 class LongT5Block(nn.Module):
-    def __init__(self, config, has_relative_attention_bias=False):
+    def __init__(self, config, has_relative_attention_bias=False, is_memory_layer=False):
         super().__init__()
         self.is_decoder = config.is_decoder
         if config.is_decoder:
@@ -1138,7 +1521,10 @@ class LongT5Block(nn.Module):
                 f"but got {config.encoder_attention_type}."
             )
         self.layer = nn.ModuleList()
-        self.layer.append(attention_layer(config, has_relative_attention_bias=has_relative_attention_bias))
+        if self.is_decoder:
+            self.layer.append(attention_layer(config, has_relative_attention_bias=has_relative_attention_bias, is_memory_layer=is_memory_layer))
+        else:
+            self.layer.append(attention_layer(config, has_relative_attention_bias=has_relative_attention_bias))
         if self.is_decoder:
             self.layer.append(LongT5LayerCrossAttention(config))
 
@@ -1157,9 +1543,11 @@ class LongT5Block(nn.Module):
         past_key_value=None,
         use_cache=False,
         output_attentions=False,
+        original_ids=None,
         return_dict=True,
+        is_validation=None,
+        knn_mem=None,
     ):
-
         if past_key_value is not None:
             if not self.is_decoder:
                 logger.warning("`past_key_values` is passed to the encoder. Please make sure this is intended.")
@@ -1185,6 +1573,9 @@ class LongT5Block(nn.Module):
             past_key_value=self_attn_past_key_value,
             use_cache=use_cache,
             output_attentions=output_attentions,
+            original_ids=original_ids,
+            is_validation=is_validation,
+            knn_mem=knn_mem,
         )
         hidden_states, present_key_value_state = self_attention_outputs[:2]
         attention_outputs = self_attention_outputs[2:]  # Keep self-attention outputs and relative position weights
@@ -1344,7 +1735,7 @@ class LongT5Stack(LongT5PreTrainedModel):
         self.block_len = self.local_radius + 1
 
         self.block = nn.ModuleList(
-            [LongT5Block(config, has_relative_attention_bias=bool(i == 0)) for i in range(config.num_layers)]
+            [LongT5Block(config, has_relative_attention_bias=bool(i == 0), is_memory_layer=bool(i in knn_memory_layer)) for i in range(config.num_layers)]
         )
         self.final_layer_norm = LongT5LayerNorm(config.d_model, eps=config.layer_norm_epsilon)
         self.dropout = nn.Dropout(config.dropout_rate)
@@ -1376,6 +1767,8 @@ class LongT5Stack(LongT5PreTrainedModel):
         output_attentions=None,
         output_hidden_states=None,
         return_dict=None,
+        is_validation=None,
+        knn_mem=None,
     ):
         use_cache = use_cache if use_cache is not None else self.config.use_cache
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
@@ -1499,6 +1892,9 @@ class LongT5Stack(LongT5PreTrainedModel):
                     past_key_value=past_key_value,
                     use_cache=use_cache,
                     output_attentions=output_attentions,
+                    original_ids=input_ids,
+                    is_validation=is_validation,
+                    knn_mem=knn_mem,
                 )
 
             # layer_outputs is a tuple with:
@@ -1902,6 +2298,35 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
         self.lm_head = nn.Linear(config.d_model, config.vocab_size, bias=False)
 
+        # self.prev_mem = torch.load('mem_8192.pt')
+        self.knn_neighbors = 15
+        self.max_memories = 8192
+
+        self.faiss_index = faiss.IndexFlatL2(config.d_kv)
+
+        # quantizer = faiss.IndexFlatL2(config.d_kv)
+        # self.faiss_index = faiss.IndexIVFFlat(quantizer, config.d_kv, 128)
+        # self.faiss_index.train(torch.rand(self.max_memories, config.d_kv))
+
+        # self.faiss_index = faiss.IndexHNSWFlat(config.d_kv, )
+
+        # self.faiss_index = faiss.index_factory(config.d_kv, "IVF128,Flat")
+        # self.faiss_index.train(torch.rand(65536, config.d_kv))
+        # self.faiss_index = faiss.index_cpu_to_gpu(faiss_gpu_res, 0, self.faiss_index)
+
+        self.mem_storage = torch.zeros((self.max_memories, 2, config.d_kv)).to("cuda")
+        self.token_retrieval_map = torch.zeros((self.max_memories, 1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+
+        # self.mem_storage = torch.load('mem_storage.pt').to("cuda" if torch.cuda.is_available() else "cpu")
+        # self.faiss_index.add(self.mem_storage[:, 0, :].detach().cpu().contiguous())
+        # self.token_retrieval_map = torch.load('token_storage.pt').to("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.mem_value_offset = torch.zeros((1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.mem_cmp_size = 50000
+        self.mem_cmp = torch.zeros((5, self.mem_cmp_size, 11)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.mem_cmp_offset = 0
+        self.index_remove_offset = torch.zeros((1)).type(torch.long).to("cuda" if torch.cuda.is_available() else "cpu")
+
         # Initialize weights and apply final processing
         self.init_weights()
 
@@ -1945,6 +2370,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
+        is_validation: Optional[bool] = False,
     ) -> Union[Tuple[torch.FloatTensor], Seq2SeqLMOutput]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size,)`, *optional*):
@@ -2021,6 +2447,17 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
+            is_validation=is_validation,
+            knn_mem={
+                "max_memories": self.max_memories,
+                "token_storage": self.token_retrieval_map,
+                "faiss_index": self.faiss_index,
+                "mem_storage": self.mem_storage,
+                "mem_value_offset": self.mem_value_offset,
+                "mem_cmp": self.mem_cmp,
+                "mem_cmp_offset": self.mem_cmp_offset, 
+                "index_remove_offset": self.index_remove_offset,
+            },
         )
 
         sequence_output = decoder_outputs[0]
@@ -2031,7 +2468,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
             sequence_output = sequence_output * (self.model_dim**-0.5)
 
         lm_logits = self.lm_head(sequence_output)
-
+        
         loss = None
         if labels is not None:
             loss_fct = CrossEntropyLoss(ignore_index=-100)
@@ -2056,9 +2493,9 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
 
     def prepare_inputs_for_generation(
         self,
-        input_ids,
+        input_ids, # shape: (batch_size, seq_len)
         past=None,
-        attention_mask=None,
+        attention_mask=None, # same as input_ids
         head_mask=None,
         decoder_head_mask=None,
         cross_attn_head_mask=None,
