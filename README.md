@@ -1,3 +1,7 @@
+# Fork description
+
+In this fork I transplanted the LongT5 model to the scrolls repository. I also implemented a memory extension to the LongT5 model using a key-value memory similar to ["Memorizing Transformers"](https://arxiv.org/abs/2203.08913). 
+
 # SCROLLS
 
 This repository contains the official code of the paper: ["SCROLLS: Standardized CompaRison Over Long Language Sequences"](https://arxiv.org/abs/2201.03533).
